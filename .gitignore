@@ -12,3 +12,4 @@
 *.out
 
 .DS_Store
+/process/wireframes/.DS_Store

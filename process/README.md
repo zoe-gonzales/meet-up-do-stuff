@@ -1,5 +1,7 @@
 ## User Stories
 
+[Initial User Stories (includes MVP)](https://docs.google.com/document/d/1cNXVDjRqySA00yYhfAe1XbbZlAvSWmcUN7niz1vdCLs/edit)
+
 ## Wireframes
 
 Home

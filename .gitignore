@@ -13,3 +13,5 @@
 
 .DS_Store
 /process/wireframes/.DS_Store
+.env
+/meet-up-do-stuff

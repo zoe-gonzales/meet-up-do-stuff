@@ -6,6 +6,7 @@ import (
 )
 
 // GenerateAvatar function takes a string, hashes it, and produces a unique avatar
-func GenerateAvatar(s string) {
-	avatar.Generate(hash.Email(s))
+// Function also accepts a filename, which is prepended to file extension .png
+func GenerateAvatar(s string, fn string) {
+	avatar.Generate(hash.Email(s), fn)
 }

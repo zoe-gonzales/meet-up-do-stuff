@@ -1,9 +1,10 @@
 package test
 
 import (
-	"database/sql"
 	"testing"
 
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // GORM dialect for postgres
 	_ "github.com/lib/pq"
 
 	"github.com/stretchr/testify/assert"
@@ -16,8 +17,8 @@ import (
 // if errors occur, test fails
 
 func TestShouldConnectToDB(t *testing.T) {
-	db, err := db.InitDB()
+	db, err := db.Init()
 	assert.Nil(t, err)
-	var a *sql.DB
+	var a *gorm.DB
 	assert.IsType(t, db, a)
 }

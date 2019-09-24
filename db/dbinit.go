@@ -1,9 +1,10 @@
 package db
 
 import (
-	"database/sql"
 	"log"
 
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // GORM dialect for postgres
 	"github.com/zoe-gonzales/meet-up-do-stuff/env"
 )
 
@@ -12,12 +13,12 @@ import (
 // checks for errors
 // and returns pointer to db and error
 
-// InitDB function takes a connection string and initializes the db
-func InitDB() (*sql.DB, error) {
+// Init function takes a connection string and initializes the db
+func Init() (*gorm.DB, error) {
 	connection := env.RetrieveEnvVar("CONNECTION", "../.env")
-	db, err := sql.Open("postgres", connection)
+	db, err := gorm.Open("postgres", connection)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error connecting to db", err)
 	}
 	return db, err
 }

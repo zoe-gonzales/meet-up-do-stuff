@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"testing"
@@ -51,14 +50,11 @@ func TestShouldGenerateAvatarFromUserEmail(t *testing.T) {
 				if err != nil {
 					t.Errorf("Error generating avatar image: %v", err)
 				}
-				// Remove avatar.png file after each test
-				if err == nil {
-					fmt.Println("Image generated correctly")
-					pathErr := os.Remove(fn + ".png")
-					if pathErr != nil {
-						t.Errorf("Error removing avatar.png file: %v", pathErr)
-					}
-				}
+			}
+			// Remove avatar.png file after each test
+			pathErr := os.Remove(fn + ".png")
+			if pathErr != nil {
+				t.Errorf("Error removing avatar.png file: %v", pathErr)
 			}
 		})
 	}

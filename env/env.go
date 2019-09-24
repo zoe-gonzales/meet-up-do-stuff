@@ -21,7 +21,7 @@ func RetrieveEnvVar(s string, pathToDotEnv string) string {
 		if err != nil {
 			log.Fatal("Error loading .env file", err)
 		}
+		v = os.Getenv(s)
 	}
-	v = os.Getenv(s)
 	return v
 }

@@ -1,17 +1,35 @@
 package user
 
-import "github.com/jinzhu/gorm"
+import (
+	"log"
+
+	"github.com/jinzhu/gorm"
+	"github.com/zoe-gonzales/meet-up-do-stuff/db"
+)
 
 // Profile type holds extended information about a user
 type Profile struct {
 	gorm.Model
-	User        User
+	User        User `gorm:"foreignkey:UserID"`
+	UserID      int
 	ProfileID   int `gorm:"AUTO_INCREMENT"`
 	DisplayName string
 	Location    string
-	PathToImg   string // Profile image saved in file system path saved in db
-	Interests   []string
-	AdminOf     []int // group_id
-	MemberOf    []int // group_id
-	RSVPS       []int // event_id
+	PathToImg   string
+	Interests   string
+	AdminOf     string
+	MemberOf    string
+	RSVPS       string
+}
+
+// CreateEmptyProfile generates a new profile
+func (u User) CreateEmptyProfile() bool {
+	profile := Profile{User: u, UserID: u.UserID, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
+	db, err := db.Init()
+	if err != nil {
+		log.Fatal("Error initalizing database on creating user profile", err)
+	}
+	defer db.Close()
+	db.Create(&profile)
+	return db.NewRecord(profile)
 }

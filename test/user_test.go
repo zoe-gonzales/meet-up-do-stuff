@@ -2,6 +2,7 @@ package test
 
 import (
 	"crypto/sha1"
+	"fmt"
 	"io"
 	"testing"
 	"time"
@@ -25,16 +26,21 @@ func TestShouldGenerateHashFromUserEmail(t *testing.T) {
 
 // Given an email and hashed password, function should create an unverified user and save user to db
 func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
-	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
-	u := newUser.HashPwd()
-	u.Create()
 	db, err := db.Init()
 	if err != nil {
 		t.Errorf("Could not connect to DB to query users")
 	}
 	defer db.Close()
-	db.Where("userid = ?", newUser.UserID).Find(&u)
-	// TO DO: write assertions
+	user.InitUserModel()
+	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
+	u := newUser.HashPwd()
+	created := u.Create()
+	if created {
+		fmt.Println("User successfully created")
+	} else {
+		fmt.Println("Error creating user")
+	}
+	assert.True(t, created)
 }
 
 // Function should verify user

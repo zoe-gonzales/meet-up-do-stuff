@@ -1,11 +1,11 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/zoe-gonzales/meet-up-do-stuff/db"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
@@ -13,16 +13,19 @@ import (
 
 // Function should create empty profile for unverified user
 func TestShouldCreateIncompleteProfile(t *testing.T) {
+	db, err := db.Init()
+	if err != nil {
+		t.Errorf("Could not connect to DB to query users")
+	}
+	defer db.Close()
 	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
 	u := newUser.HashPwd()
 	u.Create()
-	created := u.CreateEmptyProfile()
-	if created {
-		fmt.Println("Profile successfully created")
-	} else {
-		fmt.Println("Error creating profile")
-	}
-	assert.True(t, created)
+	entry := u.CreateEmptyProfile()
+	rowsAffected := entry.RowsAffected
+	var affected int64 = 1
+	assert.Equal(t, affected, rowsAffected)
+	db.Delete(&u)
 }
 
 // Function should update user display name and location from input

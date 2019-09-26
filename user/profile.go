@@ -23,13 +23,12 @@ type Profile struct {
 }
 
 // CreateEmptyProfile generates a new profile
-func (u User) CreateEmptyProfile() bool {
+func (u User) CreateEmptyProfile() *gorm.DB {
 	profile := Profile{User: u, UserID: u.UserID, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user profile", err)
 	}
 	defer db.Close()
-	db.Create(&profile)
-	return db.NewRecord(profile)
+	return db.Create(&profile)
 }

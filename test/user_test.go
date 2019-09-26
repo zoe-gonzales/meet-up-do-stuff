@@ -1,15 +1,13 @@
 package test
 
 import (
-	"crypto/sha1"
-	"fmt"
-	"io"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/zoe-gonzales/meet-up-do-stuff/db"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // File to contain tests for all CRUD actions for user model
@@ -18,10 +16,8 @@ import (
 func TestShouldGenerateHashFromUserEmail(t *testing.T) {
 	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
 	u := newUser.HashPwd()
-	a := sha1.New()
-	io.WriteString(a, "12345")
-	c := string(a.Sum(nil))
-	assert.Equal(t, u.Password, c)
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte("12345"))
+	assert.Nil(t, err)
 }
 
 // Given an email and hashed password, function should create an unverified user and save user to db
@@ -34,13 +30,11 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 	user.InitUserModel()
 	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
 	u := newUser.HashPwd()
-	created := u.Create()
-	if created {
-		fmt.Println("User successfully created")
-	} else {
-		fmt.Println("Error creating user")
-	}
-	assert.True(t, created)
+	entry := u.Create()
+	rowsAffected := entry.RowsAffected
+	var affected int64 = 1
+	assert.Equal(t, affected, rowsAffected)
+	db.Delete(&u)
 }
 
 // Function should verify user

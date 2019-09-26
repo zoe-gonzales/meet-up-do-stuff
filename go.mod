@@ -8,4 +8,5 @@ require (
 	github.com/lib/pq v1.2.0
 	github.com/stretchr/testify v1.4.0
 	github.com/zoe-gonzales/avatar-practice v0.0.0-20190922160238-afea04f2c0ef
+	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
 )

@@ -19,17 +19,28 @@ type authUser struct {
 }
 
 var (
-	ab           = authboss.New()
-	sessionStore abclientstate.SessionStorer
-	cookieStore  abclientstate.SessionStorer
+	ab = authboss.New()
+	// SessionStore holds session info
+	SessionStore abclientstate.SessionStorer
+	// CookieStore holds session info
+	CookieStore abclientstate.CookieStorer
+)
+
+const (
+	// SessionCookieName defines name of session cookie
+	SessionCookieName = "meeting_app"
 )
 
 // InitAuth sets up and runs auth
 func InitAuth() {
 	ab.Config.Paths.RootURL = "http://localhost:1323"
 	ab.Config.Storage.Server = newAuthUser()
-	ab.Config.Storage.SessionState = sessionStore
-	ab.Config.Storage.CookieState = cookieStore
+	ab.Config.Storage.SessionState = SessionStore
+	ab.Config.Storage.CookieState = CookieStore
+
+	if err := ab.Init(); err != nil {
+		panic(err)
+	}
 }
 
 func newAuthUser() *authUser {

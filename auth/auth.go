@@ -3,10 +3,14 @@ package auth
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/volatiletech/authboss"
 	abclientstate "github.com/volatiletech/authboss-clientstate"
+	"github.com/volatiletech/authboss/logout"
+	"github.com/volatiletech/authboss/register"
+	"github.com/volatiletech/authboss/remember"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
@@ -33,8 +37,9 @@ const (
 
 // InitAuth sets up and runs auth
 func InitAuth() {
+	us := user.User{}
 	ab.Config.Paths.RootURL = "http://localhost:1323"
-	ab.Config.Storage.Server = newAuthUser()
+	ab.Config.Storage.Server = newAuthUser(us)
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
 
@@ -43,13 +48,9 @@ func InitAuth() {
 	}
 }
 
-func newAuthUser() *authUser {
+func newAuthUser(u user.User) *authUser {
 	return &authUser{
-		User: user.User{
-			Email:      "bob@gmail.com",
-			Password:   "12345",
-			DateJoined: time.Now(),
-			Verified:   false},
+		User:  u,
 		Token: "",
 	}
 }
@@ -87,3 +88,51 @@ func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
 
 func (au authUser) GetPID() string     { return au.User.Email }
 func (au *authUser) PutPID(pid string) { au.User.Email = pid }
+
+var (
+	s = register.Register{ab}
+	l = remember.Remember{ab}
+	o = logout.Logout{ab}
+)
+
+// InitModels initializes all models for registration, sign in, and log out
+func InitModels() {
+	if errS := s.Init(ab); errS != nil {
+		panic(errS)
+	}
+	if errL := l.Init(ab); errL != nil {
+		panic(errL)
+	}
+	if errO := o.Init(ab); errO != nil {
+		panic(errO)
+	}
+}
+
+// SignUp function registers user
+func SignUp(w http.ResponseWriter, req *http.Request) {
+	if errPost := s.Post(w, req); errPost != nil {
+		panic(errPost)
+	}
+}
+
+// AuthenticateUser function signs user into their account
+func AuthenticateUser(
+	w http.ResponseWriter,
+	authW http.ResponseWriter,
+	req *http.Request,
+	authReq **http.Request,
+) {
+	if _, err := l.RememberAfterAuth(w, req, false); err != nil {
+		panic(err)
+	}
+	if errAuth := remember.Authenticate(ab, authW, authReq); errAuth != nil {
+		panic(errAuth)
+	}
+}
+
+// LogOut logs the user out of their account & deletes the current session
+func LogOut(w http.ResponseWriter, r *http.Request) {
+	if errLogOut := o.Logout(w, r); errLogOut != nil {
+		panic(errLogOut)
+	}
+}

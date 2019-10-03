@@ -22,7 +22,7 @@ var (
 	ab = authboss.New()
 	// SessionStore holds session info
 	SessionStore abclientstate.SessionStorer
-	// CookieStore holds session info
+	// CookieStore holds cookie info
 	CookieStore abclientstate.CookieStorer
 )
 
@@ -66,8 +66,7 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 	}
 
 	email := au.GetPID()
-	newUser := user.User{Email: "", Password: "", DateJoined: time.Now(), Verified: false}
-	db := newUser.Get(email)
+	db := user.Get(email)
 	exists := db.RecordNotFound()
 
 	if exists {

@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -42,5 +43,21 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 // Function should update user data (email or password)
 
 // Function should retrieve user
+func TestShouldRetrieveUser(t *testing.T) {
+	var (
+		id       int
+		email    string
+		password string
+	)
+	db, err := db.Init()
+	if err != nil {
+		t.Errorf("Could not connect to DB to query users")
+	}
+	defer db.Close()
+	user.Get(`bob@gmail.com`)
+	db.Row().Scan(&id, &email, &password)
+	fmt.Println("id - ", id)
+	fmt.Println("email - "+email, "\n password - "+password)
+}
 
 // Function should delete user

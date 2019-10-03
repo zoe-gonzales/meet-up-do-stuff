@@ -51,13 +51,14 @@ func (u *User) HashPwd() *User {
 }
 
 // Get retrieves a user from email
-func (u *User) Get(em string) *gorm.DB {
+func Get(em string) *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user", err)
 	}
 	defer db.Close()
-	return db.Where("email = ?", em).Find(&u)
+	// db.Where(`email = ? and deleted_at is null`, em).Find(&u)
+	return db.Raw(`select id, email, and password from users where email = ? and deleted_at is null`, em)
 }
 
 // Update updates user data

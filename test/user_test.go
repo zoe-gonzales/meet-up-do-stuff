@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -55,9 +54,13 @@ func TestShouldRetrieveUser(t *testing.T) {
 	}
 	defer db.Close()
 	user.Get(`bob@gmail.com`)
-	db.Row().Scan(&id, &email, &password)
-	fmt.Println("id - ", id)
-	fmt.Println("email - "+email, "\n password - "+password)
+	err = db.Row().Scan(&id, &email, &password)
+	if err != nil {
+		t.Errorf("Error retrieving record from database")
+		t.Error(err)
+	}
+	// fmt.Println("id - ", id)
+	// fmt.Println("email - "+email, "\n password - "+password)
 }
 
 // Function should delete user

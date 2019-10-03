@@ -12,7 +12,6 @@ import (
 // User type holds basic information about a user
 type User struct {
 	gorm.Model
-	UserID     int `gorm:"AUTO_INCREMENT"`
 	Email      string
 	Password   string
 	DateJoined time.Time
@@ -57,8 +56,9 @@ func Get(em string) *gorm.DB {
 		log.Fatal("Error initalizing database on creating user", err)
 	}
 	defer db.Close()
-	// db.Where(`email = ? and deleted_at is null`, em).Find(&u)
-	return db.Raw(`select id, email, and password from users where email = ? and deleted_at is null`, em)
+	new := User{}
+	return db.Where(`email = ? and deleted_at is null`, em).First(&new)
+	// return db.Raw(`select id, email, and password from users where email = ? and deleted_at is null`, em)
 }
 
 // Update updates user data
@@ -69,7 +69,7 @@ func (u *User) Update(updatedUser User) *gorm.DB {
 	}
 	defer db.Close()
 	db.First(&u, u.ID)
-	u.UserID = updatedUser.UserID
+	u.ID = updatedUser.ID
 	u.Email = updatedUser.Email
 	u.Password = updatedUser.Password
 	u.DateJoined = updatedUser.DateJoined

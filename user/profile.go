@@ -12,7 +12,6 @@ type Profile struct {
 	gorm.Model
 	User        User `gorm:"foreignkey:UserID"`
 	UserID      int
-	ProfileID   int `gorm:"AUTO_INCREMENT"`
 	DisplayName string
 	Location    string
 	PathToImg   string
@@ -24,7 +23,7 @@ type Profile struct {
 
 // CreateEmptyProfile generates a new profile
 func (u User) CreateEmptyProfile() *gorm.DB {
-	profile := Profile{User: u, UserID: u.UserID, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
+	profile := Profile{User: u, UserID: 1, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user profile", err)

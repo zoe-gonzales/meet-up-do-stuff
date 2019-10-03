@@ -55,7 +55,7 @@ func newAuthUser(u user.User) *authUser {
 	}
 }
 
-// Load function queries db for user
+// Load queries db for user
 func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) {
 	provider, uid, err := authboss.ParseOAuth2PID(key)
 	if err == nil {
@@ -78,7 +78,7 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 	return &au, nil
 }
 
-// Save function saves user to db
+// Save saves user to db
 func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
 	us := user.User{Email: "", Password: "", DateJoined: time.Now(), Verified: false}
 	newUs := user.User{Email: "abc@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: true}
@@ -108,14 +108,14 @@ func InitModels() {
 	}
 }
 
-// SignUp function registers user
+// SignUp registers user
 func SignUp(w http.ResponseWriter, req *http.Request) {
 	if errPost := s.Post(w, req); errPost != nil {
 		panic(errPost)
 	}
 }
 
-// AuthenticateUser function signs user into their account
+// AuthenticateUser signs user into their account
 func AuthenticateUser(
 	w http.ResponseWriter,
 	authW http.ResponseWriter,
@@ -131,8 +131,8 @@ func AuthenticateUser(
 }
 
 // LogOut logs the user out of their account & deletes the current session
-func LogOut(w http.ResponseWriter, r *http.Request) {
-	if errLogOut := o.Logout(w, r); errLogOut != nil {
+func LogOut(w http.ResponseWriter, req *http.Request) {
+	if errLogOut := o.Logout(w, req); errLogOut != nil {
 		panic(errLogOut)
 	}
 }

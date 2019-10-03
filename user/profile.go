@@ -21,7 +21,7 @@ type Profile struct {
 	RSVPS       string
 }
 
-// CreateEmptyProfile generates a new profile
+// CreateEmptyProfile generates a new profile with no data
 func (u User) CreateEmptyProfile() *gorm.DB {
 	profile := Profile{User: u, UserID: 1, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
 	db, err := db.Init()
@@ -30,4 +30,35 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 	}
 	defer db.Close()
 	return db.Create(&profile)
+}
+
+// UpdateProfile updates fields in a user's profile
+func (u *User) UpdateProfile() /* *gorm.DB */ {
+	db, err := db.Init()
+	if err != nil {
+		log.Fatal("Error initalizing database on updating profile", err)
+	}
+	defer db.Close()
+	// Add update action
+}
+
+// GetProfile retrieves a user's profile
+func (u *User) GetProfile() *gorm.DB {
+	db, err := db.Init()
+	if err != nil {
+		log.Fatal("Error initalizing database on retrieving profile", err)
+	}
+	defer db.Close()
+	new := Profile{}
+	return db.Where(`id = ?`, u.ID).First(&new)
+}
+
+// DeleteProfile removes a profile from the db
+func (u *User) DeleteProfile() /* *gorm.DB */ {
+	db, err := db.Init()
+	if err != nil {
+		log.Fatal("Error initalizing database on deleting profile", err)
+	}
+	defer db.Close()
+	// Add delete action
 }

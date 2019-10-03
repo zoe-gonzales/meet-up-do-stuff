@@ -86,3 +86,20 @@ func (u *User) Delete() *gorm.DB {
 	defer db.Close()
 	return db.Delete(&u)
 }
+
+// Verify changes user field of Verified from false to true
+func Verify( /*Pass in user ID */ ) {
+	// Retrieve user from database
+	// Update with Verified field set to true
+	// No other fields updated
+	// Delete token within endpoint
+}
+
+// initVerification generates a token appended to the path with the user ID
+func initVerification( /*Pass in endpoint, user email */ ) error {
+	// Generate token
+	// Append: endpoint + token + user ID or email
+	// Generate an email containing the custom endpoint
+	// Send email to user's email account
+	return nil
+}

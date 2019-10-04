@@ -30,8 +30,8 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 	user.InitUserModel()
 	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
 	u := newUser.HashPwd()
-	entry := u.Create()
-	rowsAffected := entry.RowsAffected
+	record := u.Create()
+	rowsAffected := record.RowsAffected
 	var affected int64 = 1
 	assert.Equal(t, affected, rowsAffected)
 	db.Delete(&u)
@@ -39,7 +39,24 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 
 // Function should verify user
 
-// Function should update user data (email or password)
+// Function should update user data
+func TestShouldUpdateUserData(t *testing.T) {
+	db, err := db.Init()
+	if err != nil {
+		t.Errorf("Could not connect to DB to update user")
+	}
+	defer db.Close()
+	user.InitUserModel()
+	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
+	u := newUser.HashPwd()
+	u.Create()
+	updatedUser := user.User{Email: "sally@gmail.com", Password: "54321", DateJoined: time.Now(), Verified: false}
+	record := u.Update(updatedUser)
+	affected := record.RowsAffected
+	var rowsAffected int64 = 1
+	assert.Equal(t, affected, rowsAffected)
+	db.Delete(&u)
+}
 
 // Function should retrieve user
 func TestShouldRetrieveUser(t *testing.T) {
@@ -58,3 +75,21 @@ func TestShouldRetrieveUser(t *testing.T) {
 }
 
 // Function should delete user
+func TestShouldDeleteUserFromDB(t *testing.T) {
+	db, err := db.Init()
+	if err != nil {
+		t.Errorf("Could not connect to DB to delete user")
+	}
+	defer db.Close()
+	user.InitUserModel()
+	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
+	u := newUser.HashPwd()
+	u.Create()
+	u.Delete()
+	data := user.Get(`bob@gmail.com`)
+	var ti time.Time
+	assert.Equal(t, data.Email, "")
+	assert.Equal(t, data.Password, "")
+	assert.Equal(t, data.DateJoined, ti)
+	assert.Equal(t, data.Verified, false)
+}

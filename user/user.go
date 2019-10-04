@@ -65,23 +65,22 @@ func Get(em string) User {
 func (u *User) Update(updatedUser User) *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Fatal("Error initalizing database on updating user", err)
 	}
 	defer db.Close()
-	db.First(&u, u.ID)
-	u.ID = updatedUser.ID
-	u.Email = updatedUser.Email
-	u.Password = updatedUser.Password
-	u.DateJoined = updatedUser.DateJoined
-	u.Verified = updatedUser.Verified
-	return db.Save(&u)
+	var user User
+	db.Raw(`select * from users where id = ?`, u.ID).Scan(&user)
+	user.Email = updatedUser.Email
+	user.Password = updatedUser.Password
+	user.Verified = updatedUser.Verified
+	return db.Save(&user)
 }
 
 // Delete removes a user from db
 func (u *User) Delete() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Fatal("Error initalizing database on deleting user", err)
 	}
 	defer db.Close()
 	return db.Delete(&u)

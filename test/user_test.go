@@ -43,24 +43,18 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 
 // Function should retrieve user
 func TestShouldRetrieveUser(t *testing.T) {
-	var (
-		id       int
-		email    string
-		password string
-	)
 	db, err := db.Init()
 	if err != nil {
 		t.Errorf("Could not connect to DB to query users")
 	}
 	defer db.Close()
-	user.Get(`bob@gmail.com`)
-	err = db.Row().Scan(&id, &email, &password)
-	if err != nil {
-		t.Errorf("Error retrieving record from database")
-		t.Error(err)
-	}
-	// fmt.Println("id - ", id)
-	// fmt.Println("email - "+email, "\n password - "+password)
+	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
+	u := newUser.HashPwd()
+	u.Create()
+	data := user.Get(`bob@gmail.com`)
+	assert.Equal(t, data.Email, "bob@gmail.com")
+	assert.Equal(t, data.Verified, false)
+	db.Delete(&u)
 }
 
 // Function should delete user

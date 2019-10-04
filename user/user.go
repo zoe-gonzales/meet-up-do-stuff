@@ -50,15 +50,15 @@ func (u *User) HashPwd() *User {
 }
 
 // Get retrieves a user from email
-func Get(em string) *gorm.DB {
+func Get(em string) User {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user", err)
 	}
 	defer db.Close()
-	new := User{}
-	return db.Where(`email = ? and deleted_at is null`, em).First(&new)
-	// return db.Raw(`select id, email, and password from users where email = ? and deleted_at is null`, em)
+	var user User
+	db.Raw(`select * from users where email = ? and deleted_at is null`, em).Scan(&user)
+	return user
 }
 
 // Update updates user data

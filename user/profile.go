@@ -43,22 +43,24 @@ func (u *User) UpdateProfile() /* *gorm.DB */ {
 }
 
 // GetProfile retrieves a user's profile
-func (u *User) GetProfile() *gorm.DB {
+func (u *User) GetProfile() Profile {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on retrieving profile", err)
 	}
 	defer db.Close()
-	new := Profile{}
-	return db.Where(`id = ?`, u.ID).First(&new)
+	var profile Profile
+	db.Raw(`select * from profiles where user_id = ? and deleted_at is null`, u.ID).Scan(&profile)
+	return profile
 }
 
 // DeleteProfile removes a profile from the db
-func (u *User) DeleteProfile() /* *gorm.DB */ {
+func (u *User) DeleteProfile() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on deleting profile", err)
 	}
 	defer db.Close()
-	// Add delete action
+	var profile Profile
+	return db.Raw(`delete from profiles where user_id = ? and deleted_at is null`, u.ID).Scan(&profile)
 }

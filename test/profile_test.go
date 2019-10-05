@@ -29,23 +29,63 @@ func TestShouldCreateIncompleteProfile(t *testing.T) {
 
 // Function should update any data in user profile
 func TestShouldUpdateProfile(t *testing.T) {
-	db, err := db.Init()
-	if err != nil {
-		t.Errorf("Could not connect to DB to update user")
+	var tests = []struct {
+		name           string
+		updatedProfile user.Profile
+	}{
+		{
+			name:           "all_fields",
+			updatedProfile: user.Profile{DisplayName: "Jane Lane", Location: "New York, NY", PathToImg: "../profilepics/user-1", Interests: "painting, running, sarcasm", AdminOf: "Artists-Meetup, Runners-Club", MemberOf: "Runners-Club", RSVPS: "8,18,28,38"},
+		},
+		{
+			name:           "some_fields",
+			updatedProfile: user.Profile{Location: "Denver, CO", PathToImg: "../profilepics/user-2019", Interests: "coding, web development", RSVPS: "2,4,6"},
+		},
+		{
+			name:           "no_fields",
+			updatedProfile: user.Profile{},
+		},
 	}
-	defer db.Close()
-	user.InitUserModel()
-	newUser := user.User{Email: "jane@gmail.com", Password: "helloworld", DateJoined: time.Now(), Verified: false}
-	u := newUser.HashPwd()
-	u.Create()
-	newUser.CreateEmptyProfile()
-	customProfile := user.Profile{User: newUser, UserID: 1, DisplayName: "Jane Lane", Location: "New York, NY", PathToImg: "../profilepics/user-1", Interests: "painting, running, sarcasm", AdminOf: "Artists-Meetup, Runners-Club", MemberOf: "Runners-Club", RSVPS: "8,18,28,38"}
-	record := u.UpdateProfile(customProfile)
-	affected := record.RowsAffected
-	var rowsAffected int64 = 1
-	assert.Equal(t, affected, rowsAffected)
-	u.Delete()
-	u.DeleteProfile()
+
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			db, err := db.Init()
+			if err != nil {
+				t.Errorf("Could not connect to DB to update profile")
+			}
+			defer db.Close()
+			user.InitUserModel()
+			newUser := user.User{Email: "jane@gmail.com", Password: "helloworld", DateJoined: time.Now(), Verified: false}
+			u := newUser.HashPwd()
+			u.Create()
+			newUser.CreateEmptyProfile()
+			record := u.UpdateProfile(tc.updatedProfile)
+			affected := record.RowsAffected
+			// Data changed in any of the fields
+			if tc.updatedProfile.DisplayName != "" ||
+				tc.updatedProfile.Location != "" ||
+				tc.updatedProfile.PathToImg != "" ||
+				tc.updatedProfile.Interests != "" ||
+				tc.updatedProfile.AdminOf != "" ||
+				tc.updatedProfile.MemberOf != "" ||
+				tc.updatedProfile.RSVPS != "" {
+				assert.Equal(t, affected, int64(1))
+			}
+			// No new data passed
+			if tc.updatedProfile.DisplayName == "" &&
+				tc.updatedProfile.Location == "" &&
+				tc.updatedProfile.PathToImg == "" &&
+				tc.updatedProfile.Interests == "" &&
+				tc.updatedProfile.AdminOf == "" &&
+				tc.updatedProfile.MemberOf == "" &&
+				tc.updatedProfile.RSVPS == "" {
+				assert.Zero(t, affected)
+			}
+			u.Delete()
+			u.DeleteProfile()
+		})
+	}
 }
 
 // Function should retrieve profile data

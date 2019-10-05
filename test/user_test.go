@@ -11,8 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// File to contain tests for all CRUD actions for user model
-
 // Given a password (string), function should return a hash of that string
 func TestShouldGenerateHashFromUserEmail(t *testing.T) {
 	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
@@ -38,25 +36,56 @@ func TestShouldCreateUnverifiedUserInDB(t *testing.T) {
 	db.Delete(&u)
 }
 
-// Function should verify user
-
 // Function should update user data
 func TestShouldUpdateUserData(t *testing.T) {
-	db, err := db.Init()
-	if err != nil {
-		t.Errorf("Could not connect to DB to update user")
+	var tests = []struct {
+		name        string
+		updatedUser user.User
+	}{
+		{
+			name:        "email_and_password",
+			updatedUser: user.User{Email: "sally@gmail.com", Password: "54321"},
+		},
+		{
+			name:        "just_email",
+			updatedUser: user.User{Email: "abc123@yahoo.com"},
+		},
+		{
+			name:        "just_password",
+			updatedUser: user.User{Password: "helloworld"},
+		},
+		{
+			name:        "neither_email_nor_password",
+			updatedUser: user.User{},
+		},
 	}
-	defer db.Close()
-	user.InitUserModel()
-	newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
-	u := newUser.HashPwd()
-	u.Create()
-	updatedUser := user.User{Email: "sally@gmail.com", Password: "54321", DateJoined: time.Now(), Verified: false}
-	record := u.Update(updatedUser)
-	affected := record.RowsAffected
-	var rowsAffected int64 = 1
-	assert.Equal(t, affected, rowsAffected)
-	db.Delete(&u)
+
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			db, err := db.Init()
+			if err != nil {
+				t.Errorf("Could not connect to DB to update user")
+			}
+			defer db.Close()
+			user.InitUserModel()
+			newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
+			u := newUser.HashPwd()
+			u.Create()
+			record := u.Update(tc.updatedUser)
+			affected := record.RowsAffected
+			// Data changed in any of the fields
+			if tc.updatedUser.Email != "" || tc.updatedUser.Password != "" {
+				assert.Equal(t, affected, int64(1))
+			}
+			// No new data passed
+			if tc.updatedUser.Email == "" && tc.updatedUser.Password == "" {
+				assert.Zero(t, affected)
+			}
+			db.Delete(&u)
+		})
+	}
 }
 
 // Function should retrieve user
@@ -94,3 +123,5 @@ func TestShouldDeleteUserFromDB(t *testing.T) {
 	assert.Equal(t, data.DateJoined, ti)
 	assert.Equal(t, data.Verified, false)
 }
+
+// Function should verify user

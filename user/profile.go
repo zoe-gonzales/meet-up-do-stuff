@@ -42,13 +42,40 @@ func (u *User) UpdateProfile(updatedProfile Profile) *gorm.DB {
 	defer db.Close()
 	var profile Profile
 	db.Raw(`select * from profile where user_id = ?`, u.ID).Scan(&profile)
-	profile.DisplayName = updatedProfile.DisplayName
-	profile.Location = updatedProfile.Location
-	profile.PathToImg = updatedProfile.PathToImg
-	profile.Interests = updatedProfile.Interests
-	profile.AdminOf = updatedProfile.AdminOf
-	profile.MemberOf = updatedProfile.MemberOf
-	profile.RSVPS = updatedProfile.RSVPS
+
+	// Data changed
+	if updatedProfile.DisplayName != "" {
+		profile.DisplayName = updatedProfile.DisplayName
+	}
+	if updatedProfile.Location != "" {
+		profile.Location = updatedProfile.Location
+	}
+	if updatedProfile.PathToImg != "" {
+		profile.PathToImg = updatedProfile.PathToImg
+	}
+	if updatedProfile.Interests != "" {
+		profile.Interests = updatedProfile.Interests
+	}
+	if updatedProfile.AdminOf != "" {
+		profile.AdminOf = updatedProfile.AdminOf
+	}
+	if updatedProfile.MemberOf != "" {
+		profile.MemberOf = updatedProfile.MemberOf
+	}
+	if updatedProfile.RSVPS != "" {
+		profile.RSVPS = updatedProfile.RSVPS
+	}
+
+	// No data changed
+	if updatedProfile.DisplayName == "" &&
+		updatedProfile.Location == "" &&
+		updatedProfile.PathToImg == "" &&
+		updatedProfile.Interests == "" &&
+		updatedProfile.AdminOf == "" &&
+		updatedProfile.MemberOf == "" &&
+		updatedProfile.RSVPS == "" {
+		return db
+	}
 	return db.Save(&profile)
 }
 

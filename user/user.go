@@ -71,9 +71,20 @@ func (u *User) Update(updatedUser User) *gorm.DB {
 	defer db.Close()
 	var user User
 	db.Raw(`select * from users where id = ?`, u.ID).Scan(&user)
-	user.Email = updatedUser.Email
-	user.Password = updatedUser.Password
-	user.Verified = updatedUser.Verified
+
+	// Data changed
+	if updatedUser.Email != "" {
+		user.Email = updatedUser.Email
+	}
+	if updatedUser.Password != "" {
+		new := updatedUser.HashPwd()
+		user.Password = new.Password
+	}
+
+	// No data changed
+	if updatedUser.Email == "" && updatedUser.Password == "" {
+		return db
+	}
 	return db.Save(&user)
 }
 

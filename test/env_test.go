@@ -1,3 +1,4 @@
+// Contains test for retrieving env vars from system or .env
 package test
 
 import (

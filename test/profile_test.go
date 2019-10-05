@@ -1,3 +1,4 @@
+// Contains tests for all CRUD actions for profile model
 package test
 
 import (
@@ -8,8 +9,6 @@ import (
 	"github.com/zoe-gonzales/meet-up-do-stuff/db"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
-
-// File to contain tests for all CRUD actions for profile model
 
 // Function should create empty profile for unverified user
 func TestShouldCreateIncompleteProfile(t *testing.T) {

@@ -1,3 +1,4 @@
+// Package env handles retrieval of env vars from the .env file
 package env
 
 import (

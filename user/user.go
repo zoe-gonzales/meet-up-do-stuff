@@ -1,3 +1,4 @@
+// Package user contains models and CRUD actions relating to the user
 package user
 
 import (

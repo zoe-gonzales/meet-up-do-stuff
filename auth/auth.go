@@ -1,3 +1,5 @@
+// Package auth handles sign up, log in, and log out of users
+// also includes session management through authboss package
 package auth
 
 import (
@@ -67,8 +69,13 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 	}
 
 	email := au.GetPID()
-	db := user.Get(email)
-	exists := db.RecordNotFound()
+	user := user.Get(email)
+	var exists bool
+	if user.Email == "" {
+		exists = false
+	} else {
+		exists = true
+	}
 
 	if exists {
 		return nil, authboss.ErrUserNotFound

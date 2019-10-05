@@ -1,3 +1,4 @@
+// Package db handles connection to the database
 package db
 
 import (
@@ -7,11 +8,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres" // GORM dialect for postgres
 	"github.com/zoe-gonzales/meet-up-do-stuff/env"
 )
-
-// Given a connection string
-// functions opens a connection to db,
-// checks for errors
-// and returns pointer to db and error
 
 // Init function takes a connection string and initializes the db
 func Init() (*gorm.DB, error) {

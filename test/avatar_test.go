@@ -1,3 +1,4 @@
+// Contains test for generating avatar image from email address
 package test
 
 import (
@@ -9,10 +10,7 @@ import (
 	"github.com/zoe-gonzales/avatar-practice/hash"
 )
 
-// Using code from avatar-practice
-// function should take a string,
-// hash it and generate an image from hash
-// also takes a string representing filename
+// should take a string and generate an image from the string's hash
 func TestShouldGenerateAvatarFromUserEmail(t *testing.T) {
 	var tests = []struct {
 		name     string

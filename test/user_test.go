@@ -1,3 +1,4 @@
+// Contains tests for all CRUD actions for user model, including pw hashing
 package test
 
 import (

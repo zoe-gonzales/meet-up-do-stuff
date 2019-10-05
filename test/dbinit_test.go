@@ -1,3 +1,4 @@
+// Contains test for validating database set up
 package test
 
 import (
@@ -11,11 +12,7 @@ import (
 	"github.com/zoe-gonzales/meet-up-do-stuff/db"
 )
 
-// Given a connection string to a db
-// Function should open a connection
-// and check for errors
-// if errors occur, test fails
-
+// Test checks that database is successfully initiated
 func TestShouldConnectToDB(t *testing.T) {
 	db, err := db.Init()
 	assert.Nil(t, err)

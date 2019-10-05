@@ -1,3 +1,4 @@
+// Package avatar generates and saves an avatar image to the file system
 package avatar
 
 import (

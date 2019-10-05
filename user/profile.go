@@ -33,13 +33,22 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 }
 
 // UpdateProfile updates fields in a user's profile
-func (u *User) UpdateProfile() /* *gorm.DB */ {
+func (u *User) UpdateProfile(updatedProfile Profile) *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on updating profile", err)
 	}
 	defer db.Close()
-	// Add update action
+	var profile Profile
+	db.Raw(`select * from profile where user_id = ?`, u.ID).Scan(&profile)
+	profile.DisplayName = updatedProfile.DisplayName
+	profile.Location = updatedProfile.Location
+	profile.PathToImg = updatedProfile.PathToImg
+	profile.Interests = updatedProfile.Interests
+	profile.AdminOf = updatedProfile.AdminOf
+	profile.MemberOf = updatedProfile.MemberOf
+	profile.RSVPS = updatedProfile.RSVPS
+	return db.Save(&profile)
 }
 
 // GetProfile retrieves a user's profile

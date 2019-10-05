@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -29,13 +28,26 @@ func TestShouldCreateIncompleteProfile(t *testing.T) {
 	db.Delete(&u)
 }
 
-// Function should update user display name and location from input
-
-// Function should update user profile image
-
-// Function should add an interest to user profile
-
-// Function should remove an interest from user profile
+// Function should update any data in user profile
+func TestShouldUpdateProfile(t *testing.T) {
+	db, err := db.Init()
+	if err != nil {
+		t.Errorf("Could not connect to DB to update user")
+	}
+	defer db.Close()
+	user.InitUserModel()
+	newUser := user.User{Email: "jane@gmail.com", Password: "helloworld", DateJoined: time.Now(), Verified: false}
+	u := newUser.HashPwd()
+	u.Create()
+	newUser.CreateEmptyProfile()
+	customProfile := user.Profile{User: newUser, UserID: 1, DisplayName: "Jane Lane", Location: "New York, NY", PathToImg: "../profilepics/user-1", Interests: "painting, running, sarcasm", AdminOf: "Artists-Meetup, Runners-Club", MemberOf: "Runners-Club", RSVPS: "8,18,28,38"}
+	record := u.UpdateProfile(customProfile)
+	affected := record.RowsAffected
+	var rowsAffected int64 = 1
+	assert.Equal(t, affected, rowsAffected)
+	u.Delete()
+	u.DeleteProfile()
+}
 
 // Function should retrieve profile data
 func TestShouldRetrieveProfile(t *testing.T) {
@@ -78,7 +90,6 @@ func TestShouldDeleteProfile(t *testing.T) {
 	u.Delete()
 	u.DeleteProfile()
 	profile := u.GetProfile()
-	fmt.Println(profile)
 	assert.Empty(t, profile.User)
 	assert.Equal(t, profile.UserID, 0)
 	assert.Equal(t, profile.DisplayName, "")

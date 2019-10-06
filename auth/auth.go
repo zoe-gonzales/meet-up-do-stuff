@@ -4,6 +4,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
@@ -36,8 +37,12 @@ const (
 // InitAuth sets up and runs auth
 func InitAuth() {
 	us := user.User{}
+	au, err := newAuthUser(us)
+	if err != nil {
+		panic(err)
+	}
 	ab.Config.Paths.RootURL = "http://localhost:1323"
-	ab.Config.Storage.Server = newAuthUser(us)
+	ab.Config.Storage.Server = au
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
 
@@ -46,11 +51,11 @@ func InitAuth() {
 	}
 }
 
-func newAuthUser(u user.User) *authUser {
-	return &authUser{
-		User:  u,
-		Token: "",
+func newAuthUser(u user.User) (*authUser, error) {
+	if u.Email == "" || u.Password == "" || u.DateJoined.IsZero() || u.Verified == false {
+		return &authUser{}, errors.New("Cannot create authUser from nil values")
 	}
+	return &authUser{User: u, Token: ""}, nil
 }
 
 // Load queries db for user

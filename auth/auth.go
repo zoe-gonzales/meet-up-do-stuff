@@ -35,8 +35,8 @@ const (
 )
 
 // InitAuth sets up and runs auth
-func InitAuth() {
-	us := user.User{}
+func InitAuth() *authboss.Authboss {
+	us := user.User{Email: "jill@gmail.com", Password: "ABC", DateJoined: time.Now(), Verified: true}
 	au, err := newAuthUser(us)
 	if err != nil {
 		panic(err)
@@ -49,6 +49,8 @@ func InitAuth() {
 	if err := ab.Init(); err != nil {
 		panic(err)
 	}
+
+	return ab
 }
 
 func newAuthUser(u user.User) (*authUser, error) {
@@ -58,7 +60,7 @@ func newAuthUser(u user.User) (*authUser, error) {
 	return &authUser{User: u, Token: ""}, nil
 }
 
-// Load queries db for user
+// Load queries db for user and saves in authUser struct
 func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) {
 	email := au.GetPID()
 	user := user.Get(email)

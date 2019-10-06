@@ -4,7 +4,6 @@ package auth
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -19,9 +18,6 @@ import (
 type authUser struct {
 	User  user.User
 	Token string
-	// OAuth2
-	OAuth2UID      string
-	OAuth2Provider string
 }
 
 var (
@@ -59,29 +55,20 @@ func newAuthUser(u user.User) *authUser {
 
 // Load queries db for user
 func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) {
-	provider, uid, err := authboss.ParseOAuth2PID(key)
-	if err == nil {
-		if au.OAuth2Provider == provider && au.OAuth2UID == uid {
-			fmt.Println("Loaded OAuth2 user:", au.User)
-			return &au, nil
-		}
-		return nil, authboss.ErrUserNotFound
-	}
-
 	email := au.GetPID()
 	user := user.Get(email)
 	var exists bool
+	// check if user exists
 	if user.Email == "" {
 		exists = false
 	} else {
 		exists = true
+		au.User = user
 	}
-
-	if exists {
+	// return error if user not found
+	if !exists {
 		return nil, authboss.ErrUserNotFound
 	}
-
-	fmt.Println("Loaded user:", au.User.Email)
 	return &au, nil
 }
 
@@ -122,17 +109,16 @@ func SignUp(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// AuthenticateUser signs user into their account
-func AuthenticateUser(
-	w http.ResponseWriter,
-	authW http.ResponseWriter,
-	req *http.Request,
-	authReq **http.Request,
-) {
+// GenerateToken creates a token and saves it in the user's cookies
+func GenerateToken(w http.ResponseWriter, req *http.Request) {
 	if _, err := l.RememberAfterAuth(w, req, false); err != nil {
 		panic(err)
 	}
-	if errAuth := remember.Authenticate(ab, authW, authReq); errAuth != nil {
+}
+
+// AuthenticateUser signs user into their account
+func AuthenticateUser(w http.ResponseWriter, req **http.Request) {
+	if errAuth := remember.Authenticate(ab, w, req); errAuth != nil {
 		panic(errAuth)
 	}
 }

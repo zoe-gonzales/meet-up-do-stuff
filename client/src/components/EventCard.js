@@ -1,10 +1,6 @@
 import React from "react";
+import ContentContainer from './ContentContainer';
 import styled from "styled-components";
-
-// to be styled
-const EventContents = styled.div`
-    
-`
 
 const Title = styled.div`
     font-weight: bold;
@@ -15,13 +11,13 @@ const Link = styled.a`
     font-size: .75rem;
 `
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, background }) => {
     return (
-        <EventContents className="card-body">
+        <ContentContainer color={background} className="card-body">
             <Title className="card-title">{event.title}</Title>
             <div className="card-text">{event.description}</div>
             <Link href={event.path} className="btn btn-danger">More</Link>
-        </EventContents>
+        </ContentContainer>
     )
 }
 

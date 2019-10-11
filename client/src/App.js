@@ -1,7 +1,7 @@
 import React from 'react';
 
 function App() {
-  return <div>Meet up clone app</div>;
+  return <div>Hi</div>;
 }
 
 export default App;

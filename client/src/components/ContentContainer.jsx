@@ -8,7 +8,7 @@ const Border = styled.div`
 `
 
 const ContentContainer = ({ children, color }) => {
-    return <Border style={{ backgroundColor: color }} className="container">{ children }</Border>;
+    return <Border style={{ width: 'auto', backgroundColor: color }}>{children}</Border>;
 }
 
 export default ContentContainer;

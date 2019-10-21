@@ -4,14 +4,13 @@ import styled from "styled-components";
 
 const Title = styled.div`
     font-weight: bold;
-
 `
 const Link = styled.a`
     margin-top: 10px;
     font-size: .75rem;
 `
 
-const EventCard = ({ event, background }) => {
+const SmallEventCard = ({ event, background }) => {
     return (
         <ContentContainer color={background} className="card-body">
             <Title className="card-title">{event.title}</Title>
@@ -21,4 +20,4 @@ const EventCard = ({ event, background }) => {
     )
 }
 
-export default EventCard;
+export default SmallEventCard;

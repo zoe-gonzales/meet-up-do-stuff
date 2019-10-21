@@ -11,7 +11,7 @@ const Btn = styled.button`
 `
 
 const Button = ({ children }) => {
-    return <Btn type="button" className="btn btn-outline-dark border border-secondary rounded-0 float-right">{children}</Btn>
+    return <Btn className="btn btn-outline-dark border border-secondary rounded-0 float-right">{children}</Btn>
 }
 
 export default Button;

@@ -2,6 +2,7 @@ import React from "react";
 import ContentContainer from "./ContentContainer";
 import Button from './Button';
 import styled from "styled-components";
+import UseForm from '../hooks/UseForm';
 
 const Field = styled.input`
     border: 1px solid #778899;
@@ -21,20 +22,24 @@ const SmallText = styled.p`
 `
 
 const SignUpForm = () => {
+   const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
+     console.log("callback called")
+   });
+
     return (
         <ContentContainer color="white">
             <Title className="text-center">sign up</Title>
-            <form>
+            <form onSubmit={e => handleSubmit(e)}>
                 <div className="form-group">
-                    <Field name="username" type="text" placeholder="username" aria-label="username"></Field>
+                    <Field onChange={e => handleInputChange(e)} value={inputs.username} name="username" type="text" placeholder="username" aria-label="username"></Field>
                 </div>
                 <div className="form-group">
-                    <Field name="password" type="password" placeholder="password" aria-label="password"></Field>
+                    <Field onChange={e => handleInputChange(e)} value={inputs.password} name="password" type="password" placeholder="password" aria-label="password"></Field>
                 </div>
                 <div className="form-group">
-                    <Field name="confirm-password" type="password" placeholder="re-enter password" aria-label="confirm-password"></Field>
+                    <Field onChange={e => handleInputChange(e)} value={inputs.confirmPassword} name="confirmPassword" type="password" placeholder="re-enter password" aria-label="confirmPassword"></Field>
                 </div>
-                <Button>Go</Button>  
+                <Button type="submit">Go</Button>  
                 <SmallText>
                     Have an account? <br />
                     <a href="https://github.com/">Sign In</a>                    

@@ -1,18 +1,20 @@
-import { useState } from React;
+import { useSelector, useDispatch } from 'react-redux';
+import actions from '../actions/formActions';
 
-const UseForm = (fields, clearedFields, cb) => {
-    const [inputs, setInputs] = useState(fields);
+const UseForm = cb => {
+    const inputs = useSelector(state => state.Auth.inputs);
+    const dispatch = useDispatch();
 
     const handleInputChange = e => {
         e.persist();
         const { name, value } = e.target;
-        setInputs({ ...inputs, [name]: value });
+        const changedInputs = {...inputs, [name]: value};
+        dispatch(actions.updateFormData(changedInputs));
     }
 
     const handleSubmit = e => {
-        if (e) e.preventDefault();
+        e.preventDefault();
         cb();
-        setInputs(clearedFields);
     }
 
     return {

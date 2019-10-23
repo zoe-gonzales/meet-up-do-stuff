@@ -7,17 +7,12 @@ import (
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
 )
 
-// Test for InitAuth IN PROGRESS
+// Test for InitAuth
 func TestShouldConfigureAuth(t *testing.T) {
 	au := auth.InitAuth()
 	assert.Equal(t, au.Config.Paths.RootURL, "http://localhost:1323")
-	// assert.NotNil(t, au.Config.Storage.SessionState)
-	// assert.NotNil(t, au.Config.Storage.CookieState)
-}
-
-// Test for Load IN PROGRESS
-func TestShouldLoadUserFromDBAndUpdateAuthUser(t *testing.T) {
-	// u := user.User{Email: "laura@gmail.com", Password: "ABCDEF", DateJoined: time.Now(), Verified: true}
+	assert.NotNil(t, au.Config.Storage.SessionState)
+	assert.NotNil(t, au.Config.Storage.CookieState)
 }
 
 // Test for Save

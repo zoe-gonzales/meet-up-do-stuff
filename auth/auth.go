@@ -46,10 +46,6 @@ func InitAuth() *authboss.Authboss {
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
 
-	if err := ab.Init(); err != nil {
-		panic(err)
-	}
-
 	return ab
 }
 
@@ -82,7 +78,7 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 // Save saves user to db
 func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
 	us := user.User{Email: "", Password: "", DateJoined: time.Now(), Verified: false}
-	newUs := user.User{Email: "abc@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: true}
+	newUs := user.User{Email: "Jane@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: true}
 	us.Update(newUs)
 	return nil
 }

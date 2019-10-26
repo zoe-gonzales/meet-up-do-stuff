@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/volatiletech/authboss"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
@@ -60,4 +61,20 @@ func TestShouldLoadUserFromDBAndUpdateAuthUser(t *testing.T) {
 	au2, err2 := au.Load(c, "a")
 	assert.NotNil(t, au2)
 	assert.Nil(t, err2)
+}
+
+// Test for Save
+func TestShouldSaveUpdatedAuthUser(t *testing.T) {
+	u := user.User{Email: "bob@gmail.com", Password: "ABCDEF", DateJoined: time.Now(), Verified: true}
+	au, err := newAuthUser(u)
+	if err != nil {
+		t.Errorf("There was an error: %v", err)
+	}
+	var c context.Context
+	var a authboss.User
+	au.User.Email = "bob@outlook.com"
+	err2 := au.Save(c, a)
+	e := "bob@outlook.com"
+	assert.NotNil(t, err2)
+	assert.Equal(t, e, au.User.Email)
 }

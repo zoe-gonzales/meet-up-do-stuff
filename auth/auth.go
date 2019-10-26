@@ -77,9 +77,21 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 
 // Save saves user to db
 func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
-	us := user.User{Email: "", Password: "", DateJoined: time.Now(), Verified: false}
-	newUs := user.User{Email: "Jane@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: true}
-	us.Update(newUs)
+	email := au.GetPID()
+	user := user.Get(email)
+	var exists bool
+	// check if user exists
+	if user.Email == "" {
+		exists = false
+	} else {
+		exists = true
+		au.User = user
+	}
+	// return error if user not found
+	if !exists {
+		return authboss.ErrUserNotFound
+	}
+	user.Update(au.User)
 	return nil
 }
 
@@ -93,16 +105,17 @@ var (
 )
 
 // InitModels initializes all models for registration, sign in, and log out
-func InitModels() {
+func InitModels() error {
 	if errS := s.Init(ab); errS != nil {
-		panic(errS)
+		return errS
 	}
 	if errL := l.Init(ab); errL != nil {
-		panic(errL)
+		return errL
 	}
 	if errO := o.Init(ab); errO != nil {
-		panic(errO)
+		return errO
 	}
+	return nil
 }
 
 // SignUp registers user

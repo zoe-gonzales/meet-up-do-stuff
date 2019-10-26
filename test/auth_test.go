@@ -15,42 +15,20 @@ func TestShouldConfigureAuth(t *testing.T) {
 	assert.NotNil(t, au.Config.Storage.CookieState)
 }
 
-// Test for Save
-func TestShouldSaveUpdatedAuthUser(t *testing.T) {
-
-}
-
 // Test for InitModels
 func TestShouldCreateModelsForAuth(t *testing.T) {
-
-}
-
-// Test for GetPID
-func TestShouldRetrieveAuthUserEmail(t *testing.T) {
-
-}
-
-// Test for PutPID
-func TestShouldUpdateAuthUserEmail(t *testing.T) {
-
+	err := auth.InitModels()
+	assert.NotNil(t, err)
 }
 
 // Test for SignUp
-func TestShouldRegisterUser(t *testing.T) {
-
-}
+func TestShouldRegisterUser(t *testing.T) {}
 
 // Test for GenerateToken
-func TestShouldCreateTokenAndSaveToUserCookies(t *testing.T) {
-
-}
+func TestShouldCreateTokenAndSaveToUserCookies(t *testing.T) {}
 
 // Test for AuthenticateUser
-func TestShouldAuthenticateUserWithCookie(t *testing.T) {
-
-}
+func TestShouldAuthenticateUserWithCookie(t *testing.T) {}
 
 // Test for LogOut
-func TestShouldLogOutUserAndDeleteToken(t *testing.T) {
-
-}
+func TestShouldLogOutUserAndDeleteToken(t *testing.T) {}

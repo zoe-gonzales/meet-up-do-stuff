@@ -1,12 +1,9 @@
 import React from 'react';
+import Heading from './components/Heading';
+import './Index.css'
 
 function App() {
-  return (
-    <div className="container">
-      <div className="row">
-      </div>
-    </div>
-  );
+  return <Heading />
 }
 
 export default App;

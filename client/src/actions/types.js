@@ -1,7 +1,13 @@
 const types = {
-    updateInputs(inputs) {
+    updateAuthInputs(inputs) {
         return {
-            type: 'UPDATE_INPUTS',
+            type: 'UPDATE_AUTH_INPUTS',
+            data: inputs,
+        }
+    },
+    updateSearchInputs(inputs) {
+        return {
+            type: 'UPDATE_SEARCH_INPUTS',
             data: inputs,
         }
     }

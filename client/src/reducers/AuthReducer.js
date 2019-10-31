@@ -8,7 +8,7 @@ const initialState = {
 
 const Auth = (state = initialState, action) => {
     switch(action.type) {
-        case 'UPDATE_INPUTS':
+        case 'UPDATE_AUTH_INPUTS':
             let  { username, password, confirmPassword } = action.data;
             return Object.assign({}, state, {
                 inputs: {

@@ -1,9 +1,14 @@
 import types from './types';
 
 const formActions = {
-    updateFormData(data) {
+    updateAuthData(data) {
         return (dispatch) => {
-            dispatch(types.updateInputs(data));
+            dispatch(types.updateAuthInputs(data));
+        }
+    },
+    updateSearchData(data) {
+        return (dispatch) => {
+            dispatch(types.updateSearchInputs(data));
         }
     }
 }

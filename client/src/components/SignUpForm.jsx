@@ -24,7 +24,7 @@ const SmallText = styled.p`
 const SignUpForm = () => {
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
      console.log("callback called")
-   });
+   }, 'auth');
 
     return (
         <ContentContainer color="white">

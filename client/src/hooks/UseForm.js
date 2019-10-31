@@ -26,8 +26,15 @@ const UseForm = (cb, formType) => {
             case 'search':
                 dispatchAction = actions.updateSearchData(changedInputs);
                 break;
+            default:
+                dispatchAction = null;
         }
-        dispatch(dispatchAction);
+        if (dispatchAction) {
+            dispatch(dispatchAction);
+        } else {
+            // handle error here
+        }
+        
     }
 
     const handleSubmit = e => {

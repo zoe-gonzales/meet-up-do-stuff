@@ -1,6 +1,6 @@
 import React from 'react';
 import Heading from './components/Heading';
-import './Index.css'
+import './Index.css';
 
 function App() {
   return <Heading />

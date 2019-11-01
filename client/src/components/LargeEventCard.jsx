@@ -1,30 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Border = styled.div`
-    border: 1px solid #778899;
-`
-
-const Heading = styled.section`
-    background-color: #DBEFFF;
-    padding: 20px;
-`
-const Content = styled.section`
-    padding: 20px;
-`
 
 const LargeEventCard = ({ event }) => {
     return (
-        <Border>
-            <Heading>
+        <div className="border-only">
+            <section className="heading">
                 <h4>{event.title}</h4>
                 <p>{event.dateTime}</p>
                 <p>{event.location}</p>
-            </Heading>
-            <Content>
+            </section>
+            <section className="content">
                 <p>{event.description}</p>
-            </Content>
-        </Border>
+            </section>
+        </div>
     )
 }
 

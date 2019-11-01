@@ -1,0 +1,97 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$pale-blue-theme: #DBEFFF;
+$grey-border: 1px solid #778899;
+
+.square-btn {
+    font-size: 12px;
+    padding: 4.5px 9px;
+}
+
+.square-btn:hover {
+    background-color: $pale-blue-theme;
+    color: black;
+}
+
+.oval-btn {
+    border-radius: 20px;
+    width: 90%;
+    height: 30px;
+    padding: 0;
+}
+
+.oval-btn:hover {
+    transform: scale(1.02);
+}
+
+.border-wrapper {
+    border: $grey-border;
+    padding: 20px;
+    margin: 20px;
+    width: auto;
+}
+
+.field {
+    border: $grey-border;
+    margin-top: 3rem;
+}
+
+.field:focus {
+    background-color: $pale-blue-theme;
+}
+
+
+.field::placeholder {
+    font-size: .9rem;
+    padding: 8px;
+}
+
+.auth-field {
+    border: $grey-border;
+    padding: 5px;
+    width: 100%;
+    
+}
+
+.auth-field:focus {
+    background-color: $pale-blue-theme;
+}
+
+.wrapper {
+    width: 30%;
+    margin: auto;
+}
+
+.heading {
+    background-color: $pale-blue-theme;
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.border-only {
+    border: $grey-border;
+}
+
+.title {
+    margin: 15px 0;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
+.event-title {
+    font-weight: bold;
+}
+
+.link {
+    margin-top: 10px;
+    font-size: .75rem;
+}
+
+.input-group-append {
+    margin-top: 3rem;
+}

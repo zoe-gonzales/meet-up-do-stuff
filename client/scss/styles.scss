@@ -12,6 +12,7 @@ $grey-border: 1px solid #778899;
 .square-btn {
     font-size: 12px;
     padding: 4.5px 9px;
+    border-radius: 0;
 }
 
 .square-btn:hover {
@@ -40,6 +41,7 @@ $grey-border: 1px solid #778899;
 .field {
     border: $grey-border;
     margin-top: 3rem;
+    border-radius: 0;
 }
 
 .field:focus {
@@ -83,6 +85,10 @@ $grey-border: 1px solid #778899;
 
 .title {
     margin: 15px 0;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .small-text {

@@ -2642,6 +2642,7 @@ input[type=button].btn-block {
 .square-btn {
   font-size: 12px;
   padding: 4.5px 9px;
+  border-radius: 0;
 }
 
 .square-btn:hover {
@@ -2670,6 +2671,7 @@ input[type=button].btn-block {
 .field {
   border: 1px solid #778899;
   margin-top: 3rem;
+  border-radius: 0;
 }
 
 .field:focus {
@@ -2711,6 +2713,10 @@ input[type=button].btn-block {
 
 .title {
   margin: 15px 0;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .small-text {

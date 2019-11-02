@@ -8,6 +8,7 @@
 
 $pale-blue-theme: #DBEFFF;
 $grey-border: 1px solid #778899;
+$dark-indigo: #4766AB;
 
 .square-btn {
     font-size: 12px;
@@ -106,4 +107,15 @@ $grey-border: 1px solid #778899;
 
 .input-group-append {
     margin-top: 3rem;
+}
+
+.interest-selector {
+    background-color: $dark-indigo;
+    border-color: $dark-indigo;
+}
+
+.interest-selector:hover {
+    background-color: $dark-indigo;
+    border-color: $dark-indigo;
+    transform: scale(1.02);
 }

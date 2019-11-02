@@ -2736,4 +2736,15 @@ input[type=button].btn-block {
   margin-top: 3rem;
 }
 
+.interest-selector {
+  background-color: #4766AB;
+  border-color: #4766AB;
+}
+
+.interest-selector:hover {
+  background-color: #4766AB;
+  border-color: #4766AB;
+  transform: scale(1.02);
+}
+
 /*# sourceMappingURL=styles.css.map */

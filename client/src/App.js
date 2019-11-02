@@ -1,18 +1,17 @@
 import React from 'react';
 import Heading from './components/Heading';
-import NextBtn from './components/Button';
-import RSVPButton from './components/RSVPButton';
-import SignIn from './components/SignInForm';
-import SignUp from './components/SignUpForm';
+import InterestSelector from './components/InterestSelector';
+
 
 function App() {
+  const coding = {
+    name: 'coding',
+    id: 1,
+  }
   return (
     <div>
       <Heading />
-      <NextBtn>Go</NextBtn>
-      <RSVPButton>Going</RSVPButton>
-      <SignIn />
-      <SignUp />
+      <InterestSelector interest={coding} />
     </div>
   )
 }

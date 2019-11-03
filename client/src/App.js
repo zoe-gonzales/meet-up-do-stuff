@@ -1,13 +1,13 @@
 import React from 'react';
 import Heading from './components/Heading';
-import ProfileForm from './components/ProfileForm';
+import FilterEventsForm from './components/FilterEventsForm';
 
 
 function App() {
   return (
     <div>
       <Heading />
-      <ProfileForm />
+      <FilterEventsForm />
     </div>
   )
 }

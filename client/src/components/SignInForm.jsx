@@ -7,7 +7,6 @@ const SignInForm = () => {
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         console.log("sign in form submitted")
     }, 'auth');
-
     return (
         <ContentContainer color="white">
             <h4 className="title text-center">sign in</h4>

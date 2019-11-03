@@ -7,7 +7,6 @@ const SignUpForm = () => {
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
      console.log("callback called")
    }, 'auth');
-
     return (
         <ContentContainer color="white">
             <h4 className="title text-center">sign up</h4>

@@ -15,9 +15,9 @@ const ProfileForm = () => {
                     <div className="row">
                         {/* Title and form fields */}
                         <div className="col-md-6">
-                        <h2 className="title">
-                            Complete your profile...
-                        </h2>
+                            <h2 className="title">
+                                Complete your profile...
+                            </h2>
                             <div className="form-group">
                                 <input className="profile-field" onChange={e => handleInputChange(e)} value={inputs.nickName} name="nickName" type="text" placeholder="nick name" aria-label="nickName" />
                             </div>

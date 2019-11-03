@@ -10,7 +10,12 @@ const formActions = {
         return (dispatch) => {
             dispatch(types.updateSearchInputs(data));
         }
-    }
+    },
+    updateProfileData(data) {
+        return (dispatch) => {
+            dispatch(types.updateProfileInputs(data));
+        }
+    },
 }
 
 export default formActions;

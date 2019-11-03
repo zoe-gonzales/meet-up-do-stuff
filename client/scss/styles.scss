@@ -119,3 +119,26 @@ $dark-indigo: #4766AB;
     border-color: $dark-indigo;
     transform: scale(1.02);
 }
+
+.profile-field {
+    border: $grey-border;
+    margin-top: 1rem;
+    border-radius: 0;
+}
+
+.profile-field:focus {
+    background-color: $pale-blue-theme;
+}
+
+.profile-field::placeholder {
+    font-size: .9rem;
+    padding: 8px;
+}
+
+.avatar {
+    margin: .5rem 0;
+}
+
+.profile-set-up {
+    margin-top: 1rem;
+}

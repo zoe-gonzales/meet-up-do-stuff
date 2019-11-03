@@ -10,6 +10,12 @@ const types = {
             type: 'UPDATE_SEARCH_INPUTS',
             data: inputs,
         }
+    },
+    updateProfileInputs(inputs) {
+        return {
+            type: 'UPDATE_PROFILE_INPUTS',
+            data: inputs,
+        }
     }
 }
 

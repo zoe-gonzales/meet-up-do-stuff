@@ -8,6 +8,8 @@ const UseForm = (cb, formType) => {
                 return state.Auth.inputs;
             case 'search':
                 return state.Search.inputs;
+            case 'profile':
+                return state.Profile.inputs;
             default:
                 return state;
         }
@@ -26,6 +28,9 @@ const UseForm = (cb, formType) => {
             case 'search':
                 dispatchAction = actions.updateSearchData(changedInputs);
                 break;
+            case 'profile':
+                dispatchAction = actions.updateProfileData(changedInputs);
+                break;
             default:
                 dispatchAction = null;
         }
@@ -34,7 +39,6 @@ const UseForm = (cb, formType) => {
         } else {
             // handle error here
         }
-        
     }
 
     const handleSubmit = e => {

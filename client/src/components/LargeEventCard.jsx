@@ -5,7 +5,8 @@ const LargeEventCard = ({ event }) => {
         <div className="border-only">
             <section className="heading">
                 <h4>{event.title}</h4>
-                <p>{event.dateTime}</p>
+                <p>{event.date}</p>
+                <p>{event.time}</p>
                 <p>{event.location}</p>
             </section>
             <section className="content">

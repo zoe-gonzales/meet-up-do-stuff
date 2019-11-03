@@ -2747,4 +2747,27 @@ input[type=button].btn-block {
   transform: scale(1.02);
 }
 
+.profile-field {
+  border: 1px solid #778899;
+  margin-top: 1rem;
+  border-radius: 0;
+}
+
+.profile-field:focus {
+  background-color: #DBEFFF;
+}
+
+.profile-field::placeholder {
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
+.avatar {
+  margin: 0.5rem 0;
+}
+
+.profile-set-up {
+  margin-top: 1rem;
+}
+
 /*# sourceMappingURL=styles.css.map */

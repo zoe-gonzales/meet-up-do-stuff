@@ -26,7 +26,7 @@ func InitUserModel() {
 		log.Fatal("Error initalizing database on creating user", err)
 	}
 	defer db.Close()
-	db.AutoMigrate(&User{}, &Profile{})
+	db.AutoMigrate(&User{}, &Profile{}, &Event{})
 }
 
 // Create generates a new user

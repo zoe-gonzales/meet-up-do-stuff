@@ -119,29 +119,33 @@ func InitModels() error {
 }
 
 // SignUp registers user
-func SignUp(w http.ResponseWriter, req *http.Request) {
+func SignUp(w http.ResponseWriter, req *http.Request) error {
 	if errPost := s.Post(w, req); errPost != nil {
-		panic(errPost)
+		return errPost
 	}
+	return nil
 }
 
 // GenerateToken creates a token and saves it in the user's cookies
-func GenerateToken(w http.ResponseWriter, req *http.Request) {
+func GenerateToken(w http.ResponseWriter, req *http.Request) error {
 	if _, err := l.RememberAfterAuth(w, req, false); err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
 
 // AuthenticateUser signs user into their account
-func AuthenticateUser(w http.ResponseWriter, req **http.Request) {
+func AuthenticateUser(w http.ResponseWriter, req **http.Request) error {
 	if errAuth := remember.Authenticate(ab, w, req); errAuth != nil {
-		panic(errAuth)
+		return errAuth
 	}
+	return nil
 }
 
 // LogOut logs the user out of their account & deletes the current session
-func LogOut(w http.ResponseWriter, req *http.Request) {
+func LogOut(w http.ResponseWriter, req *http.Request) error {
 	if errLogOut := o.Logout(w, req); errLogOut != nil {
-		panic(errLogOut)
+		return errLogOut
 	}
+	return nil
 }

@@ -1,6 +1,8 @@
 package test
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,13 +24,50 @@ func TestShouldCreateModelsForAuth(t *testing.T) {
 }
 
 // Test for SignUp
-func TestShouldRegisterUser(t *testing.T) {}
+func TestShouldRegisterUser(t *testing.T) {
+	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := auth.SignUp(w, r)
+		if err != nil {
+			t.Errorf("Error in the SignUp function: %s", err)
+		}
+	}))
+	ts := httptest.NewServer(handler)
+	defer ts.Close()
+}
 
 // Test for GenerateToken
-func TestShouldCreateTokenAndSaveToUserCookies(t *testing.T) {}
+func TestShouldCreateTokenAndSaveToUserCookies(t *testing.T) {
+	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := auth.GenerateToken(w, r)
+		if err != nil {
+			t.Errorf("Error in the GenerateToken function: %s", err)
+		}
+	}))
+	ts := httptest.NewServer(handler)
+	defer ts.Close()
+}
 
 // Test for AuthenticateUser
-func TestShouldAuthenticateUserWithCookie(t *testing.T) {}
+func TestShouldAuthenticateUserWithCookie(t *testing.T) {
+	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		rr := &r
+		err := auth.AuthenticateUser(w, rr)
+		if err != nil {
+			t.Errorf("Error in the AuthenticateUser function: %s", err)
+		}
+	}))
+	ts := httptest.NewServer(handler)
+	defer ts.Close()
+}
 
 // Test for LogOut
-func TestShouldLogOutUserAndDeleteToken(t *testing.T) {}
+func TestShouldLogOutUserAndDeleteToken(t *testing.T) {
+	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := auth.LogOut(w, r)
+		if err != nil {
+			t.Errorf("Error in the LogOut function: %s", err)
+		}
+	}))
+	ts := httptest.NewServer(handler)
+	defer ts.Close()
+}

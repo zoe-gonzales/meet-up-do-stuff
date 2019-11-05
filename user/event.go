@@ -11,13 +11,13 @@ import (
 // Event type holds information about an individual event
 type Event struct {
 	gorm.Model
-	Owners      []int // issue with slices in psql
+	Owners      string // list of user ids
 	Title       string
-	Interests   []string // issue with slices in psql
+	Interests   string // list of related interests (tags)
 	Desc        string
 	DateAndTime time.Time
 	Location    string
-	RSVPs       []int // issue with slices in psql
+	RSVPs       string // list of user ids
 }
 
 // CreateEvent generates a new event and saves to db
@@ -51,7 +51,7 @@ func (e *Event) GetOneEvent() Event {
 	}
 	defer db.Close()
 	var event Event
-	db.Raw(`select * from events where event_id = ? and deleted_at is null`, e.ID).Scan(&event)
+	db.Raw(`select * from events where id = ? and deleted_at is null`, e.ID).Scan(&event)
 	return event
 }
 
@@ -63,29 +63,39 @@ func (e *Event) UpdateEvent(updatedEvent Event) *gorm.DB {
 	}
 	defer db.Close()
 	var event Event
-	db.Raw(`select * from events where event_id = ?`, e.ID).Scan(&event)
-	if len(updatedEvent.Owners) != len(event.Owners) {
+	db.Raw(`select * from events where id = ?`, e.ID).Scan(&event)
+	if updatedEvent.Owners != "" {
 		event.Owners = updatedEvent.Owners
 	}
-	if updatedEvent.Title != event.Title {
+	if updatedEvent.Title != "" {
 		event.Title = updatedEvent.Title
 	}
-	if len(updatedEvent.Interests) != len(event.Interests) {
+	if updatedEvent.Interests != "" {
 		event.Interests = updatedEvent.Interests
 	}
-	if updatedEvent.Desc != event.Desc {
+	if updatedEvent.Desc != "" {
 		event.Desc = updatedEvent.Desc
 	}
 	// need to consider if time.Time is the best time here - how to implement on front end
-	if updatedEvent.DateAndTime != event.DateAndTime {
+	if !updatedEvent.DateAndTime.IsZero() {
 		event.DateAndTime = updatedEvent.DateAndTime
 	}
-	if updatedEvent.Location != event.Location {
+	if updatedEvent.Location != "" {
 		event.Location = updatedEvent.Location
 	}
 	// issue if two users rsvp/unrsvp at the same time - may need a more detailed check
-	if len(updatedEvent.RSVPs) != len(event.RSVPs) {
+	if updatedEvent.RSVPs != "" {
 		event.RSVPs = updatedEvent.RSVPs
+	}
+	// ==========================
+	if updatedEvent.Owners == "" &&
+		updatedEvent.Title == "" &&
+		updatedEvent.Interests == "" &&
+		updatedEvent.Desc == "" &&
+		updatedEvent.DateAndTime.IsZero() &&
+		updatedEvent.Location == "" &&
+		updatedEvent.RSVPs == "" {
+		return db
 	}
 	return db.Save(&event)
 }
@@ -98,5 +108,5 @@ func (e *Event) DeleteEvent() *gorm.DB {
 	}
 	defer db.Close()
 	var event Event
-	return db.Raw(`delete from events where event_id = ? and deleted_at is null`, e.ID).Scan(&event)
+	return db.Raw(`delete from events where id = ? and deleted_at is null`, e.ID).Scan(&event)
 }

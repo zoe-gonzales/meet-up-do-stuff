@@ -87,9 +87,49 @@ func TestShouldUpdateEvent(t *testing.T) {
 }
 
 func TestShouldGetEvent(t *testing.T) {
-
+	event := user.Event{
+		Owners:      "1, 2, 3",
+		Title:       "An outdoors event",
+		Interests:   "outdoors, nature, hiking",
+		Desc:        "We're going on a hike!",
+		DateAndTime: time.Now(),
+		Location:    "Boulder, CO",
+		RSVPs:       "1, 2, 3, 4, 6, 9, 10",
+	}
+	var newEvent user.Event
+	r := event.CreateEvent().Scan(&newEvent)
+	if r.RowsAffected == int64(1) {
+		e := &newEvent
+		record := e.GetOneEvent()
+		assert.Equal(t, event.Owners, record.Owners)
+		assert.Equal(t, event.Title, record.Title)
+		assert.Equal(t, event.Interests, record.Interests)
+		assert.Equal(t, event.Desc, record.Desc)
+		assert.Equal(t, event.Location, record.Location)
+		assert.Equal(t, event.RSVPs, record.RSVPs)
+	}
+	(&newEvent).DeleteEvent()
 }
 
 func TestShouldDeleteEvent(t *testing.T) {
-
+	event := user.Event{
+		Owners:      "1, 2, 3",
+		Title:       "An outdoors event",
+		Interests:   "outdoors, nature, hiking",
+		Desc:        "We're going on a hike!",
+		DateAndTime: time.Now(),
+		Location:    "Boulder, CO",
+		RSVPs:       "1, 2, 3, 4, 6, 9, 10",
+	}
+	var newEvent user.Event
+	e := &newEvent
+	event.CreateEvent().Scan(e)
+	e.DeleteEvent()
+	record := e.GetOneEvent()
+	assert.Equal(t, record.Owners, "")
+	assert.Equal(t, record.Title, "")
+	assert.Equal(t, record.Interests, "")
+	assert.Equal(t, record.Desc, "")
+	assert.Equal(t, record.Location, "")
+	assert.Equal(t, record.RSVPs, "")
 }

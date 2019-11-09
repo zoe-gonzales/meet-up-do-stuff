@@ -1,5 +1,5 @@
 // Contains test for validating database set up
-package test
+package main
 
 import (
 	"testing"

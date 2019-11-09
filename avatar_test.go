@@ -1,5 +1,5 @@
 // Contains test for generating avatar image from email address
-package test
+package main
 
 import (
 	"os"

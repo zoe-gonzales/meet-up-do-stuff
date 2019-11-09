@@ -1,5 +1,5 @@
 // Contains tests for all CRUD actions for user model, including pw hashing
-package test
+package main
 
 import (
 	"testing"

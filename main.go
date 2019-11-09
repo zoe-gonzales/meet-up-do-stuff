@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -12,8 +10,8 @@ import (
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	abclientstate "github.com/volatiletech/authboss-clientstate"
+	"github.com/zoe-gonzales/meet-up-do-stuff/api"
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
-	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
 func main() {
@@ -35,21 +33,11 @@ func main() {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/user", getUser).Methods("GET")
-	r.HandleFunc("/user", postUser).Methods("POST")
+	r.HandleFunc("/user/:email", api.AuthenticateUser).Methods("GET")
+	r.HandleFunc("/user", api.RegisterNewUser).Methods("POST")
 
 	// Static files
 	r.PathPrefix("/client/").Handler(http.StripPrefix("/client/", http.FileServer(http.Dir(""))))
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
-
-func getUser(w http.ResponseWriter, r *http.Request) {
-	var buf bytes.Buffer
-	buf.ReadFrom(r.Body)
-	data := buf.String()
-	u := user.Get(data)
-	json.NewEncoder(w).Encode(u)
-}
-
-func postUser(w http.ResponseWriter, r *http.Request) {}

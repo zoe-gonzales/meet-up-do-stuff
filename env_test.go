@@ -1,5 +1,5 @@
 // Contains test for retrieving env vars from system or .env
-package test
+package main
 
 import (
 	"os"

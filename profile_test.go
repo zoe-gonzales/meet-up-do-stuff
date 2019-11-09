@@ -1,5 +1,5 @@
 // Contains tests for all CRUD actions for profile model
-package test
+package main
 
 import (
 	"testing"

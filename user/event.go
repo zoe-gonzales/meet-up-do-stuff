@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"log"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 // Event type holds information about an individual event
 type Event struct {
 	gorm.Model
+	EventID     int    `gorm:"AUTO_INCREMENT"`
 	Owners      string // list of user ids
 	Title       string
 	Interests   string // list of related interests (tags)
@@ -51,19 +53,19 @@ func (e *Event) GetOneEvent() Event {
 	}
 	defer db.Close()
 	var event Event
-	db.Raw(`select * from events where id = ? and deleted_at is null`, e.ID).Scan(&event)
+	db.Raw(`select * from events where event_id = ? and deleted_at is null`, e.EventID).Scan(&event)
 	return event
 }
 
 // UpdateEvent modifies an existing event
-func (e *Event) UpdateEvent(updatedEvent Event) *gorm.DB {
+func (e *Event) UpdateEvent(updatedEvent Event) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on updating event", err)
 	}
 	defer db.Close()
 	var event Event
-	db.Raw(`select * from events where id = ?`, e.ID).Scan(&event)
+	db.Raw(`select * from events where event_id = ?`, e.EventID).Scan(&event)
 	if updatedEvent.Owners != "" {
 		event.Owners = updatedEvent.Owners
 	}
@@ -87,17 +89,18 @@ func (e *Event) UpdateEvent(updatedEvent Event) *gorm.DB {
 	if updatedEvent.RSVPs != "" {
 		event.RSVPs = updatedEvent.RSVPs
 	}
-	// ==========================
-	if updatedEvent.Owners == "" &&
-		updatedEvent.Title == "" &&
-		updatedEvent.Interests == "" &&
-		updatedEvent.Desc == "" &&
-		updatedEvent.DateAndTime.IsZero() &&
-		updatedEvent.Location == "" &&
+	// Handle if any or all fields are empty
+	if updatedEvent.Owners == "" ||
+		updatedEvent.Title == "" ||
+		updatedEvent.Interests == "" ||
+		updatedEvent.Desc == "" ||
+		updatedEvent.DateAndTime.IsZero() ||
+		updatedEvent.Location == "" ||
 		updatedEvent.RSVPs == "" {
-		return db
+		err := errors.New("error updating record: some or all fields are empty")
+		return db, err
 	}
-	return db.Save(&event)
+	return db.Save(&event), nil
 }
 
 // DeleteEvent removes the event from the db
@@ -107,6 +110,5 @@ func (e *Event) DeleteEvent() *gorm.DB {
 		log.Fatal("Error initalizing database on deleting event", err)
 	}
 	defer db.Close()
-	var event Event
-	return db.Raw(`delete from events where id = ? and deleted_at is null`, e.ID).Scan(&event)
+	return db.Delete(&e)
 }

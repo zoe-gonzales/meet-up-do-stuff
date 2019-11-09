@@ -34,12 +34,13 @@ func TestShouldUpdateEvent(t *testing.T) {
 		{
 			name: "full_update",
 			updatedEvent: user.Event{
-				Owners:    "1,2",
-				Title:     "Coolest Event Ever",
-				Interests: "mountains, hiking, video games",
-				Desc:      "This is a cool event",
-				Location:  "Denver, CO 80210",
-				RSVPs:     "1,2,3,4,5",
+				Owners:      "1,2",
+				Title:       "Coolest Event Ever",
+				Interests:   "mountains, hiking, video games",
+				Desc:        "This is a cool event",
+				Location:    "Denver, CO 80210",
+				DateAndTime: time.Now(),
+				RSVPs:       "1,2,3,4,5",
 			},
 		},
 		{
@@ -70,18 +71,15 @@ func TestShouldUpdateEvent(t *testing.T) {
 			}
 			event.CreateEvent()
 			e := &event
-			record := e.UpdateEvent(tc.updatedEvent)
+			record, err := e.UpdateEvent(tc.updatedEvent)
 			rowsAffected := record.RowsAffected
-
-			if tc.updatedEvent.Owners == "" &&
-				tc.updatedEvent.Title == "" &&
-				tc.updatedEvent.Interests == "" &&
-				tc.updatedEvent.Desc == "" &&
-				tc.updatedEvent.Location == "" &&
-				tc.updatedEvent.RSVPs == "" {
-				assert.Zero(t, rowsAffected)
-			} else {
+			switch c := tc.name; c {
+			case "full_update":
 				assert.Equal(t, rowsAffected, int64(1))
+			case "partial_update":
+				assert.Error(t, err)
+			case "no_update":
+				assert.Error(t, err)
 			}
 			e.DeleteEvent()
 		})

@@ -2,6 +2,7 @@
 package user
 
 import (
+	"errors"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -34,7 +35,7 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 }
 
 // UpdateProfile updates fields in a user's profile
-func (u *User) UpdateProfile(updatedProfile Profile) *gorm.DB {
+func (u *User) UpdateProfile(updatedProfile Profile) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on updating profile", err)
@@ -67,16 +68,17 @@ func (u *User) UpdateProfile(updatedProfile Profile) *gorm.DB {
 	}
 
 	// No data changed
-	if updatedProfile.DisplayName == "" &&
-		updatedProfile.Location == "" &&
-		updatedProfile.PathToImg == "" &&
-		updatedProfile.Interests == "" &&
-		updatedProfile.AdminOf == "" &&
-		updatedProfile.MemberOf == "" &&
+	if updatedProfile.DisplayName == "" ||
+		updatedProfile.Location == "" ||
+		updatedProfile.PathToImg == "" ||
+		updatedProfile.Interests == "" ||
+		updatedProfile.AdminOf == "" ||
+		updatedProfile.MemberOf == "" ||
 		updatedProfile.RSVPS == "" {
-		return db
+		err := errors.New("error updating record: some or all fields are empty")
+		return db, err
 	}
-	return db.Save(&profile)
+	return db.Save(&profile), nil
 }
 
 // GetProfile retrieves a user's profile

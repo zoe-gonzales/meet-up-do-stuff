@@ -60,27 +60,15 @@ func TestShouldUpdateProfile(t *testing.T) {
 			u := newUser.HashPwd()
 			u.Create()
 			newUser.CreateEmptyProfile()
-			record := u.UpdateProfile(tc.updatedProfile)
-			affected := record.RowsAffected
-			// Data changed in any of the fields
-			if tc.updatedProfile.DisplayName != "" ||
-				tc.updatedProfile.Location != "" ||
-				tc.updatedProfile.PathToImg != "" ||
-				tc.updatedProfile.Interests != "" ||
-				tc.updatedProfile.AdminOf != "" ||
-				tc.updatedProfile.MemberOf != "" ||
-				tc.updatedProfile.RSVPS != "" {
-				assert.Equal(t, affected, int64(1))
-			}
-			// No new data passed
-			if tc.updatedProfile.DisplayName == "" &&
-				tc.updatedProfile.Location == "" &&
-				tc.updatedProfile.PathToImg == "" &&
-				tc.updatedProfile.Interests == "" &&
-				tc.updatedProfile.AdminOf == "" &&
-				tc.updatedProfile.MemberOf == "" &&
-				tc.updatedProfile.RSVPS == "" {
-				assert.Zero(t, affected)
+			record, err := u.UpdateProfile(tc.updatedProfile)
+			rowsAffected := record.RowsAffected
+			switch c := tc.name; c {
+			case "all_fields":
+				assert.Equal(t, rowsAffected, int64(1))
+			case "some_fields":
+				assert.Error(t, err)
+			case "no_fields":
+				assert.Error(t, err)
 			}
 			u.Delete()
 			u.DeleteProfile()

@@ -73,15 +73,17 @@ func TestShouldUpdateUserData(t *testing.T) {
 			newUser := user.User{Email: "bob@gmail.com", Password: "12345", DateJoined: time.Now(), Verified: false}
 			u := newUser.HashPwd()
 			u.Create()
-			record := u.Update(tc.updatedUser)
-			affected := record.RowsAffected
-			// Data changed in any of the fields
-			if tc.updatedUser.Email != "" || tc.updatedUser.Password != "" {
-				assert.Equal(t, affected, int64(1))
-			}
-			// No new data passed
-			if tc.updatedUser.Email == "" && tc.updatedUser.Password == "" {
-				assert.Zero(t, affected)
+			record, err := u.Update(tc.updatedUser)
+			rowsAffected := record.RowsAffected
+			switch c := tc.name; c {
+			case "email_and_password":
+				assert.Equal(t, rowsAffected, int64(1))
+			case "just_email":
+				assert.Error(t, err)
+			case "just_password":
+				assert.Error(t, err)
+			case "neither_email_nor_password":
+				assert.Error(t, err)
 			}
 			db.Delete(&u)
 		})

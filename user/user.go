@@ -2,6 +2,7 @@
 package user
 
 import (
+	"errors"
 	"log"
 	"time"
 
@@ -63,7 +64,7 @@ func Get(em string) User {
 }
 
 // Update updates user data
-func (u *User) Update(updatedUser User) *gorm.DB {
+func (u *User) Update(updatedUser User) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on updating user", err)
@@ -82,10 +83,11 @@ func (u *User) Update(updatedUser User) *gorm.DB {
 	}
 
 	// No data changed
-	if updatedUser.Email == "" && updatedUser.Password == "" {
-		return db
+	if updatedUser.Email == "" || updatedUser.Password == "" {
+		err2 := errors.New("error updating record: some or all fields are empty")
+		return db, err2
 	}
-	return db.Save(&user)
+	return db.Save(&user), nil
 }
 
 // Delete removes a user from db

@@ -3,11 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
@@ -61,20 +61,13 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 // GetSingleEvent retrieves event by id
 func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
 	var event user.Event
-	// ***
-	ids, _ := r.URL.Query()["id"]
-	if len(ids) < 1 {
-		log.Fatal("No params for 'id' found")
-		return
+	idStr := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		panic(err)
 	}
-	idStr := ids[0]
-	id, conversionErr := strconv.ParseInt(idStr, 10, 32)
-	if conversionErr != nil {
-		panic(conversionErr)
-	}
-	// ***
 	e := &event
-	e.EventID = int(id)
+	e.EventID = id
 	record := e.GetOneEvent()
 	eventJSON, errJSON := json.Marshal(record)
 	if errJSON != nil {

@@ -42,7 +42,7 @@ func main() {
 
 	// Event endpoints
 	r.HandleFunc("/events", api.GetAllEvents).Methods("GET")
-	r.HandleFunc("/events/:id", api.GetSingleEvent).Methods("GET")
+	r.HandleFunc("/events/{id}", api.GetSingleEvent).Methods("GET")
 	r.HandleFunc("/event", api.AddEvent).Methods("POST")
 	r.HandleFunc("/event/:id", api.UpdateEvent).Methods("PUT")
 	r.HandleFunc("/event/:id", api.DeleteEvent).Methods("DELETE")

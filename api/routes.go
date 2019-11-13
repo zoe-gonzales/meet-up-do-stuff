@@ -3,7 +3,9 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
@@ -57,7 +59,31 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetSingleEvent retrieves event by id
-func GetSingleEvent(w http.ResponseWriter, r *http.Request) {}
+func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
+	var event user.Event
+	// ***
+	ids, _ := r.URL.Query()["id"]
+	if len(ids) < 1 {
+		log.Fatal("No params for 'id' found")
+		return
+	}
+	idStr := ids[0]
+	id, conversionErr := strconv.ParseInt(idStr, 10, 32)
+	if conversionErr != nil {
+		panic(conversionErr)
+	}
+	// ***
+	e := &event
+	e.EventID = int(id)
+	record := e.GetOneEvent()
+	eventJSON, errJSON := json.Marshal(record)
+	if errJSON != nil {
+		panic(errJSON)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(eventJSON)
+}
 
 // AddEvent posts a new event
 func AddEvent(w http.ResponseWriter, r *http.Request) {}

@@ -80,7 +80,25 @@ func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 // AddEvent posts a new event
-func AddEvent(w http.ResponseWriter, r *http.Request) {}
+func AddEvent(w http.ResponseWriter, r *http.Request) {
+	// read & unmarshal request body into struct
+	var newEvent user.Event
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	unmarshalErr := json.Unmarshal(body, &newEvent)
+	if unmarshalErr != nil {
+		panic(unmarshalErr)
+	}
+	// create event
+	record := newEvent.CreateEvent()
+	if record.RowsAffected == int64(1) {
+		w.WriteHeader(http.StatusCreated)
+	} else {
+		w.WriteHeader(http.StatusNotModified)
+	}
+}
 
 // UpdateEvent edits and saves existing event data
 func UpdateEvent(w http.ResponseWriter, r *http.Request) {
@@ -109,7 +127,6 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 	record, _ := e.UpdateEvent(updatedEvent)
 	// if updated, send success response
 	if record.RowsAffected == int64(1) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 	} else {
 		// otherwise send status not modified
@@ -129,7 +146,6 @@ func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 	e.EventID = id
 	record := e.DeleteEvent()
 	if record.RowsAffected == int64(1) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusNotModified)

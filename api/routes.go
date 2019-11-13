@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -40,7 +41,20 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {}
 func UpdateProfile(w http.ResponseWriter, r *http.Request) {}
 
 // GetAllEvents retrieves all events
-func GetAllEvents(w http.ResponseWriter, r *http.Request) {}
+func GetAllEvents(w http.ResponseWriter, r *http.Request) {
+	// Request all events currently stored in db that have not been deleted
+	events := user.GetAllEvents()
+	// save as JSON
+	eventsJSON, err := json.Marshal(events)
+	if err != nil {
+		panic(err)
+	}
+	// Write headers
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	// Send JSON back to client
+	w.Write(eventsJSON)
+}
 
 // GetSingleEvent retrieves event by id
 func GetSingleEvent(w http.ResponseWriter, r *http.Request) {}

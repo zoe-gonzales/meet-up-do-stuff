@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"time"
@@ -82,7 +83,55 @@ func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
 func AddEvent(w http.ResponseWriter, r *http.Request) {}
 
 // UpdateEvent edits and saves existing event data
-func UpdateEvent(w http.ResponseWriter, r *http.Request) {}
+func UpdateEvent(w http.ResponseWriter, r *http.Request) {
+	// retrieve id from query url and convert to int
+	idStr := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		panic(err)
+	}
+	// create new event tied to id
+	var event user.Event
+	e := &event
+	e.EventID = id
+	var updatedEvent user.Event
+	// read body data
+	body, readErr := ioutil.ReadAll(r.Body)
+	if readErr != nil {
+		panic(readErr)
+	}
+	// unmarshal into event struct
+	unmarshalErr := json.Unmarshal(body, &updatedEvent)
+	if unmarshalErr != nil {
+		panic(unmarshalErr)
+	}
+	// update event
+	record, _ := e.UpdateEvent(updatedEvent)
+	// if updated, send success response
+	if record.RowsAffected == int64(1) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+	} else {
+		// otherwise send status not modified
+		w.WriteHeader(http.StatusNotModified)
+	}
+}
 
 // DeleteEvent deletes an event by id
-func DeleteEvent(w http.ResponseWriter, r *http.Request) {}
+func DeleteEvent(w http.ResponseWriter, r *http.Request) {
+	var event user.Event
+	idStr := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		panic(err)
+	}
+	e := &event
+	e.EventID = id
+	record := e.DeleteEvent()
+	if record.RowsAffected == int64(1) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusNotModified)
+	}
+}

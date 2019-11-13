@@ -34,18 +34,18 @@ func main() {
 	r := mux.NewRouter()
 
 	// User & Profile endpoints
-	r.HandleFunc("/user/:email", api.AuthenticateUser).Methods("GET")
+	r.HandleFunc("/user/{email}", api.AuthenticateUser).Methods("GET")
 	r.HandleFunc("/user", api.RegisterNewUser).Methods("POST")
-	r.HandleFunc("/user/:email", api.UpdateUserDetails).Methods("PUT")
-	r.HandleFunc("/user/:email", api.DeleteUser).Methods("DELETE")
-	r.HandleFunc("/profile/:email", api.UpdateProfile).Methods("PUT")
+	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
+	r.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/profile/{email}", api.UpdateProfile).Methods("PUT")
 
 	// Event endpoints
 	r.HandleFunc("/events", api.GetAllEvents).Methods("GET")
 	r.HandleFunc("/events/{id}", api.GetSingleEvent).Methods("GET")
 	r.HandleFunc("/event", api.AddEvent).Methods("POST")
-	r.HandleFunc("/event/:id", api.UpdateEvent).Methods("PUT")
-	r.HandleFunc("/event/:id", api.DeleteEvent).Methods("DELETE")
+	r.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
+	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
 	// Static files
 	r.PathPrefix("/client/").Handler(http.StripPrefix("/client/", http.FileServer(http.Dir(""))))

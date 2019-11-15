@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -18,21 +17,38 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {}
 
 // RegisterNewUser creates a new user in the db with provided credentials
 func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
-	err := auth.SignUp(w, r)
+	var newUser user.User
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
-	r.ParseForm()
-	fmt.Println(r.Form)
-	newUser := user.User{Email: r.Form.Get("email"), Password: r.Form.Get("email"), DateJoined: time.Now(), Verified: false}
-	u := newUser.HashPwd()
-	record := u.Create()
-	if record.RowsAffected == int64(1) {
-		fmt.Fprintf(w, "Hello "+r.Form.Get("email"))
-	} else {
-		fmt.Fprintf(w, "An error occurred with your registration.")
+
+	unmarshalErr := json.Unmarshal(body, &newUser)
+	if unmarshalErr != nil {
+		panic(unmarshalErr)
 	}
+
+	var userData user.User
+	userData.DateJoined = time.Now()
+	userData.Verified = false
+
+	u := newUser.HashPwd()
+	u.Create()
+	myUser := user.Get(newUser.Email)
+	s := myUser.CreateEmptyProfile()
+
+	auth.GenerateToken(w, r)
+
+	if s.RowsAffected == int64(1) {
+		w.WriteHeader(http.StatusCreated)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
 }
+
+// LogOutUser deletes the user's remember token
+func LogOutUser(w http.ResponseWriter, r *http.Request) {}
 
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {}
@@ -96,7 +112,7 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusCreated)
 	} else {
-		w.WriteHeader(http.StatusNotModified)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 

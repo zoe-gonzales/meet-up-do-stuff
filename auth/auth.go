@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/volatiletech/authboss"
 	abclientstate "github.com/volatiletech/authboss-clientstate"
@@ -36,13 +35,13 @@ const (
 
 // InitAuth sets up and runs auth
 func InitAuth() *authboss.Authboss {
-	us := user.User{Email: "jill@gmail.com", Password: "ABC", DateJoined: time.Now(), Verified: true}
-	au, err := newAuthUser(us)
-	if err != nil {
-		panic(err)
-	}
+	// us := user.User{Email: "jill@gmail.com", Password: "ABC", DateJoined: time.Now(), Verified: true}
+	// au, err := newAuthUser(us)
+	// if err != nil {
+	// 	panic(err)
+	// }
 	ab.Config.Paths.RootURL = "http://localhost:1323"
-	ab.Config.Storage.Server = au
+	// ab.Config.Storage.Server = au
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
 
@@ -119,9 +118,13 @@ func InitModels() error {
 }
 
 // SignUp registers user
-func SignUp(w http.ResponseWriter, req *http.Request) error {
+func SignUp(w http.ResponseWriter, req *http.Request, u user.User) error {
 	if errPost := s.Post(w, req); errPost != nil {
 		return errPost
+	}
+	_, err := newAuthUser(u)
+	if err != nil {
+		return err
 	}
 	return nil
 }

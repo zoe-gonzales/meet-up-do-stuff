@@ -14,7 +14,7 @@ import (
 // User type holds basic information about a user
 type User struct {
 	gorm.Model
-	Email      string
+	Email      string `gorm:"unique;not null"`
 	Password   string
 	DateJoined time.Time
 	Verified   bool

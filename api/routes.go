@@ -28,23 +28,28 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 		panic(unmarshalErr)
 	}
 
-	var userData user.User
-	userData.DateJoined = time.Now()
-	userData.Verified = false
-
 	u := newUser.HashPwd()
+	u.DateJoined = time.Now()
+	u.Verified = false
 	u.Create()
+
 	myUser := user.Get(newUser.Email)
 	s := myUser.CreateEmptyProfile()
 
-	auth.GenerateToken(w, r)
+	_, authErr := auth.NewAuthUser(myUser)
+	if authErr != nil {
+		panic(authErr)
+	}
+	er := auth.GenerateToken(w, r)
+	if er != nil {
+		panic(er)
+	}
 
 	if s.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusCreated)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-
 }
 
 // LogOutUser deletes the user's remember token

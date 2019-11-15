@@ -53,7 +53,7 @@ func TestShouldGenerateNewAuthUser(t *testing.T) {
 // Test for Load
 func TestShouldLoadUserFromDBAndUpdateAuthUser(t *testing.T) {
 	u := user.User{Email: "bob@gmail.com", Password: "ABCDEF", DateJoined: time.Now(), Verified: true}
-	au, err := newAuthUser(u)
+	au, err := NewAuthUser(u)
 	if err != nil {
 		t.Errorf("There was an error: %v", err)
 	}
@@ -66,7 +66,7 @@ func TestShouldLoadUserFromDBAndUpdateAuthUser(t *testing.T) {
 // Test for Save
 func TestShouldSaveUpdatedAuthUser(t *testing.T) {
 	u := user.User{Email: "bob@gmail.com", Password: "ABCDEF", DateJoined: time.Now(), Verified: true}
-	au, err := newAuthUser(u)
+	au, err := NewAuthUser(u)
 	if err != nil {
 		t.Errorf("There was an error: %v", err)
 	}

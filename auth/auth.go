@@ -15,7 +15,8 @@ import (
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
-type authUser struct {
+// UserAuth holds information about the user's authorization
+type UserAuth struct {
 	User  user.User
 	Token string
 }
@@ -48,15 +49,16 @@ func InitAuth() *authboss.Authboss {
 	return ab
 }
 
-func newAuthUser(u user.User) (*authUser, error) {
-	if u.Email == "" || u.Password == "" || u.DateJoined.IsZero() || u.Verified == false {
-		return &authUser{}, errors.New("Cannot create authUser from nil values")
+// NewAuthUser creates a new authUser struct
+func NewAuthUser(u user.User) (*UserAuth, error) {
+	if u.Email == "" || u.Password == "" {
+		return &UserAuth{}, errors.New("Cannot create authUser from nil values")
 	}
-	return &authUser{User: u, Token: ""}, nil
+	return &UserAuth{User: u, Token: ""}, nil
 }
 
 // Load queries db for user and saves in authUser struct
-func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) {
+func (au UserAuth) Load(ctx context.Context, key string) (authboss.User, error) {
 	email := au.GetPID()
 	user := user.Get(email)
 	var exists bool
@@ -75,7 +77,7 @@ func (au authUser) Load(ctx context.Context, key string) (authboss.User, error) 
 }
 
 // Save saves user to db
-func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
+func (au UserAuth) Save(ctx context.Context, authUs authboss.User) error {
 	email := au.GetPID()
 	user := user.Get(email)
 	var exists bool
@@ -94,8 +96,11 @@ func (au authUser) Save(ctx context.Context, authUs authboss.User) error {
 	return nil
 }
 
-func (au authUser) GetPID() string     { return au.User.Email }
-func (au *authUser) PutPID(pid string) { au.User.Email = pid }
+// GetPID retrieves user identification
+func (au UserAuth) GetPID() string { return au.User.Email }
+
+// PutPID updates user identification
+func (au *UserAuth) PutPID(pid string) { au.User.Email = pid }
 
 var (
 	s = register.Register{ab}
@@ -119,10 +124,11 @@ func InitModels() error {
 
 // SignUp registers user
 func SignUp(w http.ResponseWriter, req *http.Request, u user.User) error {
-	if errPost := s.Post(w, req); errPost != nil {
+	errPost := s.Post(w, req)
+	if errPost != nil {
 		return errPost
 	}
-	_, err := newAuthUser(u)
+	_, err := NewAuthUser(u)
 	if err != nil {
 		return err
 	}

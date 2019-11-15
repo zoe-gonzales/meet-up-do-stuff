@@ -75,7 +75,7 @@ func TestShouldLoadUserFromDBAndUpdateAuthUser(t *testing.T) {
 		t.Errorf("There was an error: %v", err)
 	}
 	var c context.Context
-	au2, err2 := au.Load(c, "a")
+	au2, err2 := au.Load(c, "bob@gmail.com")
 	assert.NotNil(t, au2)
 	assert.Nil(t, err2)
 }
@@ -97,16 +97,16 @@ func TestShouldSaveUpdatedAuthUser(t *testing.T) {
 }
 
 // Test for SignUp
-func TestShouldRegisterUser(t *testing.T) {
-	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := auth.SignUp(w, r)
-		if err != nil {
-			t.Errorf("Error in the SignUp function: %s", err)
-		}
-	}))
-	ts := httptest.NewServer(handler)
-	defer ts.Close()
-}
+// func TestShouldRegisterUser(t *testing.T) {
+// 	handler := (http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		err := auth.SignUp(w, r)
+// 		if err != nil {
+// 			t.Errorf("Error in the SignUp function: %s", err)
+// 		}
+// 	}))
+// 	ts := httptest.NewServer(handler)
+// 	defer ts.Close()
+// }
 
 // Test for GenerateToken
 func TestShouldCreateTokenAndSaveToUserCookies(t *testing.T) {

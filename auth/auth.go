@@ -36,16 +36,9 @@ const (
 
 // InitAuth sets up and runs auth
 func InitAuth() *authboss.Authboss {
-	// us := user.User{Email: "jill@gmail.com", Password: "ABC", DateJoined: time.Now(), Verified: true}
-	// au, err := newAuthUser(us)
-	// if err != nil {
-	// 	panic(err)
-	// }
 	ab.Config.Paths.RootURL = "http://localhost:1323"
-	// ab.Config.Storage.Server = au
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
-
 	return ab
 }
 
@@ -127,10 +120,6 @@ func SignUp(w http.ResponseWriter, req *http.Request, u user.User) error {
 	errPost := s.Post(w, req)
 	if errPost != nil {
 		return errPost
-	}
-	_, err := NewAuthUser(u)
-	if err != nil {
-		return err
 	}
 	return nil
 }

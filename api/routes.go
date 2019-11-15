@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -17,39 +18,44 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {}
 
 // RegisterNewUser creates a new user in the db with provided credentials
 func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
+	// read body for user data
 	var newUser user.User
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
-
+	// unmarshal data into struct
 	unmarshalErr := json.Unmarshal(body, &newUser)
 	if unmarshalErr != nil {
 		panic(unmarshalErr)
 	}
-
+	// Hash user password and create user
 	u := newUser.HashPwd()
 	u.DateJoined = time.Now()
 	u.Verified = false
-	u.Create()
-
+	q := u.Create()
+	if q.RowsAffected != int64(1) {
+		e := errors.New("Error: Unable to create user")
+		panic(e)
+	}
+	// Retrieve user and create an empty profile linked by UserID
 	myUser := user.Get(newUser.Email)
 	s := myUser.CreateEmptyProfile()
-
+	if s.RowsAffected != int64(1) {
+		e := errors.New("Error: Unable to add profile to user's account")
+		panic(e)
+	}
+	// Create new auth user using current user's data
 	_, authErr := auth.NewAuthUser(myUser)
 	if authErr != nil {
 		panic(authErr)
 	}
+	// Generate a token saved in that users's cookies
 	er := auth.GenerateToken(w, r)
 	if er != nil {
 		panic(er)
 	}
-
-	if s.RowsAffected == int64(1) {
-		w.WriteHeader(http.StatusCreated)
-	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-	}
+	w.WriteHeader(http.StatusCreated)
 }
 
 // LogOutUser deletes the user's remember token

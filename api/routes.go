@@ -107,7 +107,13 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // LogOutUser deletes the user's remember token
-func LogOutUser(w http.ResponseWriter, r *http.Request) {}
+func LogOutUser(w http.ResponseWriter, r *http.Request) {
+	err := auth.LogOut(w, r)
+	if err != nil {
+		panic(err)
+	}
+	w.WriteHeader(http.StatusOK)
+}
 
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {

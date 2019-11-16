@@ -117,33 +117,23 @@ func InitModels() error {
 
 // SignUp registers user
 func SignUp(w http.ResponseWriter, req *http.Request, u user.User) error {
-	errPost := s.Post(w, req)
-	if errPost != nil {
-		return errPost
-	}
-	return nil
+	return s.Post(w, req)
 }
 
 // GenerateToken creates a token and saves it in the user's cookies
 func GenerateToken(w http.ResponseWriter, req *http.Request) error {
-	if _, err := l.RememberAfterAuth(w, req, false); err != nil {
-		return err
-	}
-	return nil
+	_, err := l.RememberAfterAuth(w, req, false)
+	return err
 }
 
 // AuthenticateUser signs user into their account
 func AuthenticateUser(w http.ResponseWriter, req **http.Request) error {
-	if errAuth := remember.Authenticate(ab, w, req); errAuth != nil {
-		return errAuth
-	}
-	return nil
+	return remember.Authenticate(ab, w, req)
 }
 
-// LogOut logs the user out of their account & deletes the current session
+// LogOut deletes all current sessions & cookies
 func LogOut(w http.ResponseWriter, req *http.Request) error {
-	if errLogOut := o.Logout(w, req); errLogOut != nil {
-		return errLogOut
-	}
-	return nil
+	/* need to look into, may need to define
+	a CurrentUser within routes.go or main.go */
+	return (&o).Logout(w, req)
 }

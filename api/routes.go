@@ -63,7 +63,34 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 func LogOutUser(w http.ResponseWriter, r *http.Request) {}
 
 // UpdateUserDetails edits and saves user email or password
-func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {}
+func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
+	email := mux.Vars(r)["email"]
+	existing := user.Get(email)
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	var updatedUser user.User
+
+	unmarshalErr := json.Unmarshal(body, &updatedUser)
+	if unmarshalErr != nil {
+		panic(err)
+	}
+
+	u := &existing
+	record, updateErr := u.Update(updatedUser)
+	if updateErr != nil {
+		panic(updateErr)
+	}
+
+	if record.RowsAffected == int64(1) {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusNotModified)
+	}
+}
 
 // DeleteUser deletes a user by id
 func DeleteUser(w http.ResponseWriter, r *http.Request) {}

@@ -24,7 +24,9 @@
   border: 1px solid #778899;
   padding: 20px;
   margin: 20px;
-  width: auto;
+  width: 33%;
+  align-self: auto;
+  flex: 1 0 33%;
 }
 
 .field {
@@ -127,6 +129,12 @@
 
 .profile-set-up {
   margin-top: 1rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=styles.css.map */

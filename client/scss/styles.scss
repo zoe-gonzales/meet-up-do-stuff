@@ -28,7 +28,9 @@ $dark-indigo: #4766AB;
     border: $grey-border;
     padding: 20px;
     margin: 20px;
-    width: auto;
+    width: 33%;
+    align-self: auto;
+    flex: 1 0 33%;
 }
 
 .field {
@@ -133,4 +135,10 @@ $dark-indigo: #4766AB;
 
 .profile-set-up {
     margin-top: 1rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
 }

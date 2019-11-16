@@ -65,26 +65,25 @@ func LogOutUser(w http.ResponseWriter, r *http.Request) {}
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 	email := mux.Vars(r)["email"]
+	// query user by email
 	existing := user.Get(email)
-
+	// read body data
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
-
+	// unmarshall body data into user struct
 	var updatedUser user.User
-
 	unmarshalErr := json.Unmarshal(body, &updatedUser)
 	if unmarshalErr != nil {
 		panic(err)
 	}
-
+	// update user
 	u := &existing
 	record, updateErr := u.Update(updatedUser)
 	if updateErr != nil {
 		panic(updateErr)
 	}
-
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
 	} else {
@@ -96,7 +95,33 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 func DeleteUser(w http.ResponseWriter, r *http.Request) {}
 
 // UpdateProfile edits and saves details of a user's profile
-func UpdateProfile(w http.ResponseWriter, r *http.Request) {}
+func UpdateProfile(w http.ResponseWriter, r *http.Request) {
+	email := mux.Vars(r)["email"]
+	// query user by email
+	existing := user.Get(email)
+	// read body data
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	// unmarshall body data into profile struct
+	var updatedProfile user.Profile
+	unmarshalErr := json.Unmarshal(body, &updatedProfile)
+	if unmarshalErr != nil {
+		panic(err)
+	}
+	// update profile
+	u := &existing
+	record, updateErr := u.UpdateProfile(updatedProfile)
+	if updateErr != nil {
+		panic(updateErr)
+	}
+	if record.RowsAffected == int64(1) {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusNotModified)
+	}
+}
 
 // GetAllEvents retrieves all events
 func GetAllEvents(w http.ResponseWriter, r *http.Request) {

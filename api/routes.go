@@ -92,7 +92,18 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteUser deletes a user by id
-func DeleteUser(w http.ResponseWriter, r *http.Request) {}
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	email := mux.Vars(r)["email"]
+	existing := user.Get(email)
+	u := &existing
+	record1 := u.Delete()
+	record2 := u.DeleteProfile()
+	if record1.RowsAffected == int64(1) && record2.RowsAffected == int64(1) {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusNotModified)
+	}
+}
 
 // UpdateProfile edits and saves details of a user's profile
 func UpdateProfile(w http.ResponseWriter, r *http.Request) {

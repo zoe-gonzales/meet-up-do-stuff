@@ -16,6 +16,7 @@ import (
 
 // AuthenticateUser authenticates the user and logs them in correct credentials are provided
 func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
+	// read request body & unmarshal into user struct
 	var u user.User
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -25,35 +26,38 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	if unmarshalErr != nil {
 		panic(unmarshalErr)
 	}
-
+	// retrieve user & convert passwords to []byte
 	us := user.Get(u.Email)
-	new := []byte(u.Password)
-	old := []byte(us.Password)
+	new := []byte(u.Password)  // pwd from request body
+	old := []byte(us.Password) // pwd from db
 
+	// use CompareHashAndPassword from bcyrpt package
 	pwdErr := bcrypt.CompareHashAndPassword(old, new)
 	if pwdErr != nil {
 		panic(pwdErr)
 	}
 
+	// Create new auth user & generate a remember token
 	_, authErr := auth.NewAuthUser(us)
 	if authErr != nil {
 		panic(authErr)
 	}
-	// Generate a token saved in that users's cookies
 	er := auth.GenerateToken(w, r)
 	if er != nil {
 		panic(er)
 	}
-
+	// Authenticate user with authboss library
 	er2 := auth.AuthenticateUser(w, &r)
 	if er2 != nil {
 		panic(er)
 	}
+	// retrieve profile on user's account & marshal to JSON
 	profile := us.GetProfile()
 	profileJSON, profileJSONErr := json.Marshal(profile)
 	if profileJSONErr != nil {
 		panic(profileJSONErr)
 	}
+	// Write app/json header and send profile data
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(profileJSON)

@@ -4,8 +4,10 @@ package user
 import (
 	"errors"
 	"log"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
+	"github.com/zoe-gonzales/meet-up-do-stuff/avatar"
 	"github.com/zoe-gonzales/meet-up-do-stuff/db"
 )
 
@@ -26,7 +28,12 @@ type Profile struct {
 // CreateEmptyProfile generates a new profile with no data
 func (u User) CreateEmptyProfile() *gorm.DB {
 	id := int(u.ID)
-	profile := Profile{User: u, UserID: id, DisplayName: "na", Location: "na", PathToImg: "na", Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
+	// create filename for avatar & generate image
+	fn := "user-" + strconv.FormatInt(int64(u.ID), 10)
+	avatar.GenerateAvatar(u.Email, fn, "./user_images/")
+	// save path to avatar image in profile
+	path := "/user_images/user-" + strconv.FormatInt(int64(u.ID), 10)
+	profile := Profile{User: u, UserID: id, DisplayName: "na", Location: "na", PathToImg: path, Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user profile", err)

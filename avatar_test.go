@@ -42,15 +42,15 @@ func TestShouldGenerateAvatarFromUserEmail(t *testing.T) {
 			// Create filename from user id
 			fn := "user-" + strconv.FormatInt(int64(tc.id), 10)
 			// Generate avatar image file from email and filename
-			avatar.Generate(hash.Email(tc.email), fn)
-			if _, err := os.Stat(fn + ".png"); os.IsNotExist(err) {
+			avatar.Generate(hash.Email(tc.email), fn, "./user_images/")
+			if _, err := os.Stat("./user_images/" + fn + ".png"); os.IsNotExist(err) {
 				// Test fails if error is not nil
 				if err != nil {
 					t.Errorf("Error generating avatar image: %v", err)
 				}
 			}
 			// Remove avatar.png file after each test
-			pathErr := os.Remove(fn + ".png")
+			pathErr := os.Remove("./user_images/" + fn + ".png")
 			if pathErr != nil {
 				t.Errorf("Error removing avatar.png file: %v", pathErr)
 			}

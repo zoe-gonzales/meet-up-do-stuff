@@ -106,6 +106,8 @@ github.com/zoe-gonzales/avatar-practice v0.0.0-20190913002501-a08a28159b5a h1:6j
 github.com/zoe-gonzales/avatar-practice v0.0.0-20190913002501-a08a28159b5a/go.mod h1:YgA8HzkLqL5TtsqhmG7TXCSIHqbccnn02A//O2FAL18=
 github.com/zoe-gonzales/avatar-practice v0.0.0-20190922160238-afea04f2c0ef h1:JItRbi4b0EFzmJFjgj1y0/JpjyFwYBrRSY2O1cfd0h0=
 github.com/zoe-gonzales/avatar-practice v0.0.0-20190922160238-afea04f2c0ef/go.mod h1:YgA8HzkLqL5TtsqhmG7TXCSIHqbccnn02A//O2FAL18=
+github.com/zoe-gonzales/avatar-practice v0.0.0-20191116033356-a37e27868536 h1:daiO2v7b/5SBg81FpCrCB/YySLKt/7Qu5beeWNZ0fnA=
+github.com/zoe-gonzales/avatar-practice v0.0.0-20191116033356-a37e27868536/go.mod h1:YgA8HzkLqL5TtsqhmG7TXCSIHqbccnn02A//O2FAL18=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=

@@ -14,7 +14,7 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/volatiletech/authboss v2.3.0+incompatible
 	github.com/volatiletech/authboss-clientstate v0.0.0-20190912194043-b5b6e0f4355e
-	github.com/zoe-gonzales/avatar-practice v0.0.0-20190922160238-afea04f2c0ef
+	github.com/zoe-gonzales/avatar-practice v0.0.0-20191116033356-a37e27868536
 	golang.org/x/crypto v0.0.0-20191001170739-f9e2070545dc
 	golang.org/x/net v0.0.0-20190930134127-c5a3c61f89f3 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect

@@ -41,6 +41,7 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	// Retrieve user and create an empty profile linked by UserID
 	myUser := user.Get(newUser.Email)
 	s := myUser.CreateEmptyProfile()
+
 	if s.RowsAffected != int64(1) {
 		e := errors.New("Error: Unable to add profile to user's account")
 		panic(e)

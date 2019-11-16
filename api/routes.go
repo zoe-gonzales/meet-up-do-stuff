@@ -11,10 +11,53 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
 	"github.com/zoe-gonzales/meet-up-do-stuff/user"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // AuthenticateUser authenticates the user and logs them in correct credentials are provided
-func AuthenticateUser(w http.ResponseWriter, r *http.Request) {}
+func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
+	var u user.User
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	unmarshalErr := json.Unmarshal(body, &u)
+	if unmarshalErr != nil {
+		panic(unmarshalErr)
+	}
+
+	us := user.Get(u.Email)
+	new := []byte(u.Password)
+	old := []byte(us.Password)
+
+	pwdErr := bcrypt.CompareHashAndPassword(old, new)
+	if pwdErr != nil {
+		panic(pwdErr)
+	}
+
+	_, authErr := auth.NewAuthUser(us)
+	if authErr != nil {
+		panic(authErr)
+	}
+	// Generate a token saved in that users's cookies
+	er := auth.GenerateToken(w, r)
+	if er != nil {
+		panic(er)
+	}
+
+	er2 := auth.AuthenticateUser(w, &r)
+	if er2 != nil {
+		panic(er)
+	}
+	profile := us.GetProfile()
+	profileJSON, profileJSONErr := json.Marshal(profile)
+	if profileJSONErr != nil {
+		panic(profileJSONErr)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(profileJSON)
+}
 
 // RegisterNewUser creates a new user in the db with provided credentials
 func RegisterNewUser(w http.ResponseWriter, r *http.Request) {

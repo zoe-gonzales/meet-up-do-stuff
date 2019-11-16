@@ -34,7 +34,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// User & Profile endpoints
-	r.HandleFunc("/login/{email}", api.AuthenticateUser).Methods("GET")
+	r.HandleFunc("/login", api.AuthenticateUser).Methods("POST")
 	r.HandleFunc("/signup", api.RegisterNewUser).Methods("POST")
 	r.HandleFunc("/logout", api.LogOutUser).Methods("POST")
 	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")

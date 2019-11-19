@@ -8,6 +8,8 @@ import {
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
+import CreateProfile from './pages/CreateProfile';
+import InterestAdder from './pages/AddInterests';
 
 const events = [
   {
@@ -45,6 +47,8 @@ const App = () => {
         />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/profile" component={CreateProfile} />
+        <Route exact path="/interests" component={InterestAdder} />
       </Switch>
     </Router>
   )

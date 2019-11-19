@@ -104,6 +104,8 @@ body {
 .interest-selector {
   background-color: #4766AB;
   border-color: #4766AB;
+  font-size: 0.9rem;
+  margin: 0.3rem;
 }
 
 .interest-selector:hover {

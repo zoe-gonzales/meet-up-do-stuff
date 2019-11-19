@@ -1,3 +1,7 @@
+body {
+  background-color: #DBEFFF;
+}
+
 .square-btn {
   font-size: 12px;
   padding: 4.5px 9px;
@@ -23,7 +27,7 @@
 .border-wrapper {
   border: 1px solid #778899;
   padding: 20px;
-  margin: 20px;
+  margin: 20px auto;
   width: 33%;
   align-self: auto;
   flex: 1 0 33%;

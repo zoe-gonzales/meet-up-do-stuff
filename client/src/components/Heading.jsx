@@ -1,5 +1,5 @@
 import React from 'react';
-import background from '../images/background.jpg';
+import background from '../images/doodles.png';
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
 

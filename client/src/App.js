@@ -6,6 +6,8 @@ import {
   Switch,
 } from 'react-router-dom';
 import Home from './pages/Home';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
 
 const events = [
   {
@@ -41,6 +43,8 @@ const App = () => {
         <Route exact path="/" 
           render={() => <Home events={events} />}
         />
+        <Route exact path="/login" component={LogIn} />
+        <Route exact path="/signup" component={SignUp} />
       </Switch>
     </Router>
   )

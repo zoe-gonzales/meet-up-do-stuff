@@ -2,6 +2,10 @@ $pale-blue-theme: #DBEFFF;
 $grey-border: 1px solid #778899;
 $dark-indigo: #4766AB;
 
+body {
+    background-color: $pale-blue-theme;
+}
+
 .square-btn {
     font-size: 12px;
     padding: 4.5px 9px;
@@ -27,7 +31,7 @@ $dark-indigo: #4766AB;
 .border-wrapper {
     border: $grey-border;
     padding: 20px;
-    margin: 20px;
+    margin: 20px auto;
     width: 33%;
     align-self: auto;
     flex: 1 0 33%;

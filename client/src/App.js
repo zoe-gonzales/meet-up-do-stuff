@@ -57,9 +57,9 @@ const App = () => {
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         {/* To Do: add url param for id for each route below */}
-        <Route exact path="/createprofile" component={CreateProfile} /> 
-        <Route exact path="/createinterests" component={InterestAdder} />
-        <Route exact path="/events" render={() => <Event event={fakeEvent} />} />
+        <Route exact path="/createprofile/:id" component={CreateProfile} /> 
+        <Route exact path="/createinterests/:id" component={InterestAdder} />
+        <Route exact path="/events/:id" render={() => <Event event={fakeEvent} />} />
       </Switch>
     </Router>
   )

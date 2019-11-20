@@ -15,7 +15,7 @@ const Event = ({ event }) => {
                 <div className="col-md-2"></div>
                 <div className="col-md-4">
                     <Button color="#FFC5AB">Going</Button>
-                    <Button color="#cc5841">Not Going</Button>
+                    <Button color="#dc3445">Not Going</Button>
                     <div className="attendees-content">
                         <div className="row">Others going:</div>
                         <div className="row">

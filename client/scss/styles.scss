@@ -22,10 +22,21 @@ body {
     width: 90%;
     height: 30px;
     padding: 0;
+    margin-top: 15px;
+    color: black;
+    border: 1px solid black;
 }
 
 .oval-btn:hover {
+    color: black;
+    border: 1px solid black;
     transform: scale(1.02);
+}
+
+.attendees-content {
+    width: 90%;
+    margin: 20px auto;
+
 }
 
 .border-wrapper {

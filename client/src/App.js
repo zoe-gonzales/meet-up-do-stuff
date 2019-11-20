@@ -10,6 +10,7 @@ import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import CreateProfile from './pages/CreateProfile';
 import InterestAdder from './pages/AddInterests';
+import Event from './pages/Event';
 
 const events = [
   {
@@ -38,6 +39,14 @@ const events = [
   }
 ];
 
+const fakeEvent = {
+  title: "Coffee and coloring",
+  date: "December 1, 2019",
+  time: "5pm MT",
+  location: "La Belle Rosette, 2423 S University Blvd, Denver 80210",
+  description: "Come hang out, drink coffee, and color"
+}
+
 const App = () => {
   return (
     <Router>
@@ -47,8 +56,10 @@ const App = () => {
         />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/profile" component={CreateProfile} />
-        <Route exact path="/interests" component={InterestAdder} />
+        {/* To Do: add url param for id for each route below */}
+        <Route exact path="/createprofile" component={CreateProfile} /> 
+        <Route exact path="/createinterests" component={InterestAdder} />
+        <Route exact path="/events" render={() => <Event event={fakeEvent} />} />
       </Switch>
     </Router>
   )

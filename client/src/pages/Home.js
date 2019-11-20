@@ -2,7 +2,7 @@ import React from 'react';
 import Heading from '../components/Heading';
 import Event from '../components/SmallEventCard';
 
-const colors = ['#4766AB', '#6B9AFF', '#CC5841', '#FFC5AB', '#DBEFFF'];
+const colors = ['#4766AB', '#6B9AFF', '#FFC5AB', '#DBEFFF'];
 
 const HomePage = ({ events }) => {
     return (

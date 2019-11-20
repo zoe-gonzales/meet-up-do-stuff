@@ -133,10 +133,6 @@ body {
   margin: 0.5rem 0;
 }
 
-.profile-set-up {
-  margin-top: 1rem;
-}
-
 .flex-container {
   display: flex;
   flex-flow: column wrap;

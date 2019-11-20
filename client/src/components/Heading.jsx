@@ -13,7 +13,7 @@ const Heading = () => {
                 <h1 className="display-4 text-center">Find your next meeting</h1>
                 <form onSubmit={e => handleSubmit(e)}>
                     <div className="wrapper input-group mb-3 lead text-center">
-                        <input onChange={e => handleInputChange(e)} value={inputs.zipCode} name="zipCode" type="text" className="field form-control rounded-0" placeholder="Search events by zip code" aria-label="Search events by zip code" />
+                        <input onChange={e => handleInputChange(e)} value={inputs.zipCode} name="zipCode" type="text" className="field form-control border-secondary rounded-0" placeholder="Search events by zip code" aria-label="Search events by zip code" />
                         <div className="input-group-append">
                             <Button type="submit">Go</Button>
                         </div>

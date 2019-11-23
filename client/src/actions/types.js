@@ -16,6 +16,12 @@ const types = {
             type: 'UPDATE_PROFILE_INPUTS',
             data: inputs,
         }
+    },
+    populateEvents(events) {
+        return {
+            type: 'POPULATE_EVENTS',
+            data: events,
+        }
     }
 }
 

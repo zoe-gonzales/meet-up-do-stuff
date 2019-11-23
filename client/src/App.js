@@ -6,11 +6,12 @@ import {
   Switch,
 } from 'react-router-dom';
 import Home from './pages/Home';
-import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp';
-import CreateProfile from './pages/CreateProfile';
+import LogIn from './components/SignInForm';
+import SignUp from './components/SignUpForm';
+import CreateProfile from './components/ProfileForm';
 import InterestAdder from './pages/AddInterests';
 import Event from './pages/Event';
+import Heading from './components/Heading';
 
 const events = [
   {
@@ -50,13 +51,11 @@ const fakeEvent = {
 const App = () => {
   return (
     <Router>
+      <Heading />
       <Switch>
-        <Route exact path="/" 
-          render={() => <Home events={events} />}
-        />
+        <Route exact path="/" render={() => <Home events2={events} />} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
-        {/* To Do: add url param for id for each route below */}
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
         <Route exact path="/events/:id" render={() => <Event event={fakeEvent} />} />

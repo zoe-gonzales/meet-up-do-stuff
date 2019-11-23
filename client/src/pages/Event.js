@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import UseOneEvent from '../hooks/UseOneEvent';
 import EventDetails from '../components/LargeEventCard';
 import Button from '../components/RSVPButton';
@@ -15,6 +16,9 @@ const Event = props => {
         Location,
         Desc,
     } = UseOneEvent(id);
+
+    const date = moment(DateAndTime).format('MMMM Do YYYY');
+    const time = moment(DateAndTime).format('h:mm a');
 
     return (
         <div className="row">
@@ -38,8 +42,8 @@ const Event = props => {
             <div className="col-md-4">
                 <EventDetails event={{
                     title: Title,
-                    date: DateAndTime,
-                    time: DateAndTime,
+                    date,
+                    time,
                     location: Location,
                     description: Desc,
                 }} />

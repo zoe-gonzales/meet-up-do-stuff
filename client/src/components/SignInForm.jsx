@@ -2,11 +2,25 @@ import React from 'react';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
+import API from '../utils/API';
 
 const SignInForm = () => {
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
-        console.log("sign in form submitted")
+        const { username, password } = inputs;
+        const body = {
+           Email: username,
+           Password: password,
+        }
+        API
+          .logInUser(body)
+          .then(res => {
+              if (res.status === 200) {
+                console.log("Log in was successful");
+              }
+          })
+          .catch(err => console.log(err));
     }, 'auth');
+
     return (
         <ContentContainer color="white">
             <h4 className="title text-center">sign in</h4>

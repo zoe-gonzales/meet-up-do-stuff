@@ -3,11 +3,25 @@ import { Link } from "react-router-dom";
 import ContentContainer from "./ContentContainer";
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
+import API from '../utils/API';
 
 const SignUpForm = () => {
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
-     console.log("callback called")
+     const { username, password } = inputs;
+     const body = {
+        Email: username,
+        Password: password,
+     }
+     API
+       .signUpUser(body)
+       .then(res => {
+           if (res.status === 201) {
+             console.log("Successful sign up");
+           }
+       })
+       .catch(err => console.log(err));
    }, 'auth');
+
     return (
         <ContentContainer color="white">
             <h4 className="title text-center">sign up</h4>

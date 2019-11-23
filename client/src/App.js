@@ -13,33 +13,6 @@ import InterestAdder from './pages/AddInterests';
 import Event from './pages/Event';
 import Heading from './components/Heading';
 
-const events = [
-  {
-    id: 1,
-    title: 'Event #1',
-    description: 'First Event',
-    path: '/events/1',
-  },
-  {
-    id: 2,
-    title: 'Event #2',
-    description: 'Second Event',
-    path: '/events/2',
-  },
-  {
-    id: 3,
-    title: 'Event #3',
-    description: 'Third Event',
-    path: '/events/3',
-  },
-  {
-    id: 4,
-    title: 'Event #4',
-    description: 'Fourth Event',
-    path: '/events/4',
-  }
-];
-
 const fakeEvent = {
   title: "Coffee and coloring",
   date: "December 1, 2019",
@@ -53,7 +26,7 @@ const App = () => {
     <Router>
       <Heading />
       <Switch>
-        <Route exact path="/" render={() => <Home events2={events} />} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 

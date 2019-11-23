@@ -12,7 +12,7 @@ const UseEvents = () => {
         .getAllEvents()
         .then(events => dispatch(actions.populateEvents(events.data)))
         .catch(err => console.log(err));
-    }, []);
+    }, [dispatch]);
 
     return events;
 }

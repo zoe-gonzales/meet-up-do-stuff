@@ -22,6 +22,12 @@ const types = {
             type: 'POPULATE_EVENTS',
             data: events,
         }
+    },
+    getOneEvent(event) {
+        return {
+            type: 'GET_ONE_EVENT',
+            data: event,
+        }
     }
 }
 

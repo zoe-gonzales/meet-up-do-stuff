@@ -6,6 +6,11 @@ const eventActions = {
             dispatch(types.populateEvents(data));
         }
     },
+    getOneEvent(data) {
+        return (dispatch) => {
+            dispatch(types.getOneEvent(data));
+        }
+    }
 }
 
 export default eventActions;

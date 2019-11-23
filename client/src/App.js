@@ -13,14 +13,6 @@ import InterestAdder from './pages/AddInterests';
 import Event from './pages/Event';
 import Heading from './components/Heading';
 
-const fakeEvent = {
-  title: "Coffee and coloring",
-  date: "December 1, 2019",
-  time: "5pm MT",
-  location: "La Belle Rosette, 2423 S University Blvd, Denver 80210",
-  description: "Come hang out, drink coffee, and color"
-}
-
 const App = () => {
   return (
     <Router>
@@ -31,7 +23,7 @@ const App = () => {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
-        <Route exact path="/events/:id" render={() => <Event event={fakeEvent} />} />
+        <Route exact path="/events/:id" component={Event} />} />
       </Switch>
     </Router>
   )

@@ -1,12 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import UseOneEvent from '../hooks/UseOneEvent';
 import EventDetails from '../components/LargeEventCard';
 import Button from '../components/RSVPButton';
 import pic from '../images/pic.png';
 
 const attendees = [pic, pic, pic, pic, pic, pic, pic, pic];
 
-const Event = ({ event }) => {
+const Event = props => {
+    const id = props.match.params.id;
+    const {
+        Title,
+        DateAndTime,
+        Location,
+        Desc,
+    } = UseOneEvent(id);
+
     return (
         <div className="row">
             <div className="col-md-2"></div>
@@ -27,7 +36,13 @@ const Event = ({ event }) => {
                 </div>
             </div>
             <div className="col-md-4">
-                <EventDetails event={event} />
+                <EventDetails event={{
+                    title: Title,
+                    date: DateAndTime,
+                    time: DateAndTime,
+                    location: Location,
+                    description: Desc,
+                }} />
             </div>                
             <div className="col-md-2"></div>
         </div>

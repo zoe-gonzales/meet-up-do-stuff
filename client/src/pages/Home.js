@@ -1,11 +1,11 @@
 import React from 'react';
 import Event from '../components/SmallEventCard';
-import UseEvents from '../hooks/UseEvents';
+import UseAllEvents from '../hooks/UseAllEvents';
 
 const colors = ['#FFC5AB', '#ffd965', '#E8E151', '#ADA6FF'];
 
 const HomePage = () => {
-    const events = UseEvents();
+    const events = UseAllEvents();
     return (
         <div className="container flex-container">
             { events ? 

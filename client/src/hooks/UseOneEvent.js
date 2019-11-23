@@ -3,18 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import actions from '../actions/eventActions';
 import API from '../utils/API';
 
-const UseEvents = () => {
-    const events = useSelector(state => state.Event.events);
+const UseEvents = id => {
+    const currentEvent = useSelector(state => state.Event.currentEvent);
     const dispatch = useDispatch();
 
     useEffect(() => {
         API
-        .getAllEvents()
-        .then(events => dispatch(actions.populateEvents(events.data)))
+        .getOneEvent(id)
+        .then(event => dispatch(actions.getOneEvent(event.data)))
         .catch(err => console.log(err));
-    }, [dispatch]);
+    }, [id, dispatch]);
 
-    return events;
+    return currentEvent;
 }
 
 export default UseEvents;

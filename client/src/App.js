@@ -12,6 +12,7 @@ import CreateProfile from './components/ProfileForm';
 import InterestAdder from './pages/AddInterests';
 import Event from './pages/Event';
 import Heading from './components/Heading';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
-        <Route exact path="/events/:id" component={Event} />} />
+        <Route exact path="/events/:id" component={Event} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   )

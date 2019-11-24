@@ -1,10 +1,13 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
+import UseRedirect from '../hooks/UseRedirect';
 import API from '../utils/API';
 
 const SignInForm = () => {
+    const { redirect, redirectPage } = UseRedirect();
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { username, password } = inputs;
         const body = {
@@ -15,7 +18,7 @@ const SignInForm = () => {
           .logInUser(body)
           .then(res => {
               if (res.status === 200) {
-                console.log("Log in was successful");
+                redirectPage()
               }
           })
           .catch(err => console.log(err));
@@ -23,6 +26,7 @@ const SignInForm = () => {
 
     return (
         <ContentContainer color="white">
+            { redirect ? <Redirect to="/" /> : null }
             <h4 className="title text-center">sign in</h4>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="form-group">

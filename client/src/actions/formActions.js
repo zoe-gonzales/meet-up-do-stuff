@@ -16,6 +16,11 @@ const formActions = {
             dispatch(types.updateProfileInputs(data));
         }
     },
+    redirectPage() {
+        return (dispatch) => {
+            dispatch(types.redirectPage());
+        }
+    }
 }
 
 export default formActions;

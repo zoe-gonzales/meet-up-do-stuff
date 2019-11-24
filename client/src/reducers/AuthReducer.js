@@ -3,7 +3,8 @@ const initialState = {
         username: '',
         password: '',
         confirmPassword: '',
-    }
+    },
+    redirect: false,
 }
 
 const Auth = (state = initialState, action) => {
@@ -17,6 +18,8 @@ const Auth = (state = initialState, action) => {
                     confirmPassword: confirmPassword,
                 }
             });
+        case 'REDIRECT_PAGE':
+            return Object.assign({}, state, { redirect: action.data });
         default:
             return state;
     }

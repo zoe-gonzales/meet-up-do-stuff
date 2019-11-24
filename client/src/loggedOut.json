@@ -7,11 +7,11 @@
     {
         "label": "Log In",
         "url": "/login",
-        "key": 1
+        "key": 2
     },
     {
         "label": "Sign Up",
         "url": "/signup",
-        "key": 1
+        "key": 3
     }
 ]

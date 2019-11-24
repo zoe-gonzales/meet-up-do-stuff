@@ -115,6 +115,19 @@ func LogOutUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// GetOneUser retrieves one user and sends to client
+func GetOneUser(w http.ResponseWriter, r *http.Request) {
+	email := mux.Vars(r)["email"]
+	record := user.Get(email)
+	userJSON, errJSON := json.Marshal(record)
+	if errJSON != nil {
+		panic(errJSON)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(userJSON)
+}
+
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 	email := mux.Vars(r)["email"]

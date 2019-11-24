@@ -7,11 +7,11 @@
     {
         "label": "Log Out",
         "url": "/logout",
-        "key": 1
+        "key": 2
     },
     {
         "label": "My Profile",
         "url": "/user",
-        "key": 1
+        "key": 3
     }
 ]

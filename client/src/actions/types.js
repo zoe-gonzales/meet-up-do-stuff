@@ -28,7 +28,13 @@ const types = {
             type: 'GET_ONE_EVENT',
             data: event,
         }
-    }
+    },
+    redirectPage() {
+        return {
+            type: 'REDIRECT_PAGE',
+            data: true,
+        }
+    },
 }
 
 export default types;

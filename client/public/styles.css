@@ -149,4 +149,18 @@ body {
   justify-content: center;
 }
 
+.profile-container {
+  width: 80%;
+  padding: 15px;
+}
+
+.profile-info {
+  margin: 1rem;
+}
+
+.profile-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 /*# sourceMappingURL=styles.css.map */

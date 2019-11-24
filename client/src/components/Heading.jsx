@@ -1,6 +1,7 @@
 import React from 'react';
 import background from '../images/doodles.png';
 import Button from './Button';
+import Nav from './Nav';
 import UseForm from '../hooks/UseForm';
 
 const Heading = () => {
@@ -9,6 +10,7 @@ const Heading = () => {
     }, 'search');
     return (
         <div style={{ backgroundImage: `url(${background})` }} className="jumbotron jumbotron-fluid">
+            <Nav />
             <div className="container">
                 <h1 className="display-4 text-center">Find your next meeting</h1>
                 <form onSubmit={e => handleSubmit(e)}>

@@ -5,13 +5,13 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import Heading from './components/Heading';
 import Home from './pages/Home';
 import LogIn from './components/SignInForm';
 import SignUp from './components/SignUpForm';
 import CreateProfile from './components/ProfileForm';
 import InterestAdder from './pages/AddInterests';
 import Event from './pages/Event';
-import Heading from './components/Heading';
 import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
 

@@ -163,4 +163,12 @@ body {
   margin-right: 5px;
 }
 
+.nav-expanded {
+  background-color: #DBEFFF;
+}
+
+.nav-component {
+  margin-top: -65px;
+}
+
 /*# sourceMappingURL=styles.css.map */

@@ -10,7 +10,7 @@ const Heading = () => {
     }, 'search');
     return (
         <div style={{ backgroundImage: `url(${background})` }} className="jumbotron jumbotron-fluid">
-            <Nav />
+            <Nav type="loggedOut" />
             <div className="container">
                 <h1 className="display-4 text-center">Find your next meeting</h1>
                 <form onSubmit={e => handleSubmit(e)}>

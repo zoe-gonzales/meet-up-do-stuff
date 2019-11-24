@@ -1,0 +1,17 @@
+[
+    {
+        "label": "Home",
+        "url": "/",
+        "key": 1
+    },
+    {
+        "label": "Log Out",
+        "url": "/logout",
+        "key": 1
+    },
+    {
+        "label": "My Profile",
+        "url": "/user",
+        "key": 1
+    }
+]

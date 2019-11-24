@@ -1,0 +1,17 @@
+[
+    {
+        "label": "Home",
+        "url": "/",
+        "key": 1
+    },
+    {
+        "label": "Log In",
+        "url": "/login",
+        "key": 1
+    },
+    {
+        "label": "Sign Up",
+        "url": "/signup",
+        "key": 1
+    }
+]

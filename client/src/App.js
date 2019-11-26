@@ -20,7 +20,8 @@ const App = () => {
     <Router>
       <Heading />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" render={() => <Home type="loggedOut" />} />
+        <Route exact path="/home/:id" render={() => <Home navType="loggedIn" />} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 

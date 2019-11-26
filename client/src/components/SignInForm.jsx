@@ -7,7 +7,12 @@ import UseRedirect from '../hooks/UseRedirect';
 import API from '../utils/API';
 
 const SignInForm = () => {
-    const { redirect, redirectPage } = UseRedirect();
+    const {
+        id,
+        redirect,
+        redirectPage,
+        setRedirectId
+    } = UseRedirect();
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { username, password } = inputs;
         const body = {
@@ -18,6 +23,7 @@ const SignInForm = () => {
           .logInUser(body)
           .then(res => {
               if (res.status === 200) {
+                setRedirectId(res.data.ID)
                 redirectPage()
               }
           })
@@ -26,7 +32,7 @@ const SignInForm = () => {
 
     return (
         <ContentContainer color="white">
-            { redirect ? <Redirect to="/" /> : null }
+            { redirect ? <Redirect to={`/home/${id}`} /> : null }
             <h4 className="title text-center">sign in</h4>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="form-group">

@@ -35,6 +35,12 @@ const types = {
             data: true,
         }
     },
+    setId(id) {
+        return {
+            type: 'SET_ID',
+            data: id,
+        }
+    }
 }
 
 export default types;

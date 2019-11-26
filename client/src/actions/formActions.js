@@ -20,6 +20,11 @@ const formActions = {
         return (dispatch) => {
             dispatch(types.redirectPage());
         }
+    },
+    setUserId(id) {
+        return (dispatch) => {
+            dispatch(types.setId(id));
+        } 
     }
 }
 

@@ -8,7 +8,7 @@ const Heading = ({ type }) => {
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         console.log("search submitted")
     }, 'search');
-    console.log(type)
+
     return (
         <div style={{ backgroundImage: `url(${background})` }} className="jumbotron jumbotron-fluid">
             <Nav type={type} />

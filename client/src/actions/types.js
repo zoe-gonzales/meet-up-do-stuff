@@ -17,6 +17,12 @@ const types = {
             data: inputs,
         }
     },
+    updateEventInputs(inputs) {
+        return {
+            type: 'UPDATE_EVENT_INPUTS',
+            data: inputs,
+        }
+    },
     populateEvents(events) {
         return {
             type: 'POPULATE_EVENTS',

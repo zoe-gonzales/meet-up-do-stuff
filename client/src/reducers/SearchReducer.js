@@ -7,7 +7,7 @@ const initialState = {
 const Search = (state = initialState, action) => {
     switch(action.type) {
         case 'UPDATE_SEARCH_INPUTS':
-            let { zipCode } = action.data;
+            const { zipCode } = action.data;
             return Object.assign({}, state, {
                 inputs: {
                     zipCode: zipCode,

@@ -8,7 +8,7 @@ const initialState = {
 const Profile = (state = initialState, action) => {
     switch(action.type) {
         case 'UPDATE_PROFILE_INPUTS':
-            let { nickName, location } = action.data;
+            const { nickName, location } = action.data;
             return Object.assign({}, state, {
                 inputs: {
                     nickName: nickName,

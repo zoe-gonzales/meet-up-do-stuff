@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -49,8 +50,12 @@ func main() {
 	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
 	// Static files
-	p := "/client/"
-	r.PathPrefix(p).Handler(http.StripPrefix(p, http.FileServer(http.Dir("."+p))))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":8080"
+	}
+	path := "/client/"
+	r.PathPrefix(path).Handler(http.StripPrefix(path, http.FileServer(http.Dir("."+path))))
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(port, r))
 }

@@ -49,7 +49,8 @@ func main() {
 	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
 	// Static files
-	r.PathPrefix("/client/").Handler(http.StripPrefix("/client/", http.FileServer(http.Dir(""))))
+	p := "/client/"
+	r.PathPrefix(p).Handler(http.StripPrefix(p, http.FileServer(http.Dir(p))))
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

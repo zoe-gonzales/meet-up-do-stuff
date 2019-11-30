@@ -49,13 +49,13 @@ func main() {
 	r.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
 	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
-	// Static files
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	path := "/client/"
-	r.PathPrefix(path).Handler(http.StripPrefix(path, http.FileServer(http.Dir(path))))
+
+	// static files
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./client/")))
 
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }

@@ -55,7 +55,7 @@ func main() {
 		port = "8080"
 	}
 	path := "/client/"
-	r.PathPrefix(path).Handler(http.StripPrefix(path, http.FileServer(http.Dir("."+path))))
+	r.PathPrefix(path).Handler(http.StripPrefix(path, http.FileServer(http.Dir(path))))
 
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }

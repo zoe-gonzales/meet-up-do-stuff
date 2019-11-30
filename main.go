@@ -50,7 +50,7 @@ func main() {
 
 	// Static files
 	p := "/client/"
-	r.PathPrefix(p).Handler(http.StripPrefix(p, http.FileServer(http.Dir(p))))
+	r.PathPrefix(p).Handler(http.StripPrefix(p, http.FileServer(http.Dir("."+p))))
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

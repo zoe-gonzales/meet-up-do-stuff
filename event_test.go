@@ -16,7 +16,7 @@ func TestShouldCreateNewEvent(t *testing.T) {
 		Desc:        "a really cool event",
 		DateAndTime: time.Now(),
 		Location:    "Denver, CO",
-		RSVPs:       "1, 2, 3, 4",
+		RSVPs:       "19, 22, 23, 24, 25, 26, 27, 31",
 	}
 	record := event.CreateEvent()
 	rowsAffected := record.RowsAffected

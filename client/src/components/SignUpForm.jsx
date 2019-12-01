@@ -1,11 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import ContentContainer from "./ContentContainer";
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
+import UseRedirect from '../hooks/UseRedirect';
 import API from '../utils/API';
 
 const SignUpForm = () => {
+    const {
+        id,
+        redirect,
+        redirectPage,
+        setRedirectId
+    } = UseRedirect();
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
      const { username, password } = inputs;
      const body = {
@@ -16,7 +23,8 @@ const SignUpForm = () => {
        .signUpUser(body)
        .then(res => {
            if (res.status === 201) {
-             console.log("Successful sign up");
+                setRedirectId(res.data.ID)
+                redirectPage()
            }
        })
        .catch(err => console.log(err));
@@ -24,6 +32,7 @@ const SignUpForm = () => {
 
     return (
         <ContentContainer color="white">
+            { redirect ? <Redirect to={`/home/${id}`} /> : null }
             <h4 className="title text-center">sign up</h4>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="form-group">

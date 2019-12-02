@@ -171,6 +171,26 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetProfile retrieves one user and sends to client
+func GetProfile(w http.ResponseWriter, r *http.Request) {
+	idAsString := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(idAsString)
+	if err != nil {
+		panic(err)
+	}
+	var requestedUser user.User
+	u := &requestedUser
+	u.ID = uint(id)
+	record := u.GetProfile()
+	profileJSON, errJSON := json.Marshal(record)
+	if errJSON != nil {
+		panic(errJSON)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(profileJSON)
+}
+
 // UpdateProfile edits and saves details of a user's profile
 func UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	email := mux.Vars(r)["email"]

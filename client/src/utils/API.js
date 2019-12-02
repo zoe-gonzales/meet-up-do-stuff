@@ -31,6 +31,9 @@ export default {
     deleteUser(email) {
         return axios.delete(`/user/${email}`);
     },
+    getOneProfile(id) {
+        return axios.get(`/profile/${id}`);
+    },
     updateProfile(email) {
         return axios.put(`/profile/${email}`);
     },

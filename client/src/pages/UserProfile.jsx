@@ -1,26 +1,44 @@
 import React from 'react';
-import pic from '../images/pic.png';
+import UseProfile from '../hooks/UseOneProfile';
+import moment from 'moment';
 
-const UserProfile = () => {
+const UserProfile = props => {
+    // match id to make request for profile info
+    const id = props.match.params.id;
+    const {
+        CreatedAt,
+        DisplayName,
+        Location,
+        Interests,
+        UserID,
+    } = UseProfile(id);
+
+    // importing profile image to display from user id
+    let image = '';
+    if (UserID) image = require(`../user_images/user-${UserID}.png`);
+
+    // formatting date
+    const date = moment(CreatedAt).format('MMMM Do YYYY');
+    
     return (
         <section className="border-only container profile-container">
             <div className="row">
                 <div className="col-md-8">
                     <div className="row profile-info">
-                        <span className="profile-label">Display name:</span> z_gonzales   
+                        <span className="profile-label">Display name:</span> {DisplayName}   
                     </div>
                     <div className="row profile-info">
-                        <span className="profile-label">Email:</span> z_gonzales@fakemail.com
+                        <span className="profile-label">Date Joined:</span> {date}
                     </div>
                     <div className="row profile-info">
-                        <span className="profile-label">Location:</span> Denver, CO
+                        <span className="profile-label">Location:</span> {Location}
                     </div>
                     <div className="row profile-info">
-                        <span className="profile-label">Interests:</span> Books, Music, Shows, Coding, Web Development, Design
+                        <span className="profile-label">Interests:</span> {Interests}
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <img alt="user" src={pic} />
+                    <img alt="user" src={image} />
                 </div>
             </div>
         </section>

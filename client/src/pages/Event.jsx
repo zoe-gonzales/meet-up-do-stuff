@@ -46,7 +46,7 @@ const Event = props => {
                     <div className="row">
                         {list.map(RSVPID => {
                             return (
-                                <Link to={`/user/${RSVPID}`} key={RSVPID}>
+                                <Link to={`/profile/${RSVPID}`} key={RSVPID}>
                                     <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
                                 </Link>
                             )

@@ -27,7 +27,7 @@ const App = () => {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
-        <Route exact path="/user/:id" component={UserProfile} />
+        <Route exact path="/profile/:id" component={UserProfile} />
         <Route exact path="/events/:id" component={Event} />
         <Route exact path="/addevent" component={AddEvent} />
         <Route component={NotFound} />

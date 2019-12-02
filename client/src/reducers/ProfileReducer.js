@@ -1,4 +1,5 @@
 const initialState = {
+    currentProfile: {},
     inputs: {
         nickName: '',
         location: '',
@@ -14,6 +15,10 @@ const Profile = (state = initialState, action) => {
                     nickName: nickName,
                     location: location,
                 }
+            });
+        case 'GET_ONE_PROFILE':
+            return Object.assign({}, state, {
+                currentProfile: action.data
             });
         default:
             return state;

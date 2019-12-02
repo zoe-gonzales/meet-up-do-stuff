@@ -46,6 +46,12 @@ const types = {
             type: 'SET_ID',
             data: id,
         }
+    },
+    getOneProfile(profile) {
+        return {
+            type: 'GET_ONE_PROFILE',
+            data: profile,
+        }
     }
 }
 

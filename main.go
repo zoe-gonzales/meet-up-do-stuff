@@ -40,6 +40,7 @@ func main() {
 	r.HandleFunc("/logout", api.LogOutUser).Methods("POST")
 	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
 	r.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/profile/{id}", api.GetProfile).Methods("GET")
 	r.HandleFunc("/profile/{email}", api.UpdateProfile).Methods("PUT")
 
 	// Event endpoints

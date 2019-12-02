@@ -5,8 +5,20 @@ import UseOneEvent from '../hooks/UseOneEvent';
 import EventDetails from '../components/LargeEventCard';
 import Button from '../components/RSVPButton';
 
+// importAll checks each image and updated its path
+const importAll = c => {
+    let imgs = {}
+    c.keys().forEach(image => {imgs[image.replace('./', '')] = c(image); });
+    return imgs
+}
+
 const Event = props => {
+    // using importAll to read images for user_images directory
+    const images = importAll(require.context('../user_images', false, /\.(png)$/));
+
+    // match the id to identify when event to retrieve
     const id = props.match.params.id;
+
     let list = [];
     const {
         Title,
@@ -16,8 +28,10 @@ const Event = props => {
         RSVPs,
     } = UseOneEvent(id);
 
+    // create array out of string of rsvp ids
     if (RSVPs) list = RSVPs.split(", ")
 
+    // make day and time readable
     const date = moment(DateAndTime).format('MMMM Do YYYY');
     const time = moment(DateAndTime).format('h:mm a');
 
@@ -31,10 +45,9 @@ const Event = props => {
                     <div className="row">Others going:</div>
                     <div className="row">
                         {list.map(RSVPID => {
-                            const imageData = import(`../user_images/user-${RSVPID}.png`).then(img => img.default).catch(err => console.log(err))
                             return (
-                                <Link to="/" key={RSVPID}>
-                                    <img style={{ width: 70, padding: 5 }} src={imageData} alt="pic" />
+                                <Link to={`/user/${RSVPID}`} key={RSVPID}>
+                                    <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
                                 </Link>
                             )
                         })}

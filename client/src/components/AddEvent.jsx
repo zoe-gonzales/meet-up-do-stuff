@@ -3,15 +3,39 @@ import ContentContainer from './ContentContainer';
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
 import interests from '../interests.json';
+import API from '../utils/API';
+import moment from 'moment';
 
 const AddEvent = () => {
     const {
         inputs,
         handleInputChange,
         handleCheckboxSelection,
-        handleSubmit
+        handleSubmit,
     } = UseForm(() => {
-        console.log(inputs)
+        const { title, desc, location, date, time, relatedInterests } = inputs;
+        const interests = relatedInterests.join(",");
+        const dt = `${date}T${time}:00`;
+        const formattedDT = moment(dt).format();
+        const newEvent = {
+            Title: title,
+            Interests: interests,
+            Desc: desc,
+            DateAndTime: formattedDT,
+            Location: location,
+            RSVPs: '',
+        }
+        API
+          .addEvent(newEvent)
+          .then(res => {
+              if (res.status === 201) {
+                  alert("Congrats! Your event has been created.")
+              }
+          })
+          .catch(err => {
+              alert("There was an error processing your request. Please try again.")
+              console.log(err)
+          });
 
     }, 'add event')
     return (

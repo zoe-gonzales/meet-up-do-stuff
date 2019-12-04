@@ -46,10 +46,9 @@ const UseForm = (cb, formType) => {
         }
     }
 
-    const handleCheckboxSelection = e => {
+    const handleCheckboxSelection = (e, interests) => {
         e.persist();
         const { value } = e.target;
-        const interests = inputs.relatedInterests;
         interests.push(value)
         dispatch(actions.updateEventInterests(interests));
     }

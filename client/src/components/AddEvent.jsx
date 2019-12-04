@@ -45,7 +45,7 @@ const AddEvent = () => {
                     const { id, name } = interest;
                     return (
                         <div className="form-check form-check-inline" key={id}>
-                            <input className="form-check-input" type="checkbox" onChange={e => handleCheckboxSelection(e)} id={id} value={name} />
+                            <input className="form-check-input" type="checkbox" onChange={e => handleCheckboxSelection(e, inputs.relatedInterests)} id={id} value={name} />
                             <label className="form-check-label" htmlFor={id} >{name}</label>
                         </div>
                     )

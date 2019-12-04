@@ -8,10 +8,12 @@ const AddEvent = () => {
     const {
         inputs,
         handleInputChange,
-        handleSubmit 
+        handleCheckboxSelection,
+        handleSubmit
     } = UseForm(() => {
+        console.log(inputs)
 
-    })
+    }, 'add event')
     return (
         <ContentContainer color="white">
         <h4 className="title text-center">add an event</h4>
@@ -43,7 +45,7 @@ const AddEvent = () => {
                     const { id, name } = interest;
                     return (
                         <div className="form-check form-check-inline" key={id}>
-                            <input className="form-check-input" type="checkbox" id={id} value={name} />
+                            <input className="form-check-input" type="checkbox" onChange={e => handleCheckboxSelection(e)} id={id} value={name} />
                             <label className="form-check-label" htmlFor={id} >{name}</label>
                         </div>
                     )

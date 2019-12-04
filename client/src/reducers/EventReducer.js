@@ -28,7 +28,6 @@ const Event = (state = initialState, action) => {
                 date,
                 time,
                 location,
-                relatedInterests,
             } = action.data;
             return Object.assign({}, state, {
                 inputs: {
@@ -37,8 +36,11 @@ const Event = (state = initialState, action) => {
                     date,
                     time,
                     location,
-                    relatedInterests
                 }
+            });
+        case 'UPDATE_RELATED_INTERESTS':
+            return Object.assign(state.inputs, state, {
+                relatedInterests: action.data
             });
         default:
             return state;

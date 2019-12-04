@@ -21,6 +21,11 @@ const formActions = {
             dispatch(types.updateEventInputs(data));
         }
     },
+    updateEventInterests(data) {
+        return (dispatch) => {
+            dispatch(types.updateEventInterests(data));
+        }
+    },
     redirectPage() {
         return (dispatch) => {
             dispatch(types.redirectPage());

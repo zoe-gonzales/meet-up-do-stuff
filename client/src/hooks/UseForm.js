@@ -10,6 +10,8 @@ const UseForm = (cb, formType) => {
                 return state.Search.inputs;
             case 'profile':
                 return state.Profile.inputs;
+            case 'add event':
+                return state.Event.inputs;
             default:
                 return state;
         }
@@ -31,6 +33,9 @@ const UseForm = (cb, formType) => {
             case 'profile':
                 dispatchAction = actions.updateProfileData(changedInputs);
                 break;
+            case 'add event':
+                dispatchAction = actions.updateEventData(changedInputs);
+                break;
             default:
                 dispatchAction = null;
         }
@@ -41,6 +46,14 @@ const UseForm = (cb, formType) => {
         }
     }
 
+    const handleCheckboxSelection = e => {
+        e.persist();
+        const { value } = e.target;
+        const interests = inputs.relatedInterests;
+        interests.push(value)
+        dispatch(actions.updateEventInterests(interests));
+    }
+
     const handleSubmit = e => {
         e.preventDefault();
         cb();
@@ -49,6 +62,7 @@ const UseForm = (cb, formType) => {
     return {
         inputs,
         handleInputChange,
+        handleCheckboxSelection,
         handleSubmit,
     }
 };

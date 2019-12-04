@@ -23,6 +23,12 @@ const types = {
             data: inputs,
         }
     },
+    updateEventInterests(data) {
+        return {
+            type: 'UPDATE_RELATED_INTERESTS',
+            data: data,
+        }
+    },
     populateEvents(events) {
         return {
             type: 'POPULATE_EVENTS',

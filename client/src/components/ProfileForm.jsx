@@ -1,21 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
-import pic from '../images/pic.png';
 import UseForm from '../hooks/UseForm';
+import UseRedirect from '../hooks/UseRedirect';
+
+const importAll = c => {
+    let imgs = {}
+    c.keys().forEach(image => {imgs[image.replace('./', '')] = c(image); });
+    return imgs
+}
 
 const ProfileForm = props => {
-    const id = props.match.params.id;
-
+    const profileID = props.match.params.id;
+    const images = importAll(require.context('../user_images/', false, /\.(png)$/));
     
+    const {
+        redirect,
+        redirectPage,
+        id,
+        setRedirectId,
+    } = UseRedirect();
 
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
-        console.log("profile set up form submitted")
+        const { nickName, location } = inputs;
+        localStorage.setItem("nickName", nickName)
+        localStorage.setItem("location", location)
+        setRedirectId(profileID)
+        redirectPage()
     }, 'profile');
+
     return (
         <ContentContainer color="white">
             <div className="container">
+                { redirect ? <Redirect to={`/createinterests/${id}`} /> : null }
                 <form onSubmit={e => handleSubmit(e)}>
                     <div className="row">
                         {/* Title and form fields */}
@@ -32,16 +50,14 @@ const ProfileForm = props => {
                         </div>
                         {/* Profile avatar*/}
                         <div className="col-md-6">
-                            <img className="avatar" src={pic} alt="pic" />
+                            <img className="avatar" src={images[`user-${profileID}.png`]} alt="pic" />
                         </div>
                     </div>
                     <div className="row">
                         {/* Submit button  */}
                         <div className="col-md-5"></div>
                         <div className="col-md-2 text-center" style={{ marginTop: 20 }}>
-                            <Link to="/interests">
-                                <Button>Next</Button>
-                            </Link>
+                            <Button type="submit">Next</Button>
                         </div>
                         <div className="col-md-5"></div>
                     </div>

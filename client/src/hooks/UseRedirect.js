@@ -11,9 +11,9 @@ const UseRedirect = () => {
     const setRedirectId = id => dispatch(actions.setUserId(id));
 
     return {
-        id,
         redirect,
         redirectPage,
+        id,
         setRedirectId,
     };
 }

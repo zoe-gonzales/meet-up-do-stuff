@@ -5,7 +5,11 @@ import Button from './Button';
 import pic from '../images/pic.png';
 import UseForm from '../hooks/UseForm';
 
-const ProfileForm = () => {
+const ProfileForm = props => {
+    const id = props.match.params.id;
+
+    
+
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         console.log("profile set up form submitted")
     }, 'profile');

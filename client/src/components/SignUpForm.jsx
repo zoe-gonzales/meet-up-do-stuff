@@ -17,9 +17,7 @@ const SignUpForm = () => {
      API
        .signUpUser(body)
        .then(res => {
-           if (res.status === 201) {
-              redirectPage()
-           }
+           if (res.status === 201) redirectPage()
        })
        .catch(err => console.log(err));
    }, 'auth');

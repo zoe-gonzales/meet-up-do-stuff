@@ -30,7 +30,7 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 	id := int(u.ID)
 	// create filename for avatar & generate image
 	fn := "user-" + strconv.FormatInt(int64(u.ID), 10)
-	avatar.GenerateAvatar(u.Email, fn, "./user_images/")
+	avatar.GenerateAvatar(u.Email, fn, "./client/src/user_images/")
 	// save path to avatar image in profile
 	path := "/user_images/user-" + strconv.FormatInt(int64(u.ID), 10)
 	profile := Profile{User: u, UserID: id, DisplayName: "na", Location: "na", PathToImg: path, Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}

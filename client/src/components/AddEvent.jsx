@@ -13,10 +13,14 @@ const AddEvent = () => {
         handleCheckboxSelection,
         handleSubmit,
     } = UseForm(() => {
+        // retrieve inputs 
         const { title, desc, location, date, time, relatedInterests } = inputs;
+
+        // modify interests and date & time to meet requirements of back end model
         const interests = relatedInterests.join(",");
         const dt = `${date}T${time}:00`;
         const formattedDT = moment(dt).format();
+        
         const newEvent = {
             Title: title,
             Interests: interests,
@@ -25,6 +29,8 @@ const AddEvent = () => {
             Location: location,
             RSVPs: '',
         }
+        
+        // add event to db, alert user on success or if an error occurred
         API
           .addEvent(newEvent)
           .then(res => {

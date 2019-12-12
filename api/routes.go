@@ -128,6 +128,19 @@ func GetOneUser(w http.ResponseWriter, r *http.Request) {
 	w.Write(userJSON)
 }
 
+// GetUserByID retrieves the user by ID
+func GetUserByID(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	record := user.GetByID(id)
+	userJSON, errJSON := json.Marshal(record)
+	if errJSON != nil {
+		panic(errJSON)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(userJSON)
+}
+
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 	email := mux.Vars(r)["email"]

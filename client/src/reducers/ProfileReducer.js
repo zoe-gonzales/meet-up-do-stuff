@@ -3,17 +3,19 @@ const initialState = {
     inputs: {
         nickName: '',
         location: '',
+        interests: [],
     }
 }
 
 const Profile = (state = initialState, action) => {
     switch(action.type) {
         case 'UPDATE_PROFILE_INPUTS':
-            const { nickName, location } = action.data;
+            const { nickName, location, interests } = action.data;
             return Object.assign({}, state, {
                 inputs: {
-                    nickName: nickName,
-                    location: location,
+                    nickName,
+                    location,
+                    interests,
                 }
             });
         case 'GET_ONE_PROFILE':

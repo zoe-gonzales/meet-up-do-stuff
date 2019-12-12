@@ -38,6 +38,7 @@ func main() {
 	r.HandleFunc("/login", api.AuthenticateUser).Methods("POST")
 	r.HandleFunc("/signup", api.RegisterNewUser).Methods("POST")
 	r.HandleFunc("/logout", api.LogOutUser).Methods("POST")
+	r.HandleFunc("/user/{id}", api.GetUserByID).Methods("GET")
 	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
 	r.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
 	r.HandleFunc("/profile/{id}", api.GetProfile).Methods("GET")

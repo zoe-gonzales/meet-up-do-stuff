@@ -25,8 +25,11 @@ export default {
     logOutUser(data) {
         return axios.post("/logout", data);
     },
-    updateUse(email) {
+    updateUser(email) {
         return axios.put(`/user/${email}`);
+    },
+    getUserByID(id) {
+        return axios.get(`/user/${id}`);
     },
     deleteUser(email) {
         return axios.delete(`/user/${email}`);
@@ -34,7 +37,7 @@ export default {
     getOneProfile(id) {
         return axios.get(`/profile/${id}`);
     },
-    updateProfile(email) {
-        return axios.put(`/profile/${email}`);
+    updateProfile(email, data) {
+        return axios.put(`/profile/${email}`, data);
     },
 }

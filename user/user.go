@@ -63,6 +63,18 @@ func Get(em string) User {
 	return user
 }
 
+// GetByID retrieves a user by ID
+func GetByID(id string) User {
+	db, err := db.Init()
+	if err != nil {
+		log.Fatal("Error initalizing database on creating user", err)
+	}
+	defer db.Close()
+	var user User
+	db.Raw(`select * from users where id = ? and deleted_at is null`, id).Scan(&user)
+	return user
+}
+
 // Update updates user data
 func (u *User) Update(updatedUser User) (*gorm.DB, error) {
 	db, err := db.Init()

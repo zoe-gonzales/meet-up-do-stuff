@@ -21,6 +21,12 @@ The project KanBan can be found [here](https://github.com/zoe-gonzales/meet-up-d
 
 This app is currently not deployed. To run it locally, Go, Node, and PostgreSQL are required.
 
-To run locally, clone this repo. Open two separate terminals. In the first, run ` go build ` in the root directory and then ` ./meet-up-do-stuff ` to run the API server.
+To run locally, clone this repo. Create a `.env` file. and paste the following, replacing items in between brackets with your own credentials:
 
-In the second terminal, ` cd ` into client and run ` npm install `, then ` npm start `. From there, you will find the app running at localhost:3000.
+`CONNECTION="postgres://{your_username}:password@localhost/{your_db_name}?sslmode=disable"`
+
+**Note:** The database referenced above must be created before running the app.
+
+Open two separate terminal windows. In the first, run ` go build ` in the root directory and then ` ./meet-up-do-stuff ` to run the API server.
+
+In the second window, ` cd ` into client and run ` npm install `, then ` npm start `. From there, you will find the app running at localhost:3000.

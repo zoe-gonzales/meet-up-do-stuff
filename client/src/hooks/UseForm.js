@@ -22,6 +22,7 @@ const UseForm = (cb, formType) => {
         e.persist();
         const { name, value } = e.target;
         const changedInputs = {...inputs, [name]: value};
+        console.log(changedInputs)
         let dispatchAction;
         switch(formType) {
             case 'auth':
@@ -53,6 +54,14 @@ const UseForm = (cb, formType) => {
         dispatch(actions.updateEventInterests(interests));
     }
 
+    const handleInterestAdded = (e, interests) => {
+        e.persist();
+        const { value } = e.target;
+        interests.push(value);
+        const changedInputs = {...inputs, value}
+        dispatch(actions.updateProfileData(changedInputs));
+    }
+
     const handleSubmit = e => {
         e.preventDefault();
         cb();
@@ -63,6 +72,7 @@ const UseForm = (cb, formType) => {
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
+        handleInterestAdded,
     }
 };
 

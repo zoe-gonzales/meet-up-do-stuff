@@ -9,7 +9,7 @@ import API from '../utils/API';
 const InterestsAdder = props => {
     const id = props.match.params.id;
 
-    const { inputs, handleInterestAdded, handleSubmit } = UseForm(() => {
+    const { inputs, handleInterestSelected, handleSubmit } = UseForm(() => {
         const data ={
             DisplayName: localStorage.getItem("nickName"),
             Location: localStorage.getItem("location"),
@@ -33,9 +33,10 @@ const InterestsAdder = props => {
 
     return (
         <ContentContainer color="white">
-            {interests.map(interest => {
-                return <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestAdded(e, inputs.interests)} />
-            })}
+            {interests.map(interest => <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestSelected(e, inputs.interests)} /> )}
+            <hr />
+            <h5>Your Interests</h5>
+            {inputs.interests.map(selectedInterest => <div key={selectedInterest}>{selectedInterest}</div> )}
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="row" style={{ marginTop: 20 }}>
                     <div className="col-sm-5"></div>

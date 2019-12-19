@@ -121,7 +121,7 @@ body {
 .interest-selector:hover {
   background-color: #4766AB;
   border-color: #4766AB;
-  transform: scale(1.02);
+  transform: scale(1.05);
 }
 
 .profile-field {

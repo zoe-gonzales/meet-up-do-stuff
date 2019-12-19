@@ -54,11 +54,16 @@ const UseForm = (cb, formType) => {
         dispatch(actions.updateEventInterests(interests));
     }
 
-    const handleInterestAdded = (e, interests) => {
+    const handleInterestSelected = (e, interests) => {
         e.persist();
         const { value } = e.target;
-        interests.push(value);
-        const changedInputs = {...inputs, value}
+        const changedInputs = {...inputs}
+        if (interests.includes(value)) {
+            const updatedInterests = interests.filter(interest => interest !== value);
+            changedInputs.interests = updatedInterests;
+        } else {
+            interests.push(value);
+        }
         dispatch(actions.updateProfileData(changedInputs));
     }
 
@@ -72,7 +77,7 @@ const UseForm = (cb, formType) => {
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
-        handleInterestAdded,
+        handleInterestSelected,
     }
 };
 

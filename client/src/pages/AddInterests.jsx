@@ -1,38 +1,47 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import InterestSelector from '../components/InterestSelector';
 import ContentContainer from '../components/ContentContainer';
 import Button from '../components/Button';
 import interests from '../interests.json';
 import UseForm from '../hooks/UseForm';
+import UseRedirect from "../hooks/UseRedirect";
 import API from '../utils/API';
 
 const InterestsAdder = props => {
-    const id = props.match.params.id;
+    const userID = props.match.params.id;
+    const {
+        redirect,
+        redirectPage,
+        id,
+        setRedirectId,
+    } = UseRedirect();
 
     const { inputs, handleInterestSelected, handleSubmit } = UseForm(() => {
         const data ={
             DisplayName: localStorage.getItem("nickName"),
             Location: localStorage.getItem("location"),
-            Interests: inputs.interests,
+            Interests: inputs.interests.join(","),
             PathToImg: 'na',
             AdminOf: 'na',
             MemberOf: 'na',
             RSVPS: 'na',
         }
 
-        API
-          .getUserByID(id)
-          .then(res => {
-              const email = res.data.Email;
-              API.updateProfile(email, data)
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
-          })
-          .catch(err => console.log(err));
+        API.updateProfile(userID, data)
+            .then(res => {
+                if (res.status === 200) {
+                    localStorage.clear()
+                    setRedirectId(userID)
+                    redirectPage()
+                }
+            })
+            .catch(err => console.log(err));
     }, 'profile');
 
     return (
         <ContentContainer color="white">
+            {redirect ? <Redirect to={`/profile/${id}`} /> : null}
             {interests.map(interest => <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestSelected(e, inputs.interests)} /> )}
             <hr />
             <h5>Your Interests</h5>

@@ -37,7 +37,7 @@ export default {
     getOneProfile(id) {
         return axios.get(`/profile/${id}`);
     },
-    updateProfile(email, data) {
-        return axios.put(`/profile/${email}`, data);
+    updateProfile(id, data) {
+        return axios.put(`/profile/${id}`, data);
     },
 }

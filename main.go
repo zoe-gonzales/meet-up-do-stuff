@@ -42,7 +42,7 @@ func main() {
 	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
 	r.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
 	r.HandleFunc("/profile/{id}", api.GetProfile).Methods("GET")
-	r.HandleFunc("/profile/{email}", api.UpdateProfile).Methods("PUT")
+	r.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
 
 	// Event endpoints
 	r.HandleFunc("/events", api.GetAllEvents).Methods("GET")

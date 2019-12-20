@@ -43,14 +43,14 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 }
 
 // UpdateProfile updates fields in a user's profile
-func (u *User) UpdateProfile(updatedProfile Profile) (*gorm.DB, error) {
+func UpdateProfile(id string, updatedProfile Profile) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on updating profile", err)
 	}
 	defer db.Close()
 	var profile Profile
-	db.Raw(`select * from profile where user_id = ?`, u.ID).Scan(&profile)
+	db.Raw(`select * from profiles where user_id = ?`, id).Scan(&profile)
 
 	// Data changed
 	if updatedProfile.DisplayName != "" {

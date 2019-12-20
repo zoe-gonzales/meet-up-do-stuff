@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -206,26 +207,24 @@ func GetProfile(w http.ResponseWriter, r *http.Request) {
 
 // UpdateProfile edits and saves details of a user's profile
 func UpdateProfile(w http.ResponseWriter, r *http.Request) {
-	email := mux.Vars(r)["email"]
-	// query user by email
-	existing := user.Get(email)
+	id := mux.Vars(r)["id"]
 	// read body data
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		log.Fatal("error reading the request body: ", err)
 	}
 	// unmarshall body data into profile struct
 	var updatedProfile user.Profile
 	unmarshalErr := json.Unmarshal(body, &updatedProfile)
 	if unmarshalErr != nil {
-		panic(err)
+		log.Fatal("error unmarshalling request body into profile struct: ", unmarshalErr)
 	}
 	// update profile
-	u := &existing
-	record, updateErr := u.UpdateProfile(updatedProfile)
+	record, updateErr := user.UpdateProfile(id, updatedProfile)
 	if updateErr != nil {
-		panic(updateErr)
+		log.Fatal("error updating profile details: ", updateErr)
 	}
+
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
 	} else {

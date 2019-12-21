@@ -2,19 +2,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import actions from '../actions/formActions';
 
 const UseRedirect = () => {
-    const redirect = useSelector(state => state.Auth.redirect);
-    const id = useSelector(state => state.Auth.redirectId);
+    const redirect = useSelector(state => state.Redirect.redirect);
+    const id = useSelector(state => state.Redirect.redirectId);
     const dispatch = useDispatch();
 
-    const redirectPage = () => dispatch(actions.redirectPage());
+    const redirectPage = id => dispatch(actions.redirectPage({
+        redirect: true,
+        redirectId: id
+    }));
 
-    const setRedirectId = id => dispatch(actions.setUserId(id));
+    // may use in the future
+    // const setRedirectId = id => dispatch(actions.setUserId(id));
+    // const clearRedirectData = () => dispatch(actions.resetRedirect());
 
     return {
         redirect,
         redirectPage,
         id,
-        setRedirectId,
     };
 }
 

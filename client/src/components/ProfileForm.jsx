@@ -19,15 +19,14 @@ const ProfileForm = props => {
         redirect,
         redirectPage,
         id,
-        setRedirectId,
     } = UseRedirect();
 
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { nickName, location } = inputs;
         localStorage.setItem("nickName", nickName)
         localStorage.setItem("location", location)
-        setRedirectId(profileID)
-        redirectPage()
+        console.log(redirect)
+        redirectPage(profileID)
     }, 'profile');
 
     return (

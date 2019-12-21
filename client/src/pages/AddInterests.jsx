@@ -14,7 +14,6 @@ const InterestsAdder = props => {
         redirect,
         redirectPage,
         id,
-        setRedirectId,
     } = UseRedirect();
 
     const { inputs, handleInterestSelected, handleSubmit } = UseForm(() => {
@@ -32,8 +31,7 @@ const InterestsAdder = props => {
             .then(res => {
                 if (res.status === 200) {
                     localStorage.clear()
-                    setRedirectId(userID)
-                    redirectPage()
+                    redirectPage(userID)
                 }
             })
             .catch(err => console.log(err));

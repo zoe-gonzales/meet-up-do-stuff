@@ -11,7 +11,6 @@ const SignInForm = () => {
         id,
         redirect,
         redirectPage,
-        setRedirectId
     } = UseRedirect();
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { username, password } = inputs;
@@ -23,8 +22,7 @@ const SignInForm = () => {
           .logInUser(body)
           .then(res => {
               if (res.status === 200) {
-                setRedirectId(res.data.ID)
-                redirectPage()
+                redirectPage(res.data.UserID)
               }
           })
           .catch(err => console.log(err));

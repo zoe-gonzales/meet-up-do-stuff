@@ -41,10 +41,15 @@ const types = {
             data: event,
         }
     },
-    redirectPage() {
+    redirectPage(redirectData) {
         return {
             type: 'REDIRECT_PAGE',
-            data: true,
+            data: redirectData,
+        }
+    },
+    resetRedirect() {
+        return {
+            type: 'RESET_REDIRECT_STATE'
         }
     },
     setId(id) {

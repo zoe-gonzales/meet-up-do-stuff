@@ -26,9 +26,14 @@ const formActions = {
             dispatch(types.updateEventInterests(data));
         }
     },
-    redirectPage() {
+    redirectPage(data) {
         return (dispatch) => {
-            dispatch(types.redirectPage());
+            dispatch(types.redirectPage(data));
+        }
+    },
+    resetRedirect() {
+        return (dispatch) => {
+            dispatch(types.resetRedirect());
         }
     },
     setUserId(id) {

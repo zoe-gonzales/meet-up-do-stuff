@@ -22,7 +22,6 @@ const UseForm = (cb, formType) => {
         e.persist();
         const { name, value } = e.target;
         const changedInputs = {...inputs, [name]: value};
-        console.log(changedInputs)
         let dispatchAction;
         switch(formType) {
             case 'auth':

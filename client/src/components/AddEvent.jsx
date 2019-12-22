@@ -1,12 +1,20 @@
 import React from 'react';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
+import Alert from '../components/ValidationAlert';
 import UseForm from '../hooks/UseForm';
+import UseValidator from '../hooks/UseValidator';
 import interests from '../interests.json';
 import API from '../utils/API';
 import moment from 'moment';
+import validate from '../utils/validate';
 
 const AddEvent = () => {
+    const {
+        validInputs,
+        invalidateInputs,
+    } = UseValidator();
+
     const {
         inputs,
         handleInputChange,
@@ -24,48 +32,65 @@ const AddEvent = () => {
             Desc: desc,
             DateAndTime: formattedDT,
             Location: location,
-            RSVPs: '',
+            RSVPs: '---',
         }
-        // add event to db, alert user on success or if an error occurred
-        API
-          .addEvent(newEvent)
-          .then(res => {
-              if (res.status === 201) {
-                  alert("Congrats! Your event has been created.")
-              }
-          })
-          .catch(err => {
-              alert("There was an error processing your request. Please try again.")
-              console.log(err)
-          });
+        
+        if (
+            validate.string(newEvent.Title) &&
+            validate.string(newEvent.Interests) &&
+            validate.string(newEvent.Desc) &&
+            validate.date(newEvent.DateAndTime) &&
+            validate.string(newEvent.Location)
+        ) {
+            // add event to db, alert user on success or if an error occurred
+            API
+              .addEvent(newEvent)
+              .then(res => {
+                if (res.status === 201) {
+                    alert("Congrats! Your event has been created.")
+                }
+              })
+              .catch(err => console.log(err));
+        } else {
+            invalidateInputs()
+        }
 
     }, 'add event')
     return (
         <ContentContainer color="white">
+        {validInputs ? null : <Alert>Uh oh! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}
         <h4 className="title text-center">add an event</h4>
         <form onSubmit={e => handleSubmit(e)}>
             {/* title */}
             <div className="form-group">
                 <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.title} name="title" type="text" placeholder="event title" aria-label="title" />
+                <span className="required-sm">*required</span>
             </div>
             {/* description */}
             <div className="form-group">
                 <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.desc} name="desc" type="text" placeholder="event description" aria-label="desc" />
+                <span className="required-sm">*required</span>
             </div>
             {/* date */}
             <div className="form-group">
                 <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.date} name="date" type="date" aria-label="date" />
+                <span className="required-sm">*required</span>
             </div>
             {/* time */}
             <div className="form-group">
                 <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.time} name="time" type="time" aria-label="time" />
+                <span className="required-sm">*required</span>
             </div>
             {/* location */}
             <div className="form-group">
                 <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.location} name="location" type="text" placeholder="location" aria-label="location" />
+                <span className="required-sm">*required</span>
             </div>
             {/* related interests */}
-            <p>Related Interests</p>
+            <p>
+                Related Interests
+                <span className="required-sm">*minimum 1 interest required</span>
+            </p>
             {
                 interests.map(interest => {
                     const { id, name } = interest;

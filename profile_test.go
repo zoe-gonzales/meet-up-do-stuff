@@ -2,6 +2,7 @@
 package main
 
 import (
+	"strconv"
 	"testing"
 	"time"
 
@@ -60,7 +61,8 @@ func TestShouldUpdateProfile(t *testing.T) {
 			u := newUser.HashPwd()
 			u.Create()
 			newUser.CreateEmptyProfile()
-			record, err := u.UpdateProfile(tc.updatedProfile)
+			s := strconv.Itoa(int(u.ID))
+			record, err := user.UpdateProfile(s, tc.updatedProfile)
 			rowsAffected := record.RowsAffected
 			switch c := tc.name; c {
 			case "all_fields":

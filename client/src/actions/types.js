@@ -47,17 +47,6 @@ const types = {
             data: redirectData,
         }
     },
-    resetRedirect() {
-        return {
-            type: 'RESET_REDIRECT_STATE'
-        }
-    },
-    setId(id) {
-        return {
-            type: 'SET_ID',
-            data: id,
-        }
-    },
     getOneProfile(profile) {
         return {
             type: 'GET_ONE_PROFILE',

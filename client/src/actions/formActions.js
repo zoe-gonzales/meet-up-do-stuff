@@ -31,16 +31,6 @@ const formActions = {
             dispatch(types.redirectPage(data));
         }
     },
-    resetRedirect() {
-        return (dispatch) => {
-            dispatch(types.resetRedirect());
-        }
-    },
-    setUserId(id) {
-        return (dispatch) => {
-            dispatch(types.setId(id));
-        } 
-    }
 }
 
 export default formActions;

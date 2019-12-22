@@ -31,6 +31,11 @@ const formActions = {
             dispatch(types.redirectPage(data));
         }
     },
+    invalidateInputs() {
+        return (dispatch) => {
+            dispatch(types.invalidateInputs());
+        }
+    }
 }
 
 export default formActions;

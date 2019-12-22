@@ -47,6 +47,12 @@ const types = {
             data: redirectData,
         }
     },
+    invalidateInputs() {
+        return {
+            type: 'INVALIDATE_INPUTS',
+            data: false,
+        }
+    },
     getOneProfile(profile) {
         return {
             type: 'GET_ONE_PROFILE',

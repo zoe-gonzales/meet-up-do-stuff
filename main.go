@@ -13,6 +13,7 @@ import (
 	abclientstate "github.com/volatiletech/authboss-clientstate"
 	"github.com/zoe-gonzales/meet-up-do-stuff/api"
 	"github.com/zoe-gonzales/meet-up-do-stuff/auth"
+	"github.com/zoe-gonzales/meet-up-do-stuff/user"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
 	cstore.Options.Secure = false
 	cstore.MaxAge(int((30 * 24 * time.Hour) / time.Second))
 
-	// call function to set up auth
+	user.InitUserModel()
 	auth.InitAuth()
 
 	r := mux.NewRouter()

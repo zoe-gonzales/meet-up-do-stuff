@@ -2,9 +2,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
+import Alert from './ValidationAlert';
 import UseForm from '../hooks/UseForm';
 import UseRedirect from '../hooks/UseRedirect';
+import UseValidator from '../hooks/UseValidator';
 import API from '../utils/API';
+import validate from '../utils/validate';
 
 const SignInForm = () => {
     const {
@@ -12,24 +15,43 @@ const SignInForm = () => {
         redirect,
         redirectPage,
     } = UseRedirect();
+
+    const {
+        validInputs,
+        invalidateInputs,
+   } = UseValidator();
+
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { username, password } = inputs;
         const body = {
            Email: username,
            Password: password,
         }
-        API
-          .logInUser(body)
-          .then(res => {
-              if (res.status === 200) {
-                redirectPage(res.data.UserID)
-              }
-          })
-          .catch(err => console.log(err));
+
+        if (
+            validate.string(body.Email) &&
+            validate.string(body.Password)
+        ) {
+            API
+            .logInUser(body)
+            .then(res => {
+                if (res.status === 200) {
+                    redirectPage(res.data.UserID)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                invalidateInputs()
+            });
+        } else {
+            invalidateInputs()
+        }
+        
     }, 'auth');
 
     return (
         <ContentContainer color="white">
+            { validInputs ? null : <Alert>Uh oh! Something's not right with your credentials. Please try logging in again, or signing up.</Alert> }
             { redirect ? <Redirect to={`/home/${id}`} /> : null }
             <h4 className="title text-center">sign in</h4>
             <form onSubmit={e => handleSubmit(e)}>

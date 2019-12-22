@@ -196,4 +196,9 @@ body {
   margin: 0 0.7rem;
 }
 
+.pw-validation {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
 /*# sourceMappingURL=styles.css.map */

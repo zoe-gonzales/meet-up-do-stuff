@@ -52,7 +52,7 @@ const types = {
             type: 'GET_ONE_PROFILE',
             data: profile,
         }
-    }
+    },
 }
 
 export default types;

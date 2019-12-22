@@ -18,7 +18,6 @@ type Profile struct {
 	UserID      int
 	DisplayName string
 	Location    string
-	PathToImg   string
 	Interests   string
 	AdminOf     string
 	MemberOf    string
@@ -31,9 +30,7 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 	// create filename for avatar & generate image
 	fn := "user-" + strconv.FormatInt(int64(u.ID), 10)
 	avatar.GenerateAvatar(u.Email, fn, "./client/src/user_images/")
-	// save path to avatar image in profile
-	path := "/user_images/user-" + strconv.FormatInt(int64(u.ID), 10)
-	profile := Profile{User: u, UserID: id, DisplayName: "na", Location: "na", PathToImg: path, Interests: "na", AdminOf: "na", MemberOf: "na", RSVPS: "na"}
+	profile := Profile{User: u, UserID: id, DisplayName: "---", Location: "---", Interests: "---", AdminOf: "---", MemberOf: "---", RSVPS: "---"}
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating user profile", err)
@@ -59,9 +56,6 @@ func UpdateProfile(id string, updatedProfile Profile) (*gorm.DB, error) {
 	if updatedProfile.Location != "" {
 		profile.Location = updatedProfile.Location
 	}
-	if updatedProfile.PathToImg != "" {
-		profile.PathToImg = updatedProfile.PathToImg
-	}
 	if updatedProfile.Interests != "" {
 		profile.Interests = updatedProfile.Interests
 	}
@@ -78,7 +72,6 @@ func UpdateProfile(id string, updatedProfile Profile) (*gorm.DB, error) {
 	// No data changed
 	if updatedProfile.DisplayName == "" ||
 		updatedProfile.Location == "" ||
-		updatedProfile.PathToImg == "" ||
 		updatedProfile.Interests == "" ||
 		updatedProfile.AdminOf == "" ||
 		updatedProfile.MemberOf == "" ||

@@ -10,10 +10,6 @@ import (
 	"github.com/zoe-gonzales/meet-up-do-stuff/env"
 )
 
-// Given the desired env var name (string)
-// Test should check for a .env file at root,
-// read .env,
-// and return value requested
 func TestShouldRetrieveEnvVarFromFile(t *testing.T) {
 	os.Setenv("youtube_api_key", "123456789")
 	var tests = []struct {

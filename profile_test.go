@@ -36,11 +36,11 @@ func TestShouldUpdateProfile(t *testing.T) {
 	}{
 		{
 			name:           "all_fields",
-			updatedProfile: user.Profile{DisplayName: "Jane Lane", Location: "New York, NY", PathToImg: "../profilepics/user-1", Interests: "painting, running, sarcasm", AdminOf: "Artists-Meetup, Runners-Club", MemberOf: "Runners-Club", RSVPS: "8,18,28,38"},
+			updatedProfile: user.Profile{DisplayName: "Jane Lane", Location: "New York, NY", Interests: "painting, running, sarcasm", AdminOf: "Artists-Meetup, Runners-Club", MemberOf: "Runners-Club", RSVPS: "8,18,28,38"},
 		},
 		{
 			name:           "some_fields",
-			updatedProfile: user.Profile{Location: "Denver, CO", PathToImg: "../profilepics/user-2019", Interests: "coding, web development", RSVPS: "2,4,6"},
+			updatedProfile: user.Profile{Location: "Denver, CO", Interests: "coding, web development", RSVPS: "2,4,6"},
 		},
 		{
 			name:           "no_fields",
@@ -94,13 +94,12 @@ func TestShouldRetrieveProfile(t *testing.T) {
 	var u2 user.User
 	assert.IsType(t, profile.User, u2)
 	assert.GreaterOrEqual(t, profile.UserID, 1)
-	assert.Equal(t, profile.DisplayName, "na")
-	assert.Equal(t, profile.Location, "na")
-	assert.Equal(t, profile.PathToImg, "na")
-	assert.Equal(t, profile.Interests, "na")
-	assert.Equal(t, profile.AdminOf, "na")
-	assert.Equal(t, profile.MemberOf, "na")
-	assert.Equal(t, profile.RSVPS, "na")
+	assert.Equal(t, profile.DisplayName, "---")
+	assert.Equal(t, profile.Location, "---")
+	assert.Equal(t, profile.Interests, "---")
+	assert.Equal(t, profile.AdminOf, "---")
+	assert.Equal(t, profile.MemberOf, "---")
+	assert.Equal(t, profile.RSVPS, "---")
 	db.Delete(&u)
 }
 
@@ -123,7 +122,6 @@ func TestShouldDeleteProfile(t *testing.T) {
 	assert.Equal(t, profile.UserID, 0)
 	assert.Equal(t, profile.DisplayName, "")
 	assert.Equal(t, profile.Location, "")
-	assert.Equal(t, profile.PathToImg, "")
 	assert.Equal(t, profile.Interests, "")
 	assert.Equal(t, profile.AdminOf, "")
 	assert.Equal(t, profile.MemberOf, "")

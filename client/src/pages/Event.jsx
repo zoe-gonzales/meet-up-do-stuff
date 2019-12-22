@@ -15,10 +15,7 @@ const importAll = c => {
 const Event = props => {
     // using importAll to read images for user_images directory
     const images = importAll(require.context('../user_images', false, /\.(png)$/));
-
-    // match the id to identify when event to retrieve
     const id = props.match.params.id;
-
     let list = [];
     const {
         Title,
@@ -27,10 +24,8 @@ const Event = props => {
         Location,
         RSVPs,
     } = UseOneEvent(id);
-
     // create array out of string of rsvp ids
     if (RSVPs) list = RSVPs.split(", ")
-
     // make day and time readable
     const date = moment(DateAndTime).format('MMMM Do YYYY');
     const time = moment(DateAndTime).format('h:mm a');

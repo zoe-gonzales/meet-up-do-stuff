@@ -5,7 +5,7 @@ const profileActions = {
         return (dispatch) => {
             dispatch(types.getOneProfile(data));
         }
-    }
+    },
 }
 
 export default profileActions;

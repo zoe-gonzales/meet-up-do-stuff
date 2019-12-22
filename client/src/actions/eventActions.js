@@ -10,7 +10,7 @@ const eventActions = {
         return (dispatch) => {
             dispatch(types.getOneEvent(data));
         }
-    }
+    },
 }
 
 export default eventActions;

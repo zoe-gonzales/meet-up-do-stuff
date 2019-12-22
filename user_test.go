@@ -125,5 +125,3 @@ func TestShouldDeleteUserFromDB(t *testing.T) {
 	assert.Equal(t, data.DateJoined, ti)
 	assert.Equal(t, data.Verified, false)
 }
-
-// Function should verify user

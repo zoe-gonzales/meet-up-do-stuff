@@ -39,11 +39,7 @@ const UseForm = (cb, formType) => {
             default:
                 dispatchAction = null;
         }
-        if (dispatchAction) {
-            dispatch(dispatchAction);
-        } else {
-            // handle error here
-        }
+        if (dispatchAction) dispatch(dispatchAction);
     }
 
     const handleCheckboxSelection = (e, interests) => {

@@ -3,7 +3,6 @@ import UseProfile from '../hooks/UseOneProfile';
 import moment from 'moment';
 
 const UserProfile = props => {
-    // match id to make request for profile info
     const id = props.match.params.id;
     const {
         CreatedAt,
@@ -12,11 +11,9 @@ const UserProfile = props => {
         Interests,
         UserID,
     } = UseProfile(id);
-
     // importing profile image to display from user id
     let image = '';
     if (UserID) image = require(`../user_images/user-${UserID}.png`);
-
     // formatting date
     const date = moment(CreatedAt).format('MMMM Do YYYY');
     

@@ -24,7 +24,6 @@ type Event struct {
 
 // CreateEvent generates a new event and saves to db
 func (e Event) CreateEvent() *gorm.DB {
-	// potentially add validation on back end
 	db, err := db.Init()
 	if err != nil {
 		log.Fatal("Error initalizing database on creating event", err)
@@ -78,14 +77,12 @@ func (e *Event) UpdateEvent(updatedEvent Event) (*gorm.DB, error) {
 	if updatedEvent.Desc != "" {
 		event.Desc = updatedEvent.Desc
 	}
-	// need to consider if time.Time is the best time here - how to implement on front end
 	if !updatedEvent.DateAndTime.IsZero() {
 		event.DateAndTime = updatedEvent.DateAndTime
 	}
 	if updatedEvent.Location != "" {
 		event.Location = updatedEvent.Location
 	}
-	// issue if two users rsvp/unrsvp at the same time - may need a more detailed check
 	if updatedEvent.RSVPs != "" {
 		event.RSVPs = updatedEvent.RSVPs
 	}

@@ -21,10 +21,9 @@ const InterestsAdder = props => {
             DisplayName: localStorage.getItem("nickName"),
             Location: localStorage.getItem("location"),
             Interests: inputs.interests.join(","),
-            PathToImg: 'na',
-            AdminOf: 'na',
-            MemberOf: 'na',
-            RSVPS: 'na',
+            AdminOf: '---',
+            MemberOf: '---',
+            RSVPS: '---',
         }
 
         API.updateProfile(userID, data)

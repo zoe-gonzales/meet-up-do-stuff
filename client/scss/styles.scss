@@ -13,8 +13,16 @@ body {
 }
 
 .square-btn:hover {
-    background-color: $pale-blue-theme;
     color: black;
+    background-color: $pale-blue-theme;
+}
+
+.next-btn {
+    color: black;
+}
+
+.next-btn:hover {
+    background-color: white;
 }
 
 .oval-btn {
@@ -148,6 +156,8 @@ body {
 
 .avatar {
     margin: .5rem 0;
+    width: 180px;
+    height: 180px;
 }
 
 .flex-container {
@@ -184,4 +194,11 @@ body {
 
 .form-check {
     margin: .5rem;
+}
+
+.required-sm {
+    color: #DC143C;
+    font-size: .7rem;
+    font-style: italic;
+    margin: 0 .7rem;
 }

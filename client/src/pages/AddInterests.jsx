@@ -7,6 +7,7 @@ import interests from '../interests.json';
 import UseForm from '../hooks/UseForm';
 import UseRedirect from "../hooks/UseRedirect";
 import API from '../utils/API';
+import validate from '../utils/validate';
 
 const InterestsAdder = props => {
     const userID = props.match.params.id;
@@ -25,15 +26,24 @@ const InterestsAdder = props => {
             MemberOf: '---',
             RSVPS: '---',
         }
-
-        API.updateProfile(userID, data)
-            .then(res => {
-                if (res.status === 200) {
-                    localStorage.clear()
-                    redirectPage(userID)
-                }
-            })
-            .catch(err => console.log(err));
+        
+        if (validate.value(data.DisplayName) &&
+            validate.value(data.Location) &&
+            validate.string(data.Interests)) 
+            {
+                API.updateProfile(userID, data)
+                .then(res => {
+                    if (res.status === 200) {
+                        localStorage.clear()
+                        redirectPage(userID)
+                    }
+                })
+                .catch(err => console.log(err));
+            } else {
+                console.log("invalid inputs")
+                // handle invalid inputs
+            }
+        
     }, 'profile');
 
     return (
@@ -41,7 +51,10 @@ const InterestsAdder = props => {
             {redirect ? <Redirect to={`/profile/${id}`} /> : null}
             {interests.map(interest => <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestSelected(e, inputs.interests)} /> )}
             <hr />
-            <h5>Your Interests</h5>
+            <h5>
+                Your Interests
+                <span className="required-sm">*minimum 1 interest required</span>
+            </h5>
             {inputs.interests.map(selectedInterest => <div key={selectedInterest}>{selectedInterest}</div> )}
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="row" style={{ marginTop: 20 }}>

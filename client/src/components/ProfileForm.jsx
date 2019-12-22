@@ -32,9 +32,11 @@ const ProfileForm = props => {
                             </h2>
                             <div className="form-group">
                                 <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.nickName} name="nickName" type="text" placeholder="nick name" aria-label="nickName" />
+                                <span className="required-sm">*required</span>
                             </div>
                             <div className="form-group">
                                 <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.location} name="location" type="text" placeholder="location" aria-label="location" />
+                                <span className="required-sm">*required</span>
                             </div>
                         </div>
                         {/* Profile avatar*/}
@@ -47,7 +49,7 @@ const ProfileForm = props => {
                         <div className="col-md-5"></div>
                         <div className="col-md-2 text-center" style={{ marginTop: 20 }}>
                             <Button type="submit">Save</Button>
-                            <Link to={`/createinterests/${profileID}`}>Next</Link>
+                            <Link className="square-btn next-btn" to={`/createinterests/${profileID}`}>Next</Link>
                         </div>
                         <div className="col-md-5"></div>
                     </div>

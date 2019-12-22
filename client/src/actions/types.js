@@ -53,6 +53,12 @@ const types = {
             data: false,
         }
     },
+    duplicateEmail() {
+        return {
+            type: 'DUPLICATE_EMAIL',
+            data: true,
+        }
+    },
     getOneProfile(profile) {
         return {
             type: 'GET_ONE_PROFILE',

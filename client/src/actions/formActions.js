@@ -35,7 +35,12 @@ const formActions = {
         return (dispatch) => {
             dispatch(types.invalidateInputs());
         }
-    }
+    },
+    duplicateEmail() {
+        return (dispatch) => {
+            dispatch(types.duplicateEmail());
+        }
+    },
 }
 
 export default formActions;

@@ -1,5 +1,6 @@
 const initialState = {
-    validInputs: true
+    validInputs: true,
+    duplicateEmail: false,
 }
 
 const Validation = (state = initialState, action) => {
@@ -8,6 +9,11 @@ const Validation = (state = initialState, action) => {
             return {
                 ...state,
                 validInputs: action.data,
+            }
+        case 'DUPLICATE_EMAIL':
+            return {
+                ...state,
+                duplicateEmail: action.data,
             }
         default:
             return state;

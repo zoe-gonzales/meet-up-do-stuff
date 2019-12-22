@@ -12,6 +12,8 @@ const SignUpForm = () => {
    const {
         validInputs,
         invalidateInputs,
+        duplicateEmail,
+        duplicateEmailFound,
    } = UseValidator();
 
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
@@ -31,7 +33,7 @@ const SignUpForm = () => {
         .then(res => console.log(res))
         .catch(err => {
             console.log(err)
-            alert("The email address you're using already exists. Please try logging in instead.")
+            duplicateEmailFound()
         });
      } else {
          invalidateInputs()
@@ -41,7 +43,11 @@ const SignUpForm = () => {
 
     return (
         <ContentContainer color="white">
+            {/* Valid inputs alert */}
             {validInputs ? null : <Alert>Some of your information doesn't meet the requirements. Please check that you have submitted a valid email and password and that your passwords match.</Alert>}
+            {/* Dup email alert */}
+            {duplicateEmail ? <Alert>The email address you're using already exists. Please try logging in instead.</Alert> : null}
+            {/* Start of form */}
             <h4 className="title text-center">sign up</h4>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="form-group">

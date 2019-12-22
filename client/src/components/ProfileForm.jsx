@@ -1,9 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
 import UseForm from '../hooks/UseForm';
-import UseRedirect from '../hooks/UseRedirect';
 
 const importAll = c => {
     let imgs = {}
@@ -14,25 +13,16 @@ const importAll = c => {
 const ProfileForm = props => {
     const profileID = props.match.params.id;
     const images = importAll(require.context('../user_images/', false, /\.(png)$/));
-    
-    const {
-        redirect,
-        redirectPage,
-        id,
-    } = UseRedirect();
 
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         const { nickName, location } = inputs;
-        localStorage.setItem("nickName", nickName)
-        localStorage.setItem("location", location)
-        console.log(redirect)
-        redirectPage(profileID)
+        localStorage.setItem("nickName", nickName);
+        localStorage.setItem("location", location);
     }, 'profile');
 
     return (
         <ContentContainer color="white">
             <div className="container">
-                { redirect ? <Redirect to={`/createinterests/${id}`} /> : null }
                 <form onSubmit={e => handleSubmit(e)}>
                     <div className="row">
                         {/* Title and form fields */}
@@ -56,7 +46,8 @@ const ProfileForm = props => {
                         {/* Submit button  */}
                         <div className="col-md-5"></div>
                         <div className="col-md-2 text-center" style={{ marginTop: 20 }}>
-                            <Button type="submit">Next</Button>
+                            <Button type="submit">Save</Button>
+                            <Link to={`/createinterests/${profileID}`}>Next</Link>
                         </div>
                         <div className="col-md-5"></div>
                     </div>

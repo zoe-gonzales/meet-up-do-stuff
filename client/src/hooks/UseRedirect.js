@@ -11,14 +11,14 @@ const UseRedirect = () => {
         redirectId: id
     }));
 
-    // may use in the future
-    // const setRedirectId = id => dispatch(actions.setUserId(id));
+    const setRedirectId = id => dispatch(actions.setUserId(id));
     // const clearRedirectData = () => dispatch(actions.resetRedirect());
 
     return {
         redirect,
         redirectPage,
         id,
+        setRedirectId,
     };
 }
 

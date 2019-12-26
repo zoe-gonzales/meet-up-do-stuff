@@ -5,8 +5,10 @@ package auth
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
+	"github.com/gorilla/securecookie"
 	"github.com/volatiletech/authboss"
 	abclientstate "github.com/volatiletech/authboss-clientstate"
 	"github.com/volatiletech/authboss/logout"
@@ -136,4 +138,35 @@ func LogOut(w http.ResponseWriter, req *http.Request) error {
 	/* need to look into, may need to define
 	a CurrentUser within routes.go or main.go */
 	return (&o).Logout(w, req)
+}
+
+var sc = securecookie.New(securecookie.GenerateRandomKey(16), securecookie.GenerateRandomKey(16))
+
+// SetCookieHandler encodes the cookie value
+func SetCookieHandler(w http.ResponseWriter, r *http.Request) *http.Cookie {
+	value := map[string]string{
+		"user-cookie": "1",
+	}
+	encoded, err := sc.Encode("user-cookie", value)
+	if err == nil {
+		cookie := &http.Cookie{
+			Name:  "user-cookie",
+			Value: encoded,
+			Path:  "/",
+		}
+		return cookie
+	}
+	return nil
+}
+
+// ReadCookieHandler decodes cookie value
+func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("user-cookie")
+	if err == nil {
+		value := map[string]string{}
+		err2 := sc.Decode("user-cookie", cookie.Value, &value)
+		if err2 == nil {
+			fmt.Printf("The value of the cookie is %q", value["user-cookie"])
+		}
+	}
 }

@@ -38,6 +38,9 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 		panic(pwdErr)
 	}
 
+	cookie := auth.SetCookieHandler(w, r)
+	http.SetCookie(w, cookie)
+
 	// Create new auth user & generate a remember token
 	_, authErr := auth.NewAuthUser(us)
 	if authErr != nil {
@@ -60,6 +63,7 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// Write app/json header and send profile data
 	w.Header().Set("Content-Type", "application/json")
+	// w.Header().Set()
 	w.WriteHeader(http.StatusOK)
 	w.Write(profileJSON)
 }
@@ -224,6 +228,8 @@ func UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	if updateErr != nil {
 		log.Fatal("error updating profile details: ", updateErr)
 	}
+
+	auth.ReadCookieHandler(w, r)
 
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)

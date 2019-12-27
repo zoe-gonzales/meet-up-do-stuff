@@ -225,9 +225,6 @@ func UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	if updated != nil {
 		log.Printf("%v", updated)
 	}
-
-	auth.ReadCookieHandler(w, r)
-
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
 	} else {

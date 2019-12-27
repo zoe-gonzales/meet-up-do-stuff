@@ -5,7 +5,7 @@ package auth
 import (
 	"context"
 	"errors"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/securecookie"
@@ -160,13 +160,16 @@ func SetCookieHandler(w http.ResponseWriter, r *http.Request) *http.Cookie {
 }
 
 // ReadCookieHandler decodes cookie value
+// if cookie is not found, sends 403 error
 func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("user-cookie")
-	if err == nil {
-		value := map[string]string{}
-		err2 := sc.Decode("user-cookie", cookie.Value, &value)
-		if err2 == nil {
-			fmt.Printf("The value of the cookie is %q", value["user-cookie"])
-		}
+	if err != nil {
+		log.Printf("Error fetching cookie: %v", err)
+		w.WriteHeader(http.StatusForbidden)
+	}
+	value := map[string]string{}
+	decoded := sc.Decode("user-cookie", cookie.Value, &value)
+	if decoded != nil {
+		log.Printf("Error decoding cookie: %v", decoded)
 	}
 }

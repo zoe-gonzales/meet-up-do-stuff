@@ -35,22 +35,28 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// User & Profile endpoints
+	// public endpoints
 	r.HandleFunc("/login", api.AuthenticateUser).Methods("POST")
 	r.HandleFunc("/signup", api.RegisterNewUser).Methods("POST")
 	r.HandleFunc("/logout", api.LogOutUser).Methods("POST")
-	r.HandleFunc("/user/{id}", api.GetUserByID).Methods("GET")
-	r.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
-	r.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
 	r.HandleFunc("/profile/{id}", api.GetProfile).Methods("GET")
-	r.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
-
-	// Event endpoints
 	r.HandleFunc("/events", api.GetAllEvents).Methods("GET")
 	r.HandleFunc("/events/{id}", api.GetSingleEvent).Methods("GET")
+
 	r.HandleFunc("/event", api.AddEvent).Methods("POST")
 	r.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
 	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
+
+	// Restricted endpoints
+	s := r.PathPrefix("/").Subrouter()
+	s.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(auth.ReadCookieHandler)
+	})
+	s.HandleFunc("/events/{id}", api.GetSingleEvent).Methods("GET")
+	s.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
+	s.HandleFunc("/user/{id}", api.GetUserByID).Methods("GET")
+	s.HandleFunc("/user/{email}", api.UpdateUserDetails).Methods("PUT")
+	s.HandleFunc("/user/{email}", api.DeleteUser).Methods("DELETE")
 
 	port := os.Getenv("PORT")
 	if port == "" {

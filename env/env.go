@@ -14,7 +14,7 @@ func RetrieveEnvVar(s string, pathToDotEnv string) string {
 	if v == "" {
 		err := godotenv.Load(pathToDotEnv)
 		if err != nil {
-			log.Fatal("Error loading .env file", err)
+			log.Printf("Error loading .env file: %v", err)
 		}
 		v = os.Getenv(s)
 	}

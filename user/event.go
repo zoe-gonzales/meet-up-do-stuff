@@ -26,7 +26,7 @@ type Event struct {
 func (e Event) CreateEvent() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating event", err)
+		log.Printf("Error initalizing database on creating event: %v", err)
 	}
 	defer db.Close()
 	return db.Create(&e)
@@ -36,7 +36,7 @@ func (e Event) CreateEvent() *gorm.DB {
 func GetAllEvents() []Event {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on retrieving single event", err)
+		log.Printf("Error initalizing database on retrieving event: %v", err)
 	}
 	defer db.Close()
 	var events []Event
@@ -48,7 +48,7 @@ func GetAllEvents() []Event {
 func (e *Event) GetOneEvent() Event {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on retrieving single event", err)
+		log.Printf("Error initalizing database on retrieving single event: %v", err)
 	}
 	defer db.Close()
 	var event Event
@@ -60,7 +60,7 @@ func (e *Event) GetOneEvent() Event {
 func (e *Event) UpdateEvent(updatedEvent Event) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on updating event", err)
+		log.Printf("Error initalizing database on updating event: %v", err)
 	}
 	defer db.Close()
 	var event Event
@@ -86,7 +86,7 @@ func (e *Event) UpdateEvent(updatedEvent Event) (*gorm.DB, error) {
 	if updatedEvent.RSVPs != "" {
 		event.RSVPs = updatedEvent.RSVPs
 	}
-	// Handle if any or all fields are empty
+	// Return unchanged *gorm.DB if any fields are empty
 	if updatedEvent.Owners == "" ||
 		updatedEvent.Title == "" ||
 		updatedEvent.Interests == "" ||
@@ -104,7 +104,7 @@ func (e *Event) UpdateEvent(updatedEvent Event) (*gorm.DB, error) {
 func (e *Event) DeleteEvent() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on deleting event", err)
+		log.Printf("Error initalizing database on deleting event: %v", err)
 	}
 	defer db.Close()
 	return db.Delete(&e)

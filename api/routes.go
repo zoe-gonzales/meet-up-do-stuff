@@ -21,11 +21,11 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	var u user.User
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	unmarshalErr := json.Unmarshal(body, &u)
 	if unmarshalErr != nil {
-		panic(unmarshalErr)
+		log.Printf("%v", unmarshalErr)
 	}
 	// retrieve user & convert passwords to []byte
 	us := user.Get(u.Email)
@@ -33,9 +33,9 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	old := []byte(us.Password) // pwd from db
 
 	// use CompareHashAndPassword from bcyrpt package
-	pwdErr := bcrypt.CompareHashAndPassword(old, new)
-	if pwdErr != nil {
-		panic(pwdErr)
+	hashed := bcrypt.CompareHashAndPassword(old, new)
+	if hashed != nil {
+		log.Printf("%v", hashed)
 	}
 
 	cookie := auth.SetCookieHandler(w, r)
@@ -44,26 +44,25 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	// Create new auth user & generate a remember token
 	_, authErr := auth.NewAuthUser(us)
 	if authErr != nil {
-		panic(authErr)
+		log.Printf("%v", authErr)
 	}
-	er := auth.GenerateToken(w, r)
-	if er != nil {
-		panic(er)
+	generated := auth.GenerateToken(w, r)
+	if generated != nil {
+		log.Printf("%v", generated)
 	}
 	// Authenticate user with authboss library
-	er2 := auth.AuthenticateUser(w, &r)
-	if er2 != nil {
-		panic(er)
+	authenticated := auth.AuthenticateUser(w, &r)
+	if authenticated != nil {
+		log.Printf("%v", authenticated)
 	}
 	// retrieve profile on user's account & marshal to JSON
 	profile := us.GetProfile()
 	profileJSON, profileJSONErr := json.Marshal(profile)
 	if profileJSONErr != nil {
-		panic(profileJSONErr)
+		log.Printf("%v", profileJSONErr)
 	}
 	// Write app/json header and send profile data
 	w.Header().Set("Content-Type", "application/json")
-	// w.Header().Set()
 	w.WriteHeader(http.StatusOK)
 	w.Write(profileJSON)
 }
@@ -74,12 +73,12 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	var newUser user.User
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	// unmarshal data into struct
 	unmarshalErr := json.Unmarshal(body, &newUser)
 	if unmarshalErr != nil {
-		panic(unmarshalErr)
+		log.Printf("%v", unmarshalErr)
 	}
 	// Hash user password and create user
 	u := newUser.HashPwd()
@@ -87,26 +86,24 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	u.Verified = false
 	q := u.Create()
 	if q.RowsAffected != int64(1) {
-		e := errors.New("Error: Unable to create user")
-		panic(e)
+		log.Printf("%v", errors.New("Error: Unable to create user"))
 	}
 	// Retrieve user and create an empty profile linked by UserID
 	myUser := user.Get(newUser.Email)
 	s := myUser.CreateEmptyProfile()
 
 	if s.RowsAffected != int64(1) {
-		e := errors.New("Error: Unable to add profile to user's account")
-		panic(e)
+		log.Printf("%v", errors.New("Error: Unable to add profile to user's account"))
 	}
 	// Create new auth user using current user's data
 	_, authErr := auth.NewAuthUser(myUser)
 	if authErr != nil {
-		panic(authErr)
+		log.Printf("%v", authErr)
 	}
 	// Generate a token saved in that users's cookies
-	er := auth.GenerateToken(w, r)
-	if er != nil {
-		panic(er)
+	generated := auth.GenerateToken(w, r)
+	if generated != nil {
+		log.Printf("%v", generated)
 	}
 	w.WriteHeader(http.StatusCreated)
 }
@@ -115,7 +112,7 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 func LogOutUser(w http.ResponseWriter, r *http.Request) {
 	err := auth.LogOut(w, r)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	w.WriteHeader(http.StatusOK)
 }
@@ -124,9 +121,9 @@ func LogOutUser(w http.ResponseWriter, r *http.Request) {
 func GetOneUser(w http.ResponseWriter, r *http.Request) {
 	email := mux.Vars(r)["email"]
 	record := user.Get(email)
-	userJSON, errJSON := json.Marshal(record)
-	if errJSON != nil {
-		panic(errJSON)
+	userJSON, JSONErr := json.Marshal(record)
+	if JSONErr != nil {
+		log.Printf("%v", JSONErr)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -137,9 +134,9 @@ func GetOneUser(w http.ResponseWriter, r *http.Request) {
 func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	record := user.GetByID(id)
-	userJSON, errJSON := json.Marshal(record)
-	if errJSON != nil {
-		panic(errJSON)
+	userJSON, JSONErr := json.Marshal(record)
+	if JSONErr != nil {
+		log.Printf("%v", JSONErr)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -154,19 +151,19 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 	// read body data
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	// unmarshall body data into user struct
 	var updatedUser user.User
 	unmarshalErr := json.Unmarshal(body, &updatedUser)
 	if unmarshalErr != nil {
-		panic(err)
+		log.Printf("%v", unmarshalErr)
 	}
 	// update user
 	u := &existing
-	record, updateErr := u.Update(updatedUser)
-	if updateErr != nil {
-		panic(updateErr)
+	record, updated := u.Update(updatedUser)
+	if updated != nil {
+		log.Printf("%v", updated)
 	}
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
@@ -192,17 +189,17 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetProfile retrieves one user and sends to client
 func GetProfile(w http.ResponseWriter, r *http.Request) {
 	idAsString := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(idAsString)
-	if err != nil {
-		panic(err)
+	id, converted := strconv.Atoi(idAsString)
+	if converted != nil {
+		log.Printf("%v", converted)
 	}
 	var requestedUser user.User
 	u := &requestedUser
 	u.ID = uint(id)
 	record := u.GetProfile()
-	profileJSON, errJSON := json.Marshal(record)
-	if errJSON != nil {
-		panic(errJSON)
+	profileJSON, JSONErr := json.Marshal(record)
+	if JSONErr != nil {
+		log.Printf("%v", JSONErr)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -215,18 +212,18 @@ func UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	// read body data
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal("error reading the request body: ", err)
+		log.Printf("%v", err)
 	}
 	// unmarshall body data into profile struct
 	var updatedProfile user.Profile
 	unmarshalErr := json.Unmarshal(body, &updatedProfile)
 	if unmarshalErr != nil {
-		log.Fatal("error unmarshalling request body into profile struct: ", unmarshalErr)
+		log.Printf("%v", unmarshalErr)
 	}
 	// update profile
-	record, updateErr := user.UpdateProfile(id, updatedProfile)
-	if updateErr != nil {
-		log.Fatal("error updating profile details: ", updateErr)
+	record, updated := user.UpdateProfile(id, updatedProfile)
+	if updated != nil {
+		log.Printf("%v", updated)
 	}
 
 	auth.ReadCookieHandler(w, r)
@@ -245,7 +242,7 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 	// save as JSON
 	eventsJSON, err := json.Marshal(events)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	// Write headers
 	w.Header().Set("Content-Type", "application/json")
@@ -258,16 +255,16 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
 	var event user.Event
 	idStr := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		panic(err)
+	id, converted := strconv.Atoi(idStr)
+	if converted != nil {
+		log.Printf("%v", converted)
 	}
 	e := &event
 	e.EventID = id
 	record := e.GetOneEvent()
-	eventJSON, errJSON := json.Marshal(record)
-	if errJSON != nil {
-		panic(errJSON)
+	eventJSON, JSONErr := json.Marshal(record)
+	if JSONErr != nil {
+		log.Printf("%v", JSONErr)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -280,11 +277,11 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 	var newEvent user.Event
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	unmarshalErr := json.Unmarshal(body, &newEvent)
 	if unmarshalErr != nil {
-		panic(unmarshalErr)
+		log.Printf("%v", unmarshalErr)
 	}
 	// create event
 	record := newEvent.CreateEvent()
@@ -301,7 +298,7 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	// create new event tied to id
 	var event user.Event
@@ -311,12 +308,12 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 	// read body data
 	body, readErr := ioutil.ReadAll(r.Body)
 	if readErr != nil {
-		panic(readErr)
+		log.Printf("%v", readErr)
 	}
 	// unmarshal into event struct
 	unmarshalErr := json.Unmarshal(body, &updatedEvent)
 	if unmarshalErr != nil {
-		panic(unmarshalErr)
+		log.Printf("%v", unmarshalErr)
 	}
 	// update event
 	record, _ := e.UpdateEvent(updatedEvent)
@@ -335,7 +332,7 @@ func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		panic(err)
+		log.Printf("%v", err)
 	}
 	e := &event
 	e.EventID = id

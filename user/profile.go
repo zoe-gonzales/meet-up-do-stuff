@@ -33,7 +33,7 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 	profile := Profile{User: u, UserID: id, DisplayName: "---", Location: "---", Interests: "---", AdminOf: "---", MemberOf: "---", RSVPS: "---"}
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user profile", err)
+		log.Printf("Error initalizing database on creating user profile: %v", err)
 	}
 	defer db.Close()
 	return db.Create(&profile)
@@ -43,7 +43,7 @@ func (u User) CreateEmptyProfile() *gorm.DB {
 func UpdateProfile(id string, updatedProfile Profile) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on updating profile", err)
+		log.Printf("Error initalizing database on updating profile: %v", err)
 	}
 	defer db.Close()
 	var profile Profile
@@ -86,7 +86,7 @@ func UpdateProfile(id string, updatedProfile Profile) (*gorm.DB, error) {
 func (u *User) GetProfile() Profile {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on retrieving profile", err)
+		log.Printf("Error initalizing database on fetching profile: %v", err)
 	}
 	defer db.Close()
 	var profile Profile
@@ -98,7 +98,7 @@ func (u *User) GetProfile() Profile {
 func (u *User) DeleteProfile() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on deleting profile", err)
+		log.Printf("Error initalizing database on deleting profile: %v", err)
 	}
 	defer db.Close()
 	var profile Profile

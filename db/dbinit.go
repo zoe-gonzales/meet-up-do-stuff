@@ -14,7 +14,7 @@ func Init() (*gorm.DB, error) {
 	connection := env.RetrieveEnvVar("CONNECTION", "./.env")
 	db, err := gorm.Open("postgres", connection)
 	if err != nil {
-		log.Fatal("Error connecting to db", err)
+		log.Printf("Error connecting to db: %v", err)
 	}
 	return db, err
 }

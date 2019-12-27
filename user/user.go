@@ -24,7 +24,7 @@ type User struct {
 func InitUserModel() {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Printf("Error initalizing models: %v", err)
 	}
 	defer db.Close()
 	db.AutoMigrate(&User{}, &Profile{}, &Event{})
@@ -34,7 +34,7 @@ func InitUserModel() {
 func (u *User) Create() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Printf("Error initalizing database on creating user: %v", err)
 	}
 	defer db.Close()
 	return db.Create(&u)
@@ -45,7 +45,7 @@ func (u *User) HashPwd() *User {
 	pw := []byte(u.Password)
 	hashed, err := bcrypt.GenerateFromPassword(pw, bcrypt.DefaultCost)
 	if err != nil {
-		panic(err)
+		log.Printf("Error hashing password: %v", err)
 	}
 	u.Password = string(hashed)
 	return u
@@ -55,7 +55,7 @@ func (u *User) HashPwd() *User {
 func Get(em string) User {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Printf("Error initalizing database on fetching user by email: %v", err)
 	}
 	defer db.Close()
 	var user User
@@ -67,7 +67,7 @@ func Get(em string) User {
 func GetByID(id string) User {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on creating user", err)
+		log.Printf("Error initalizing database on fetching user by ID: %v", err)
 	}
 	defer db.Close()
 	var user User
@@ -79,7 +79,7 @@ func GetByID(id string) User {
 func (u *User) Update(updatedUser User) (*gorm.DB, error) {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on updating user", err)
+		log.Printf("Error initalizing database on updating user: %v", err)
 	}
 	defer db.Close()
 	var user User
@@ -106,7 +106,7 @@ func (u *User) Update(updatedUser User) (*gorm.DB, error) {
 func (u *User) Delete() *gorm.DB {
 	db, err := db.Init()
 	if err != nil {
-		log.Fatal("Error initalizing database on deleting user", err)
+		log.Printf("Error initalizing database on deleting user: %v", err)
 	}
 	defer db.Close()
 	return db.Delete(&u)

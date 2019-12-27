@@ -38,7 +38,7 @@ const (
 
 // InitAuth sets up and runs auth
 func InitAuth() *authboss.Authboss {
-	ab.Config.Paths.RootURL = "http://localhost:1323"
+	ab.Config.Paths.RootURL = "http://localhost:8080"
 	ab.Config.Storage.SessionState = SessionStore
 	ab.Config.Storage.CookieState = CookieStore
 	return ab

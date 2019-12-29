@@ -159,17 +159,21 @@ func SetCookieHandler(w http.ResponseWriter, r *http.Request) *http.Cookie {
 	return nil
 }
 
-// ReadCookieHandler decodes cookie value
+// VerifyCookie decodes cookie value
 // if cookie is not found, sends 403 error
-func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("user-cookie")
-	if err != nil {
-		log.Printf("Error fetching cookie: %v", err)
-		w.WriteHeader(http.StatusForbidden)
-	}
-	value := map[string]string{}
-	decoded := sc.Decode("user-cookie", cookie.Value, &value)
-	if decoded != nil {
-		log.Printf("Error decoding cookie: %v", decoded)
-	}
+func VerifyCookie(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("user-cookie")
+		if err != nil {
+			log.Printf("Error fetching cookie: %v", err)
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+		value := map[string]string{}
+		decoded := sc.Decode("user-cookie", cookie.Value, &value)
+		if decoded != nil {
+			log.Printf("Error decoding cookie: %v", decoded)
+		}
+		next.ServeHTTP(w, r)
+	})
 }

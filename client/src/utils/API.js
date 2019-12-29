@@ -25,19 +25,23 @@ export default {
     logOutUser(data) {
         return axios.post("/logout", data);
     },
-    updateUser(email) {
-        return axios.put(`/user/${email}`);
-    },
-    getUserByID(id) {
-        return axios.get(`/user/${id}`);
-    },
-    deleteUser(email) {
-        return axios.delete(`/user/${email}`);
-    },
     getOneProfile(id) {
         return axios.get(`/profile/${id}`);
     },
+    // protected routes
+    getEventAsUser(userID, eventID) {
+        return axios.get(`/user/${userID}/event/${eventID}`, { withCredentials: true });
+    },
+    getUserByID(id) {
+        return axios.get(`/user/${id}`, { withCredentials: true });
+    },
+    updateUser(id, email) {
+        return axios.put(`/user/${id}/${email}`, { withCredentials: true });
+    },
+    deleteUser(id, email) {
+        return axios.delete(`/user/${id}/${email}`, { withCredentials: true });
+    },
     updateProfile(id, data) {
-        return axios.put(`/profile/${id}`, data);
+        return axios.put(`/user/${id}/profile/${id}`, data, { withCredentials: true });
     },
 }

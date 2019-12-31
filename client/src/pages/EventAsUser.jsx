@@ -18,6 +18,8 @@ const EventAsUser = props => {
     const eventID = props.match.params.eventID;
     const userID = props.match.params.userID;
     let list = [];
+    let userGoing = false;
+
     const {
         Title,
         Desc,
@@ -29,16 +31,29 @@ const EventAsUser = props => {
     // create array out of string of rsvp ids
     if (RSVPs !== '---' && RSVPs) list = RSVPs.split(", ")
     
+    // toggle the rsvp button based on whether user is attending or not
+    if (list.includes(userID)) userGoing = true
+    else userGoing = false
+
     // make day and time readable
     const date = moment(DateAndTime).format('MMMM Do YYYY');
     const time = moment(DateAndTime).format('h:mm a');
+
+    const handleClick = e => {
+        const { event, user } = e.target.dataset
+        // Make API request to updates RSVPs for the event and the user
+    }
 
     return (
         <div className="row">
             <div className="col-md-2"></div>
             <div className="col-md-4">
-                <Button id={userID} color="#FFC5AB">Going</Button>
-                <Button id={userID} color="#dc3445">Not Going</Button>
+                <Button 
+                    handleClick={handleClick}
+                    color={userGoing ? "#dc3445" : "#FFC5AB" }
+                    event={eventID}
+                    user={userID}
+                >{userGoing ? "Not Going" : "Going"}</Button>
                 <div className="attendees-content">
                     <div className="row">Others going:</div>
                     <div className="row">

@@ -12,10 +12,11 @@ const importAll = c => {
     return imgs
 }
 
-const Event = props => {
+const EventAsUser = props => {
     // using importAll to read images for user_images directory
     const images = importAll(require.context('../user_images', false, /\.(png)$/));
-    const id = props.match.params.id;
+    const eventID = props.match.params.eventID;
+    const userID = props.match.params.userID;
     let list = [];
     const {
         Title,
@@ -23,9 +24,11 @@ const Event = props => {
         DateAndTime,
         Location,
         RSVPs,
-    } = UseOneEvent(id);
+    } = UseOneEvent(eventID);
+    
     // create array out of string of rsvp ids
-    if (RSVPs) list = RSVPs.split(", ")
+    if (RSVPs !== '---' && RSVPs) list = RSVPs.split(", ")
+    
     // make day and time readable
     const date = moment(DateAndTime).format('MMMM Do YYYY');
     const time = moment(DateAndTime).format('h:mm a');
@@ -34,18 +37,22 @@ const Event = props => {
         <div className="row">
             <div className="col-md-2"></div>
             <div className="col-md-4">
-                <Button color="#FFC5AB">Going</Button>
-                <Button color="#dc3445">Not Going</Button>
+                <Button id={userID} color="#FFC5AB">Going</Button>
+                <Button id={userID} color="#dc3445">Not Going</Button>
                 <div className="attendees-content">
                     <div className="row">Others going:</div>
                     <div className="row">
-                        {list.map(RSVPID => {
-                            return (
-                                <Link to={`/profile/${RSVPID}`} key={RSVPID}>
-                                    <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
-                                </Link>
-                            )
-                        })}
+                        { list.length === 0 ? (
+                            <p>No one is attending this event yet.</p>
+                        ) : (
+                            list.map(RSVPID => {
+                                return (
+                                    <Link to={`/profile/${RSVPID}`} key={RSVPID}>
+                                        <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
+                                    </Link>
+                                )
+                            })
+                        )}
                     </div>
                 </div>
             </div>
@@ -63,4 +70,4 @@ const Event = props => {
     )
 }
 
-export default Event;
+export default EventAsUser;

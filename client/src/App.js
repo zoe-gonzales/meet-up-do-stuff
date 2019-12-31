@@ -11,7 +11,8 @@ import LogIn from './components/SignInForm';
 import SignUp from './components/SignUpForm';
 import CreateProfile from './components/ProfileForm';
 import InterestAdder from './pages/AddInterests';
-import Event from './pages/Event';
+import EventAsPublic from './pages/EventAsPublic';
+import EventAsUser from './pages/EventAsUser';
 import AddEvent from './components/AddEvent';
 import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
@@ -28,7 +29,8 @@ const App = () => {
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
         <Route exact path="/profile/:id" component={UserProfile} />
-        <Route exact path="/events/:id" component={Event} />
+        <Route exact path="/events/:id" component={EventAsPublic} />
+        <Route exact path="/user/:userID/events/:eventID" component={EventAsUser} />
         <Route exact path="/addevent" component={AddEvent} />
         <Route component={NotFound} />
       </Switch>

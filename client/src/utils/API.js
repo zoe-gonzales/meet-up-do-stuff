@@ -10,8 +10,8 @@ export default {
     addEvent(data) {
         return axios.post("/event", data);
     },
-    updateEvent(id) {
-        return axios.put(`/event/${id}`);
+    updateEvent(id, data) {
+        return axios.put(`/event/${id}`, data);
     },
     deleteEvent(id) {
         return axios.delete(`/event/${id}`);

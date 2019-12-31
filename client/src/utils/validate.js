@@ -18,4 +18,8 @@ export default {
         if (first === '' || second === '') return false;
         return first === second;
     },
+    arrayIncludes(item, arr) {
+        if (arr.length <= 0) return false;
+        return arr.includes(item);
+    },
 }

@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import UseOneEvent from '../hooks/UseOneEvent';
+import UseProfile from '../hooks/UseOneProfile';
 import EventDetails from '../components/LargeEventCard';
 import Button from '../components/RSVPButton';
+import validate from '../utils/validate';
+import API from '../utils/API';
 
 // importAll checks each image and updated its path
 const importAll = c => {
@@ -20,13 +23,16 @@ const EventAsUser = props => {
     let list = [];
     let userGoing = false;
 
-    const {
+    const eventData = UseOneEvent(eventID);
+    let {
         Title,
         Desc,
         DateAndTime,
         Location,
         RSVPs,
-    } = UseOneEvent(eventID);
+    } = eventData;
+
+    const profile = UseProfile(userID);
     
     // create array out of string of rsvp ids
     if (RSVPs !== '---' && RSVPs) list = RSVPs.split(", ")
@@ -41,7 +47,48 @@ const EventAsUser = props => {
 
     const handleClick = e => {
         const { event, user } = e.target.dataset
+        
+        // updating RSVPs list for user
+        let userRSVPs;
+
+        // checking if RSVPs is default value
+        if (profile.RSVPS === '---') userRSVPs = []
+        else userRSVPs = [...profile.RSVPS]
+        
+        if (validate.arrayIncludes(event, userRSVPs)) {
+            // handle if user is already RSVP'd
+            userRSVPs = userRSVPs.filter(u => u !== event)
+        } else {
+            userRSVPs.push(`${event}`)
+        }
+        profile.RSVPS = userRSVPs.join(",")
+        if (profile.RSVPS === "") profile.RSVPS = '---'
+        
+        // updating RSVPs list for event
+        let eventRSVPs;
+        if (eventData.RSVPs === '---') eventRSVPs = []
+        else eventRSVPs = [...eventData.RSVPs]
+        
+        if (validate.arrayIncludes(user, eventRSVPs)) {
+            // handle if user is already RSVP'd
+            eventRSVPs = eventRSVPs.filter(e => e !== user)
+        } else {
+            eventRSVPs.push(`${user}`)
+        }
+        eventData.RSVPs = eventRSVPs.join(",")
+        if (eventData.RSVPs === "") eventData.RSVPs = '---'
+            
         // Make API request to updates RSVPs for the event and the user
+        API
+          .updateProfile(user, profile)
+          .then(res => {
+            console.log(res)
+            API
+              .updateEvent(event, eventData)
+              .then(res => console.log(res))
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
     }
 
     return (

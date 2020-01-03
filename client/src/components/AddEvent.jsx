@@ -9,11 +9,13 @@ import API from '../utils/API';
 import moment from 'moment';
 import validate from '../utils/validate';
 
-const AddEvent = () => {
+const AddEvent = props => {
     const {
         validInputs,
         invalidateInputs,
     } = UseValidator();
+
+    const userID = props.match.params.userID;
 
     const {
         inputs,
@@ -27,6 +29,7 @@ const AddEvent = () => {
         const dt = `${date}T${time}:00`;
         const formattedDT = moment(dt).format();
         const newEvent = {
+            Owners: userID,
             Title: title,
             Interests: interests,
             Desc: desc,

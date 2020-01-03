@@ -42,9 +42,6 @@ func main() {
 	r.HandleFunc("/profile/{id}", api.GetProfile).Methods("GET")
 	r.HandleFunc("/events", api.GetAllEvents).Methods("GET")
 	r.HandleFunc("/events/{id}", api.GetSingleEvent).Methods("GET")
-	r.HandleFunc("/event", api.AddEvent).Methods("POST")
-	r.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
-	r.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
 	// Restricted endpoints
 	s := r.PathPrefix("/user/{userID}").Subrouter()
@@ -54,6 +51,9 @@ func main() {
 	s.HandleFunc("/", api.GetUserByID).Methods("GET")
 	s.HandleFunc("/{email}", api.UpdateUserDetails).Methods("PUT")
 	s.HandleFunc("/{email}", api.DeleteUser).Methods("DELETE")
+	s.HandleFunc("/event", api.AddEvent).Methods("POST")
+	s.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
+	s.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")
 
 	port := os.Getenv("PORT")
 	if port == "" {

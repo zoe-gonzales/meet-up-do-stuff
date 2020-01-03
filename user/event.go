@@ -13,7 +13,7 @@ import (
 type Event struct {
 	gorm.Model
 	EventID     int    `gorm:"AUTO_INCREMENT"`
-	Owners      string // list of user ids
+	Owners      string // list of user ids - currently uses one id but in the future will support multiple owners for an event
 	Title       string
 	Interests   string // list of related interests (tags)
 	Desc        string

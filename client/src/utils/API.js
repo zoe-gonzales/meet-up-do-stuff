@@ -7,15 +7,6 @@ export default {
     getOneEvent(id) {
         return axios.get(`/events/${id}`);
     },
-    addEvent(data) {
-        return axios.post("/event", data);
-    },
-    updateEvent(id, data) {
-        return axios.put(`/event/${id}`, data);
-    },
-    deleteEvent(id) {
-        return axios.delete(`/event/${id}`);
-    },
     logInUser(data) {
         return axios.post("/login", data);
     },
@@ -43,5 +34,14 @@ export default {
     },
     updateProfile(id, data) {
         return axios.put(`/user/${id}/profile/${id}`, data, { withCredentials: true });
+    },
+    addEvent(data) {
+        return axios.post(`/user/0/event`, data, { withCredentials: true });
+    },
+    updateEvent(id, data) {
+        return axios.put(`/user/0/event/${id}`, data, { withCredentials: true });
+    },
+    deleteEvent(id) {
+        return axios.delete(`/user/0/event/${id}`, { withCredentials: true });
     },
 }

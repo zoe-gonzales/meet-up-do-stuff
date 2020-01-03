@@ -18,12 +18,14 @@ import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
 
 const App = () => {
+  console.log(document.cookie)
   return (
     <Router>
-      <Heading />
+      {/* navType="loggedOut" */}
+      <Heading id={2} navType="loggedIn" />
       <Switch>
-        <Route exact path="/" render={() => <Home type="loggedOut" />} />
-        <Route exact path="/home/:id" render={() => <Home navType="loggedIn" />} />
+        <Route exact path="/" render={Home} />
+        <Route exact path="/home/:id" component={Home} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
@@ -31,7 +33,7 @@ const App = () => {
         <Route exact path="/profile/:id" component={UserProfile} />
         <Route exact path="/events/:id" component={EventAsPublic} />
         <Route exact path="/user/:userID/events/:eventID" component={EventAsUser} />
-        <Route exact path="/addevent" component={AddEvent} />
+        <Route exact path="/user/:userID/addevent" component={AddEvent} />
         <Route component={NotFound} />
       </Switch>
     </Router>

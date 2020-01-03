@@ -13,5 +13,10 @@
         "label": "My Profile",
         "url": "/user",
         "key": 3
+    },
+    {
+        "label": "Add Event",
+        "url": "/addevent",
+        "key": 4
     }
 ]

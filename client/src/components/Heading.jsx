@@ -4,14 +4,14 @@ import Button from './Button';
 import Nav from './Nav';
 import UseForm from '../hooks/UseForm';
 
-const Heading = ({ type }) => {
+const Heading = ({ navType, id }) => {
     const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
         console.log("search submitted")
     }, 'search');
 
     return (
         <div style={{ backgroundImage: `url(${background})` }} className="jumbotron jumbotron-fluid">
-            <Nav type={type} />
+            <Nav navType={navType} id={id} />
             <div className="container">
                 <h1 className="display-4 text-center">Find your next meeting</h1>
                 <form onSubmit={e => handleSubmit(e)}>

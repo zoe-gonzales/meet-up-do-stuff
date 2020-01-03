@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import UseOneEvent from '../hooks/UseOneEvent';
 import UseProfile from '../hooks/UseOneProfile';
+import ToggleUserGoing from '../hooks/ToggleUserGoing';
 import EventDetails from '../components/LargeEventCard';
 import Button from '../components/RSVPButton';
 import validate from '../utils/validate';
@@ -21,7 +22,7 @@ const EventAsUser = props => {
     const eventID = props.match.params.eventID;
     const userID = props.match.params.userID;
     let list = [];
-    let userGoing = false;
+    let userAttending = false;
 
     const eventData = UseOneEvent(eventID);
     let {
@@ -38,19 +39,17 @@ const EventAsUser = props => {
     if (RSVPs !== '---' && RSVPs) list = RSVPs.split(", ")
     
     // toggle the rsvp button based on whether user is attending or not
-    if (list.includes(userID)) userGoing = true
-    else userGoing = false
-
-    // make day and time readable
-    const date = moment(DateAndTime).format('MMMM Do YYYY');
-    const time = moment(DateAndTime).format('h:mm a');
-
-    const handleClick = e => {
+    if (list.includes(userID)) userAttending = true
+    else userAttending = false
+    
+    // ToggleUserGoing uses local state to manage the user's RSVP
+    const {
+        userGoing,
+        handleRSVP,
+    } = ToggleUserGoing(userAttending, e => {
         const { event, user } = e.target.dataset
-        
         // updating RSVPs list for user
         let userRSVPs;
-
         // checking if RSVPs is default value
         if (profile.RSVPS === '---') userRSVPs = []
         else userRSVPs = [...profile.RSVPS]
@@ -82,21 +81,24 @@ const EventAsUser = props => {
         API
           .updateProfile(user, profile)
           .then(res => {
-            console.log(res)
             API
               .updateEvent(event, eventData)
-              .then(res => console.log(res))
+              .then(res => res)
               .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
-    }
+    })
+
+    // make day and time readable
+    const date = moment(DateAndTime).format('MMMM Do YYYY');
+    const time = moment(DateAndTime).format('h:mm a');
 
     return (
         <div className="row">
             <div className="col-md-2"></div>
             <div className="col-md-4">
                 <Button 
-                    handleClick={handleClick}
+                    handleClick={handleRSVP}
                     color={userGoing ? "#dc3445" : "#FFC5AB" }
                     event={eventID}
                     user={userID}
@@ -104,7 +106,7 @@ const EventAsUser = props => {
                 <div className="attendees-content">
                     <div className="row">Others going:</div>
                     <div className="row">
-                        { list.length === 0 ? (
+                        {list.length === 0 ? (
                             <p>No one is attending this event yet.</p>
                         ) : (
                             list.map(RSVPID => {

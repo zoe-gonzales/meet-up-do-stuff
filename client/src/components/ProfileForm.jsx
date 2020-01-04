@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
+import Heading from './Heading';
 import UseForm from '../hooks/UseForm';
 
 const importAll = c => {
@@ -21,41 +22,44 @@ const ProfileForm = props => {
     }, 'profile');
 
     return (
-        <ContentContainer color="white">
-            <div className="container">
-                <form onSubmit={e => handleSubmit(e)}>
-                    <div className="row">
-                        {/* Title and form fields */}
-                        <div className="col-md-6">
-                            <h2 className="title">
-                                Complete your profile...
-                            </h2>
-                            <div className="form-group">
-                                <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.nickName} name="nickName" type="text" placeholder="nick name" aria-label="nickName" />
-                                <span className="required-sm">*required</span>
+        <div>
+            <Heading id={profileID} navType="loggedIn" />
+            <ContentContainer color="white">
+                <div className="container">
+                    <form onSubmit={e => handleSubmit(e)}>
+                        <div className="row">
+                            {/* Title and form fields */}
+                            <div className="col-md-6">
+                                <h2 className="title">
+                                    Complete your profile...
+                                </h2>
+                                <div className="form-group">
+                                    <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.nickName} name="nickName" type="text" placeholder="nick name" aria-label="nickName" />
+                                    <span className="required-sm">*required</span>
+                                </div>
+                                <div className="form-group">
+                                    <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.location} name="location" type="text" placeholder="location" aria-label="location" />
+                                    <span className="required-sm">*required</span>
+                                </div>
                             </div>
-                            <div className="form-group">
-                                <input className="profile-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.location} name="location" type="text" placeholder="location" aria-label="location" />
-                                <span className="required-sm">*required</span>
+                            {/* Profile avatar*/}
+                            <div className="col-md-6">
+                                <img className="avatar" src={images[`user-${profileID}.png`]} alt="pic" />
                             </div>
                         </div>
-                        {/* Profile avatar*/}
-                        <div className="col-md-6">
-                            <img className="avatar" src={images[`user-${profileID}.png`]} alt="pic" />
+                        <div className="row">
+                            {/* Submit button  */}
+                            <div className="col-md-5"></div>
+                            <div className="col-md-2 text-center" style={{ marginTop: 20 }}>
+                                <Button type="submit">Save</Button>
+                                <Link className="square-btn next-btn" to={`/createinterests/${profileID}`}>Next</Link>
+                            </div>
+                            <div className="col-md-5"></div>
                         </div>
-                    </div>
-                    <div className="row">
-                        {/* Submit button  */}
-                        <div className="col-md-5"></div>
-                        <div className="col-md-2 text-center" style={{ marginTop: 20 }}>
-                            <Button type="submit">Save</Button>
-                            <Link className="square-btn next-btn" to={`/createinterests/${profileID}`}>Next</Link>
-                        </div>
-                        <div className="col-md-5"></div>
-                    </div>
-                </form>
-            </div>
-        </ContentContainer>
+                    </form>
+                </div>
+            </ContentContainer>
+        </div>
     )
 }
 

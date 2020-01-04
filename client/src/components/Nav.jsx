@@ -11,10 +11,15 @@ const Nav = ({ navType, id }) => {
                     {
                         navType === "loggedIn" ? (
                             loggedIn.map(option => {
-                                if (option.label === "Add Event") {
-                                    return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>
-                                } else {
-                                    return <Link className="text-muted" key={option.key} to={option.url}>{option.label}</Link>
+                                switch(option.label) {
+                                    case "Add Event":
+                                        return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
+                                    case "My Profile":
+                                        return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
+                                    case "Home":
+                                        return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
+                                    default:
+                                        return <Link className="text-muted" key={option.key} to={option.url}>{option.label}</Link>;
                                 }
                             })
                         ) : (

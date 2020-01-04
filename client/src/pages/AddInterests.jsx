@@ -4,6 +4,7 @@ import InterestSelector from '../components/InterestSelector';
 import ContentContainer from '../components/ContentContainer';
 import Button from '../components/Button';
 import Alert from '../components/ValidationAlert';
+import Heading from '../components/Heading';
 import interests from '../interests.json';
 import UseForm from '../hooks/UseForm';
 import UseRedirect from "../hooks/UseRedirect";
@@ -53,27 +54,30 @@ const InterestsAdder = props => {
     }, 'profile');
 
     return (
-        <ContentContainer color="white">
-            {validInputs ? null : <Alert>Uh oh! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}
-            {redirect ? <Redirect to={`/profile/${id}`} /> : null}
-            {interests.map(interest => <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestSelected(e, inputs.interests)} /> )}
-            <hr />
-            <h5>
-                Your Interests
-                <span className="required-sm">*minimum 1 interest required</span>
-            </h5>
-            {inputs.interests.map(selectedInterest => <div key={selectedInterest}>{selectedInterest}</div> )}
-            <form onSubmit={e => handleSubmit(e)}>
-                <div className="row" style={{ marginTop: 20 }}>
-                    <div className="col-sm-5"></div>
-                    <div className="col-sm-2">
-                        <Button type="submit">Finish</Button>
-                        <Link className="square-btn next-btn" to={`/createprofile/${userID}`}>Back</Link>
+        <div>
+            <Heading id={userID} navType="loggedIn" />
+            <ContentContainer color="white">
+                {validInputs ? null : <Alert>Uh oh! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}
+                {redirect ? <Redirect to={`/profile/${id}`} /> : null}
+                {interests.map(interest => <InterestSelector value={interest.name} key={interest.id} interest={interest} onClick={e => handleInterestSelected(e, inputs.interests)} /> )}
+                <hr />
+                <h5>
+                    Your Interests
+                    <span className="required-sm">*minimum 1 interest required</span>
+                </h5>
+                {inputs.interests.map(selectedInterest => <div key={selectedInterest}>{selectedInterest}</div> )}
+                <form onSubmit={e => handleSubmit(e)}>
+                    <div className="row" style={{ marginTop: 20 }}>
+                        <div className="col-sm-5"></div>
+                        <div className="col-sm-2">
+                            <Button type="submit">Finish</Button>
+                            <Link className="square-btn next-btn" to={`/createprofile/${userID}`}>Back</Link>
+                        </div>
+                        <div className="col-sm-5"></div>
                     </div>
-                    <div className="col-sm-5"></div>
-                </div>
-            </form>
-        </ContentContainer>
+                </form>
+            </ContentContainer>
+        </div>
     )
 }
 

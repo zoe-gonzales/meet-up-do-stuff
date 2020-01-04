@@ -1,4 +1,5 @@
 import React from 'react';
+import Heading from '../components/Heading';
 import UseProfile from '../hooks/UseOneProfile';
 import moment from 'moment';
 
@@ -18,27 +19,30 @@ const UserProfile = props => {
     const date = moment(CreatedAt).format('MMMM Do YYYY');
     
     return (
-        <section className="border-only container profile-container">
-            <div className="row">
-                <div className="col-md-8">
-                    <div className="row profile-info">
-                        <span className="profile-label">Display name:</span> {DisplayName}   
+        <div>
+            <Heading id={0} navType="loggedOut" />
+            <section className="border-only container profile-container">
+                <div className="row">
+                    <div className="col-md-8">
+                        <div className="row profile-info">
+                            <span className="profile-label">Display name:</span> {DisplayName}   
+                        </div>
+                        <div className="row profile-info">
+                            <span className="profile-label">Date Joined:</span> {date}
+                        </div>
+                        <div className="row profile-info">
+                            <span className="profile-label">Location:</span> {Location}
+                        </div>
+                        <div className="row profile-info">
+                            <span className="profile-label">Interests:</span> {Interests}
+                        </div>
                     </div>
-                    <div className="row profile-info">
-                        <span className="profile-label">Date Joined:</span> {date}
-                    </div>
-                    <div className="row profile-info">
-                        <span className="profile-label">Location:</span> {Location}
-                    </div>
-                    <div className="row profile-info">
-                        <span className="profile-label">Interests:</span> {Interests}
+                    <div className="col-md-4">
+                        <img alt="user" src={image} />
                     </div>
                 </div>
-                <div className="col-md-4">
-                    <img alt="user" src={image} />
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     )
 }
 

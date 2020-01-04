@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Heading from '../components/Heading';
 import moment from 'moment';
 import UseOneEvent from '../hooks/UseOneEvent';
 import UseProfile from '../hooks/UseOneProfile';
@@ -94,42 +95,45 @@ const EventAsUser = props => {
     const time = moment(DateAndTime).format('h:mm a');
 
     return (
-        <div className="row">
-            <div className="col-md-2"></div>
-            <div className="col-md-4">
-                <Button 
-                    handleClick={handleRSVP}
-                    color={userGoing ? "#dc3445" : "#FFC5AB" }
-                    event={eventID}
-                    user={userID}
-                >{userGoing ? "Not Going" : "Going"}</Button>
-                <div className="attendees-content">
-                    <div className="row">Others going:</div>
-                    <div className="row">
-                        {list.length === 0 ? (
-                            <p>No one is attending this event yet.</p>
-                        ) : (
-                            list.map(RSVPID => {
-                                return (
-                                    <Link to={`/profile/${RSVPID}`} key={RSVPID}>
-                                        <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
-                                    </Link>
-                                )
-                            })
-                        )}
+        <div>
+            <Heading id={userID} navType="loggedIn" />
+            <div className="row">
+                <div className="col-md-2"></div>
+                <div className="col-md-4">
+                    <Button 
+                        handleClick={handleRSVP}
+                        color={userGoing ? "#dc3445" : "#FFC5AB" }
+                        event={eventID}
+                        user={userID}
+                    >{userGoing ? "Not Going" : "Going"}</Button>
+                    <div className="attendees-content">
+                        <div className="row">Others going:</div>
+                        <div className="row">
+                            {list.length === 0 ? (
+                                <p>No one is attending this event yet.</p>
+                            ) : (
+                                list.map(RSVPID => {
+                                    return (
+                                        <Link to={`/profile/${RSVPID}`} key={RSVPID}>
+                                            <img style={{ width: 70, padding: 5 }} src={images[`user-${RSVPID}.png`]} alt="pic" />
+                                        </Link>
+                                    )
+                                })
+                            )}
+                        </div>
                     </div>
                 </div>
+                <div className="col-md-4">
+                    <EventDetails event={{
+                        title: Title,
+                        date,
+                        time,
+                        location: Location,
+                        description: Desc,
+                    }} />
+                </div>                
+                <div className="col-md-2"></div>
             </div>
-            <div className="col-md-4">
-                <EventDetails event={{
-                    title: Title,
-                    date,
-                    time,
-                    location: Location,
-                    description: Desc,
-                }} />
-            </div>                
-            <div className="col-md-2"></div>
         </div>
     )
 }

@@ -5,18 +5,19 @@ import UseAllEvents from '../hooks/UseAllEvents';
 
 const colors = ['#FFC5AB', '#ffd965', '#E8E151', '#ADA6FF'];
 
-const HomePage = () => {
+const HomePageAsUser = props => {
+    const userID = props.match.params.id;
     const events = UseAllEvents();
     return (
         <div>
-            <Heading id={0} navType="loggedOut" />
+            <Heading id={userID} navType="loggedIn" />
             <div className="container flex-container">
             { events ? 
                 events.map(event => {
                     const details = {
                         title: event.Title,
                         description: event.Desc,
-                        path: `/events/${event.ID}`,
+                        path: `/user/${userID}/events/${event.ID}`
                     }
                     return (
                         <Event 
@@ -29,8 +30,8 @@ const HomePage = () => {
                 : null
                 }
             </div>
-        </div> 
+        </div>
     )
 }
 
-export default HomePage;
+export default HomePageAsUser;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Heading from '../components/Heading';
 import moment from 'moment';
 import UseOneEvent from '../hooks/UseOneEvent';
 import EventDetails from '../components/LargeEventCard';
@@ -18,23 +19,26 @@ const EventAsUser = props => {
     const time = moment(DateAndTime).format('h:mm a');
 
     return (
-        <div className="row">
-            <div className="col-md-2"></div>
-            <div className="col-md-4">
-                <p><Link to="/login">Log in</Link> to RSVP to this event!</p>
-                <p><Link to="/login">Log in</Link> to see others going to this event</p>
-                <img src={pic} alt="default event" width="360"></img>
+        <div>
+            <Heading id={0} navType="loggedOut" />
+            <div className="row">
+                <div className="col-md-2"></div>
+                <div className="col-md-4">
+                    <p><Link to="/login">Log in</Link> to RSVP to this event!</p>
+                    <p><Link to="/login">Log in</Link> to see others going to this event</p>
+                    <img src={pic} alt="default event" width="360"></img>
+                </div>
+                <div className="col-md-4">
+                    <EventDetails event={{
+                        title: Title,
+                        date,
+                        time,
+                        location: "Log in to see location",
+                        description: Desc,
+                    }} />
+                </div>                
+                <div className="col-md-2"></div>
             </div>
-            <div className="col-md-4">
-                <EventDetails event={{
-                    title: Title,
-                    date,
-                    time,
-                    location: "Log in to see location",
-                    description: Desc,
-                }} />
-            </div>                
-            <div className="col-md-2"></div>
         </div>
     )
 }

@@ -5,8 +5,8 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import Heading from './components/Heading';
 import Home from './pages/Home';
+import HomeAsUser from './pages/HomeAsUser';
 import LogIn from './components/SignInForm';
 import SignUp from './components/SignUpForm';
 import CreateProfile from './components/ProfileForm';
@@ -18,14 +18,11 @@ import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
 
 const App = () => {
-  console.log(document.cookie)
   return (
     <Router>
-      {/* navType="loggedOut" */}
-      <Heading id={2} navType="loggedIn" />
       <Switch>
-        <Route exact path="/" render={Home} />
-        <Route exact path="/home/:id" component={Home} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/home/:id" component={HomeAsUser} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 

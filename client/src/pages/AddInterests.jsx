@@ -46,7 +46,13 @@ const InterestsAdder = props => {
                         redirectPage(userID)
                     }
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    if (err.response.status) {
+                        alert(`
+                            Log in credentials are required for this action.
+                            Please log in or sign up and try again.`)
+                    }
+                });
             } else {
                 invalidateInputs()
             }

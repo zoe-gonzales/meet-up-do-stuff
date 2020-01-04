@@ -54,11 +54,14 @@ const AddEvent = props => {
                     alert("Congrats! Your event has been created.")
                 }
               })
-              .catch(err => console.log(err));
-        } else {
-            invalidateInputs()
-        }
-
+              .catch(err => {
+                if (err.response.status) {
+                    alert(`
+                        Log in credentials are required for this action.
+                        Please log in or sign up and try again.`)
+                }
+              });
+        } else invalidateInputs()
     }, 'add event')
     return (
         <div>

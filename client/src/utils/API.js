@@ -13,8 +13,8 @@ export default {
     signUpUser(data) {
         return axios.post("/signup", data);
     },
-    logOutUser(data) {
-        return axios.post("/logout", data);
+    logOutUser() {
+        return axios.post("/logout");
     },
     getOneProfile(id) {
         return axios.get(`/profile/${id}`);

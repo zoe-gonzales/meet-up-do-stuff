@@ -173,7 +173,8 @@ func VerifyCookie(next http.Handler) http.Handler {
 		decoded := sc.Decode("user-cookie", cookie.Value, &value)
 		if decoded != nil {
 			log.Printf("Error decoding cookie: %v", decoded)
+		} else {
+			next.ServeHTTP(w, r)
 		}
-		next.ServeHTTP(w, r)
 	})
 }

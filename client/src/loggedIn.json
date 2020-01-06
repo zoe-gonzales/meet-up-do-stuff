@@ -5,11 +5,6 @@
         "key": 1
     },
     {
-        "label": "Log Out",
-        "url": "/logout",
-        "key": 2
-    },
-    {
         "label": "My Profile",
         "url": "/profile/",
         "key": 3
@@ -18,5 +13,10 @@
         "label": "Add Event",
         "url": "/addevent",
         "key": 4
+    },
+    {
+        "label": "Log Out",
+        "url": "/logout",
+        "key": 2
     }
 ]

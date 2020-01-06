@@ -1,11 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import loggedIn from '../loggedIn.json';
 import loggedOut from '../loggedOut.json';
+import API from '../utils/API';
+import UseLocalRedirect from '../hooks/UseLocalRedirect';
 
 const Nav = ({ navType, id }) => {
+    const {
+        redirect,
+        redirectPage,
+    } = UseLocalRedirect();
+
+    const logOut = () => {
+        API
+          .logOutUser()
+          .then(res => {
+            if (res.status === 200) redirectPage()
+          })
+          .catch(err => console.log(err))
+    }
+
     return (
         <div className="pos-f-t nav-component">
+            {redirect ? <Redirect to="/loggedout" /> : null}
             <div className="collapse" id="navbarToggleExternalContent">
                 <div className="nav-expanded p-4">
                     {
@@ -18,6 +35,8 @@ const Nav = ({ navType, id }) => {
                                         return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
                                     case "Home":
                                         return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
+                                    case "Log Out":
+                                        return <button className="text-muted" key={option.key} onClick={logOut}>{option.label}</button>;
                                     default:
                                         return <Link className="text-muted" key={option.key} to={option.url}>{option.label}</Link>;
                                 }

@@ -115,10 +115,15 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 
 // LogOutUser deletes the user's remember token
 func LogOutUser(w http.ResponseWriter, r *http.Request) {
-	err := auth.LogOut(w, r)
-	if err != nil {
-		log.Printf("%v", err)
+	cookie := http.Cookie{
+		Name:     "user-cookie",
+		Value:    "",
+		Domain:   "",
+		Path:     "/",
+		MaxAge:   0,
+		HttpOnly: true,
 	}
+	http.SetCookie(w, &cookie)
 	w.WriteHeader(http.StatusOK)
 }
 

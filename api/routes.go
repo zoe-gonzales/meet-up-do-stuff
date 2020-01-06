@@ -61,10 +61,15 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	if profileJSONErr != nil {
 		log.Printf("%v", profileJSONErr)
 	}
-	// Write app/json header and send profile data
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(profileJSON)
+	// if the user exists, send data and 200 http status
+	if us.ID == 0 {
+		w.WriteHeader(http.StatusTeapot)
+	} else {
+		// Write app/json header and send profile data
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(profileJSON)
+	}
 }
 
 // RegisterNewUser creates a new user in the db with provided credentials

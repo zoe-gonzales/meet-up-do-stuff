@@ -47,6 +47,7 @@ func main() {
 	s := r.PathPrefix("/user/{userID}").Subrouter()
 	s.Use(auth.VerifyCookie)
 	s.HandleFunc("/event/{id}", api.GetSingleEvent).Methods("GET")
+	s.HandleFunc("/user/{id}/events", api.GetUsersEvents).Methods("GET")
 	s.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
 	s.HandleFunc("/", api.GetUserByID).Methods("GET")
 	s.HandleFunc("/{email}", api.UpdateUserDetails).Methods("PUT")

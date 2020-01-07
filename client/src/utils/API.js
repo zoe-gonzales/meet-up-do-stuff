@@ -23,6 +23,9 @@ export default {
     getEventAsUser(userID, eventID) {
         return axios.get(`/user/${userID}/event/${eventID}`, { withCredentials: true });
     },
+    getUsersEvents(id) {
+        return axios.get(`/user/${id}/events`, { withCredentials: true });
+    },
     getUserByID(id) {
         return axios.get(`/user/${id}`, { withCredentials: true });
     },

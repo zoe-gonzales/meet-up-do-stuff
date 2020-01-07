@@ -258,6 +258,24 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 	w.Write(eventsJSON)
 }
 
+// GetUsersEvents fetches only the events that a user is rsvp'd to
+func GetUsersEvents(w http.ResponseWriter, r *http.Request) {
+	idStr := mux.Vars(r)["id"]
+	id, converted := strconv.Atoi(idStr)
+	if converted != nil {
+		log.Printf("%v", converted)
+	}
+	events := user.GetUsersEvents(id)
+	eventsJSON, err := json.Marshal(events)
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow", "GET,HEAD")
+	w.WriteHeader(http.StatusOK)
+	w.Write(eventsJSON)
+}
+
 // GetSingleEvent retrieves event by id
 func GetSingleEvent(w http.ResponseWriter, r *http.Request) {
 	var event user.Event

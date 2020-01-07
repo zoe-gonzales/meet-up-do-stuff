@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -41,6 +42,26 @@ func GetAllEvents() []Event {
 	defer db.Close()
 	var events []Event
 	db.Raw(`select * from events where deleted_at is null`).Scan(&events)
+	return events
+}
+
+// GetUsersEvents retrieves all of the RSVP'd events from a single user
+// IN PROGESS
+func GetUsersEvents(id int) []Event {
+	db, err := db.Init()
+	if err != nil {
+		log.Printf("Error initalizing database on retrieving event: %v", err)
+	}
+	defer db.Close()
+	var profile Profile
+	db.Raw(`select * from profiles where user_id = ?`, id).Scan(&profile)
+	rsvps := strings.Split(profile.RSVPS, "")
+	var events []Event
+	for i := 0; i < len(rsvps); i++ {
+		var event Event
+		db.Raw(`select * from events where event_id = ?`, rsvps[i]).Scan(&event)
+		events = append(events, event)
+	}
 	return events
 }
 

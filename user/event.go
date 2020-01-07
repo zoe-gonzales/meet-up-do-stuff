@@ -45,6 +45,18 @@ func GetAllEvents() []Event {
 	return events
 }
 
+// GetEventsByOwner fetches events assigned to a particular owner/administrator
+func GetEventsByOwner(owners string) []Event {
+	db, err := db.Init()
+	if err != nil {
+		log.Printf("Error initalizing database on retrieving event: %v", err)
+	}
+	defer db.Close()
+	var events []Event
+	db.Raw(`select * from events where deleted_at is null and owners = ?`, owners).Scan(&events)
+	return events
+}
+
 // GetUsersEvents retrieves all of the RSVP'd events from a single user
 // IN PROGESS
 func GetUsersEvents(id int) []Event {

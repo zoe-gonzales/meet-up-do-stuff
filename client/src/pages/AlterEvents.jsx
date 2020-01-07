@@ -1,9 +1,12 @@
 import React from 'react';
 import UsersEventsList from '../components/UsersEventsList';
 import Heading from '../components/Heading';
+import UseEventsAsOwner from '../hooks/UseEventsAsOwner';
 
 const AlterEvents = props => {
     const userID = props.match.params.userID;
+    const events = UseEventsAsOwner(userID);
+    console.log(events)
     const myEvents = [
         {title:'pizza making class', id:1},
         {title:'yoga class', id:2},

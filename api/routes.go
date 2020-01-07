@@ -258,6 +258,19 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 	w.Write(eventsJSON)
 }
 
+// GetEventsByOwners retrieves a list of events belonging to the specified owner(s)
+func GetEventsByOwners(w http.ResponseWriter, r *http.Request) {
+	owners := mux.Vars(r)["id"]
+	events := user.GetEventsByOwner(owners)
+	eventsJSON, err := json.Marshal(events)
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(eventsJSON)
+}
+
 // GetUsersEvents fetches only the events that a user is rsvp'd to
 func GetUsersEvents(w http.ResponseWriter, r *http.Request) {
 	idStr := mux.Vars(r)["id"]

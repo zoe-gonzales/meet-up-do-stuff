@@ -260,7 +260,7 @@ func GetAllEvents(w http.ResponseWriter, r *http.Request) {
 
 // GetEventsByOwners retrieves a list of events belonging to the specified owner(s)
 func GetEventsByOwners(w http.ResponseWriter, r *http.Request) {
-	owners := mux.Vars(r)["id"]
+	owners := mux.Vars(r)["userID"]
 	events := user.GetEventsByOwner(owners)
 	eventsJSON, err := json.Marshal(events)
 	if err != nil {

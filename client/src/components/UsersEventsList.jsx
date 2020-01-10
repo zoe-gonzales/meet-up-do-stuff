@@ -21,12 +21,12 @@ const UsersEventsList = ({ events, userID }) => {
             {
                 events.map(event => {
                     return (
-                        <li className="list-group-item" key={event.id}>
-                            <Link style={{ color: 'black' }} to={`/user/${userID}/events/${event.id}`}>{event.title}</Link>
+                        <li className="list-group-item" key={event.EventID}>
+                            <Link style={{ color: 'black' }} to={`/user/${userID}/events/${event.EventID}`}>{event.Title}</Link>
                             <span style={{ float: 'right' }}>
-                                <Link to={`/user/${userID}/updateevent/${event.id}`} className="square-btn btn btn-outline-dark border border-secondary">Update</Link>
+                                <Link to={`/user/${userID}/updateevent/${event.EventID}`} className="square-btn btn btn-outline-dark border border-secondary">Update</Link>
                                 <span style={{ margin: 5 }}></span>
-                                <button onClick={e => deleteEvent(e)} data-id={event.id} className="square-btn btn btn-outline-dark border border-secondary">Delete</button>
+                                <button onClick={e => deleteEvent(e)} data-id={event.EventID} className="square-btn btn btn-outline-dark border border-secondary">Delete</button>
                             </span>
                         </li>
                     )

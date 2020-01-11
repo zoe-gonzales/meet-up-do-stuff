@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import API from '../utils/API';
+//import API from '../utils/API';
 
 const UsersEventsList = ({ events, userID }) => {
     const deleteEvent = e => {

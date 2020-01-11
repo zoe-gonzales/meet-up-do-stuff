@@ -8,12 +8,12 @@ const UseEvents = id => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        API
+      API
         .getOneEvent(id)
         .then(event => dispatch(actions.getOneEvent(event.data)))
         .catch(err => console.log(err));
     }, [id, dispatch]);
-
+    
     return currentEvent;
 }
 

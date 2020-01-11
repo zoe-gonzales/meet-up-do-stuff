@@ -15,6 +15,7 @@ import EventAsPublic from './pages/EventAsPublic';
 import EventAsUser from './pages/EventAsUser';
 import AddEvent from './components/AddEvent';
 import AlterEvents from './pages/AlterEvents';
+import UpdateEvent from './components/UpdateEventForm';
 import UserProfile from './pages/UserProfile';
 import LoggedOut from './components/LoggedOut';
 import NotFound from './pages/NotFound';
@@ -34,6 +35,7 @@ const App = () => {
         <Route exact path="/user/:userID/events/:eventID" component={EventAsUser} />
         <Route exact path="/user/:userID/addevent" component={AddEvent} />
         <Route exact path="/user/:userID/alterevents" component={AlterEvents} />
+        <Route exact path="/user/:userID/updateevent/:eventID" component={UpdateEvent} />
         <Route exact path="/loggedout" component={LoggedOut} />
         <Route component={NotFound} />
       </Switch>

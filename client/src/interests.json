@@ -24,10 +24,6 @@
         "id": 6
     },
     {
-        "name": "dance",
-        "id": 7
-    },
-    {
         "name": "fitness",
         "id": 8
     },
@@ -58,10 +54,6 @@
     {
         "name": "personal finance",
         "id": 15
-    },
-    {
-        "name": "dance",
-        "id": 16
     },
     {
         "name": "podcasting",

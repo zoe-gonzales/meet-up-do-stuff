@@ -35,35 +35,22 @@ const UseFormLocally = (original, cb) => {
         e.persist();
         const { title, desc, date, time, location } = inputs;
         const { value } = e.target;
-        interests.push(value)
-        setInputs({
-            title,
-            desc,
-            date,
-            time,
-            location,
-            relatedInterests: interests,
-        })
-    }
-
-    const handleInterestSelected = (e, interests) => {
-        e.persist();
-        const { title, desc, date, time, location } = inputs;
-        const { value } = e.target;
-        const changedInputs = {...inputs}
+        let changedInterests = [...inputs.relatedInterests]
+        
         if (interests.includes(value)) {
             const updatedInterests = interests.filter(interest => interest !== value);
-            changedInputs.interests = updatedInterests;
+            changedInterests = updatedInterests;
         } else {
-            interests.push(value);
+            changedInterests.push(value);
         }
+        
         setInputs({
             title,
             desc,
             date,
             time,
             location,
-            relatedInterests: interests,
+            relatedInterests: changedInterests,
         })
     }
 
@@ -77,7 +64,6 @@ const UseFormLocally = (original, cb) => {
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
-        handleInterestSelected,
     }
 };
 

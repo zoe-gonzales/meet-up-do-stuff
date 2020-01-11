@@ -24,8 +24,7 @@ const UpdateEvent = props => {
     const {
         inputs,
         handleInputChange,
-        //handleCheckboxSelection,
-        handleInterestSelected,
+        handleCheckboxSelection,
         handleSubmit,
     } = UseFormLocally(event, () => {
         const { title, desc, location, date, time, relatedInterests } = inputs;
@@ -52,8 +51,8 @@ const UpdateEvent = props => {
             API
               .updateEvent(eventID, newEvent)
               .then(res => {
-                if (res.status === 201) {
-                    alert("Congrats! Your event has been updated.")
+                if (res.status === 200) {
+                    alert("Congrats! Your event has been successfully updated.")
                 }
               })
               .catch(err => {
@@ -111,11 +110,14 @@ const UpdateEvent = props => {
                                     <input 
                                         className="form-check-input"
                                         type="checkbox"
-                                        onChange={e => handleInterestSelected(e, inputs.relatedInterests)}
+                                        onChange={e => handleCheckboxSelection(e, inputs.relatedInterests)}
+                                        
                                         id={id}
                                         value={name}
                                         checked={
-                                            inputs.relatedInterests ? inputs.relatedInterests.includes(name) : false
+                                            inputs.relatedInterests ?
+                                            inputs.relatedInterests.includes(name) :
+                                            false
                                         }
                                     />
                                     <label className="form-check-label" htmlFor={id} >{name}</label>

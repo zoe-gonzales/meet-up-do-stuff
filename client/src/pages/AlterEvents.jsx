@@ -5,12 +5,12 @@ import UseEventsAsOwner from '../hooks/UseEventsAsOwner';
 
 const AlterEvents = props => {
     const userID = props.match.params.userID;
-    const events = UseEventsAsOwner(userID);
+    const { events, removeEvent } = UseEventsAsOwner(userID);
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
             <div className="container flex-container">
-                <UsersEventsList events={events} userID={userID} />
+                <UsersEventsList removeEvent={removeEvent} events={events} userID={userID} />
             </div>
         </div>
     )

@@ -44,6 +44,12 @@ const Event = (state = initialState, action) => {
             return Object.assign({}, state, {
                 relatedInterests: action.data
             });
+        case 'REMOVE_EVENT':
+            console.log(state.events)
+            console.log(action.data)
+            return Object.assign({}, state, {
+                events: state.events.filter(event => event.EventID !== action.data)
+            });
         default:
             return state;
     }

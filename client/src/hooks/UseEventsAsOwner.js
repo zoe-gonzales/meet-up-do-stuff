@@ -13,8 +13,15 @@ const UseEventsAsOwner = id => {
         .then(events => dispatch(actions.populateEvents(events.data)))
         .catch(err => console.log(err));
     }, [dispatch, id]);
+
+    const removeEvent = id => {
+      dispatch(actions.removeEvent(id))
+    }
     
-    return events;
+    return {
+      events,
+      removeEvent,
+    };
 }
 
 export default UseEventsAsOwner;

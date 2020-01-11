@@ -1,18 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-//import API from '../utils/API';
+import API from '../utils/API';
 
-const UsersEventsList = ({ events, userID }) => {
+const UsersEventsList = ({ removeEvent, events, userID }) => {
     const deleteEvent = e => {
         const { id } = e.target.dataset
         const answer = window.confirm("Are you sure you want to delete this event? This action cannot be undone.")
         if (answer) {
-            /* 
-            API
-              .deleteEvent(id)
-              .then(res => console.log(res))
-              .catch(err => console.log(err))
-            */
+          API
+            .deleteEvent(id)
+            .then(res => {
+                if (res.status === 200) {
+                    alert("Your event has been deleted.")
+                    // fix UI update after event has been deleted
+                    // removeEvent(id)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert("Event was not deleted. Please try again later.")
+            })
         }
     }
 

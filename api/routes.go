@@ -366,15 +366,17 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 
 // DeleteEvent deletes an event by id
 func DeleteEvent(w http.ResponseWriter, r *http.Request) {
-	var event user.Event
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		log.Printf("%v", err)
 	}
-	e := &event
-	e.EventID = id
-	record := e.DeleteEvent()
+
+	var e user.Event
+	(&e).EventID = id
+	event := e.GetOneEvent()
+	record := (&event).DeleteEvent()
+
 	if record.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
 	} else {

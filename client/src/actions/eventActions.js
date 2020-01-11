@@ -11,6 +11,11 @@ const eventActions = {
             dispatch(types.getOneEvent(data));
         }
     },
+    removeEvent(data) {
+        return (dispatch) => {
+            dispatch(types.removeEvent(data));
+        }
+    }
 }
 
 export default eventActions;

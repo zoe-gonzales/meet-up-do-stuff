@@ -35,6 +35,12 @@ const types = {
             data: events,
         }
     },
+    removeEvent(id) {
+        return {
+            type: 'REMOVE_EVENT',
+            data: id,
+        }
+    },
     getOneEvent(event) {
         return {
             type: 'GET_ONE_EVENT',

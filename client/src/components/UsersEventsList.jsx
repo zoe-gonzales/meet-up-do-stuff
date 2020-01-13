@@ -12,8 +12,7 @@ const UsersEventsList = ({ removeEvent, events, userID }) => {
             .then(res => {
                 if (res.status === 200) {
                     alert("Your event has been deleted.")
-                    // fix UI update after event has been deleted
-                    // removeEvent(id)
+                    removeEvent(parseInt(id))
                 }
             })
             .catch(err => {

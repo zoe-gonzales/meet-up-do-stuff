@@ -3,13 +3,13 @@ import { Link, Redirect } from 'react-router-dom';
 import loggedIn from '../loggedIn.json';
 import loggedOut from '../loggedOut.json';
 import API from '../utils/API';
-import UseLocalRedirect from '../hooks/UseLocalRedirect';
+import UseRedirectLocally from '../hooks/UseRedirectLocally';
 
 const Nav = ({ navType, id }) => {
     const {
         redirect,
         redirectPage,
-    } = UseLocalRedirect();
+    } = UseRedirectLocally();
 
     const logOut = () => {
         API
@@ -33,6 +33,8 @@ const Nav = ({ navType, id }) => {
                                         return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
                                     case "My Profile":
                                         return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
+                                    case "My Events":
+                                        return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
                                     case "Home":
                                         return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
                                     case "Log Out":

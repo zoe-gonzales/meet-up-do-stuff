@@ -7,6 +7,11 @@
     {
         "label": "My Profile",
         "url": "/profile/",
+        "key": 2
+    },
+    {
+        "label": "My Events",
+        "url": "/alterevents",
         "key": 3
     },
     {
@@ -17,6 +22,6 @@
     {
         "label": "Log Out",
         "url": "/logout",
-        "key": 2
+        "key": 5
     }
 ]

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
 import Alert from '../components/ValidationAlert';
@@ -6,6 +7,7 @@ import Heading from './Heading';
 import UseValidator from '../hooks/UseValidator';
 import UseOneEvent from '../hooks/UseOneEvent';
 import UseFormLocally from '../hooks/UseFormLocally';
+import UseRedirectLocally from '../hooks/UseRedirectLocally';
 import interests from '../interests.json';
 import API from '../utils/API';
 import moment from 'moment';
@@ -16,6 +18,11 @@ const UpdateEvent = props => {
         validInputs,
         invalidateInputs,
     } = UseValidator();
+
+    const {
+        redirect,
+        redirectPage,
+    } = UseRedirectLocally();
 
     const userID = props.match.params.userID;
     const eventID = props.match.params.eventID;
@@ -53,6 +60,7 @@ const UpdateEvent = props => {
               .then(res => {
                 if (res.status === 200) {
                     alert("Congrats! Your event has been successfully updated.")
+                    redirectPage()
                 }
               })
               .catch(err => {
@@ -67,6 +75,7 @@ const UpdateEvent = props => {
 
     return (
         <div>
+            {redirect ? <Redirect to={`/user/${userID}/alterevents`} /> : null}
             <Heading id={userID} navType="loggedIn" />
             <ContentContainer color="white">
                 {validInputs ? null : <Alert>Uh oh! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UseLocalRedirect = () => {
+const UseRedirectLocally = () => {
     const [redirect, setRedirect] = useState(false);
     const redirectPage = () => setRedirect(true);
 
@@ -10,4 +10,4 @@ const UseLocalRedirect = () => {
     }
 }
 
-export default UseLocalRedirect;
+export default UseRedirectLocally;

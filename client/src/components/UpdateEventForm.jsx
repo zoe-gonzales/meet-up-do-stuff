@@ -83,27 +83,27 @@ const UpdateEvent = props => {
                 <form onSubmit={e => handleSubmit(e)}>
                     {/* title */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.title} name="title" type="text" aria-label="title" />
+                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.title} name="title" type="text" aria-label="title" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* description */}
                     <div className="form-group">
-                        <textarea className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.desc} name="desc" type="text" aria-label="desc" />
+                        <textarea className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.desc} name="desc" type="text" aria-label="desc" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* date */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.date} name="date" type="date" aria-label="date" />
+                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.date} name="date" type="date" aria-label="date" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* time */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.time} name="time" type="time" aria-label="time" />
+                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.time} name="time" type="time" aria-label="time" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* location */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.location} name="location" type="text" aria-label="location" />
+                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.location} name="location" type="text" aria-label="location" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* related interests */}
@@ -122,7 +122,7 @@ const UpdateEvent = props => {
                                         onChange={e => handleCheckboxSelection(e, inputs.relatedInterests)}
                                         
                                         id={id}
-                                        value={name}
+                                        defaultValue={name}
                                         checked={
                                             inputs.relatedInterests ?
                                             inputs.relatedInterests.includes(name) :

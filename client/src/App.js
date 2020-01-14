@@ -18,6 +18,7 @@ import AddEvent from './components/AddEvent';
 import AlterEvents from './pages/AlterEvents';
 import UpdateEvent from './components/UpdateEventForm';
 import UserProfile from './pages/UserProfile';
+import ProfileAsUser from './pages/ProfileAsUser';
 import LoggedOut from './components/LoggedOut';
 import NotFound from './pages/NotFound';
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route exact path="/createprofile/:id" component={CreateProfile} /> 
         <Route exact path="/createinterests/:id" component={InterestAdder} />
         <Route exact path="/profile/:id" component={UserProfile} />
+        <Route exact path="/user/:userID/profile" component={ProfileAsUser} />
         <Route exact path="/events/:id" component={EventAsPublic} />
         <Route exact path="/user/:userID/events/:eventID" component={EventAsUser} />
         <Route exact path="/user/:userID/events" component={UsersRSVPS} />

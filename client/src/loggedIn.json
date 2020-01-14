@@ -6,7 +6,7 @@
     },
     {
         "label": "My Profile",
-        "url": "/profile/",
+        "url": "/profile",
         "key": 2
     },
     {

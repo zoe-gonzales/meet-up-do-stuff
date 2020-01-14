@@ -32,7 +32,6 @@ const Nav = ({ navType, id }) => {
                                     case "Add Event":
                                         return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
                                     case "My Profile":
-                                        return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
                                     case "My Events":
                                         return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
                                     case "Home":

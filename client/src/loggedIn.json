@@ -20,8 +20,13 @@
         "key": 4
     },
     {
+        "label": "My RSVPs",
+        "url": "/events",
+        "key": 5
+    },
+    {
         "label": "Log Out",
         "url": "/logout",
-        "key": 5
+        "key": 6
     }
 ]

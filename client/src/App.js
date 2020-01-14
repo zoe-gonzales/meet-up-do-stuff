@@ -13,6 +13,7 @@ import CreateProfile from './components/ProfileForm';
 import InterestAdder from './pages/AddInterests';
 import EventAsPublic from './pages/EventAsPublic';
 import EventAsUser from './pages/EventAsUser';
+import UsersRSVPS from './pages/UsersRSVPS';
 import AddEvent from './components/AddEvent';
 import AlterEvents from './pages/AlterEvents';
 import UpdateEvent from './components/UpdateEventForm';
@@ -33,6 +34,7 @@ const App = () => {
         <Route exact path="/profile/:id" component={UserProfile} />
         <Route exact path="/events/:id" component={EventAsPublic} />
         <Route exact path="/user/:userID/events/:eventID" component={EventAsUser} />
+        <Route exact path="/user/:userID/events" component={UsersRSVPS} />
         <Route exact path="/user/:userID/addevent" component={AddEvent} />
         <Route exact path="/user/:userID/alterevents" component={AlterEvents} />
         <Route exact path="/user/:userID/updateevent/:eventID" component={UpdateEvent} />

@@ -72,7 +72,9 @@ func GetUsersEvents(id int) []Event {
 	for i := 0; i < len(rsvps); i++ {
 		var event Event
 		db.Raw(`select * from events where event_id = ?`, rsvps[i]).Scan(&event)
-		events = append(events, event)
+		if event.ID != 0 {
+			events = append(events, event)
+		}
 	}
 	return events
 }

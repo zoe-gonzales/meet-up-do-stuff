@@ -273,7 +273,7 @@ func GetEventsByOwners(w http.ResponseWriter, r *http.Request) {
 
 // GetUsersEvents fetches only the events that a user is rsvp'd to
 func GetUsersEvents(w http.ResponseWriter, r *http.Request) {
-	idStr := mux.Vars(r)["id"]
+	idStr := mux.Vars(r)["userID"]
 	id, converted := strconv.Atoi(idStr)
 	if converted != nil {
 		log.Printf("%v", converted)

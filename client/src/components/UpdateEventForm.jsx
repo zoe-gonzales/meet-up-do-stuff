@@ -6,7 +6,7 @@ import Alert from '../components/ValidationAlert';
 import Heading from './Heading';
 import UseValidator from '../hooks/UseValidator';
 import UseOneEvent from '../hooks/UseOneEvent';
-import UseFormLocally from '../hooks/UseFormLocally';
+import UseEventUpdateForm from '../hooks/UseEventUpdateForm';
 import UseRedirectLocally from '../hooks/UseRedirectLocally';
 import interests from '../interests.json';
 import API from '../utils/API';
@@ -33,7 +33,7 @@ const UpdateEvent = props => {
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
-    } = UseFormLocally(event, () => {
+    } = UseEventUpdateForm(event, () => {
         const { title, desc, location, date, time, relatedInterests } = inputs;
         const interests = relatedInterests.join(",");
         const dt = `${date}T${time}:00`;

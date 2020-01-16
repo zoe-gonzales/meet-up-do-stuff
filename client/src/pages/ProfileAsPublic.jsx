@@ -3,7 +3,7 @@ import Heading from '../components/Heading';
 import UseProfile from '../hooks/UseOneProfile';
 import moment from 'moment';
 
-const UserProfile = props => {
+const ProfileAsPublic = props => {
     const id = props.match.params.id;
     const {
         CreatedAt,
@@ -46,4 +46,4 @@ const UserProfile = props => {
     )
 }
 
-export default UserProfile;
+export default ProfileAsPublic;

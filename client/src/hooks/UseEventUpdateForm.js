@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 
-const UseFormLocally = (original, cb) => {
+const UseEventUpdateForm = (original, cb) => {
     const [inputs, setInputs] = useState({
         title: '',
         desc: '',
@@ -67,4 +67,4 @@ const UseFormLocally = (original, cb) => {
     }
 };
 
-export default UseFormLocally;
+export default UseEventUpdateForm;

@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ToggleUserGoing = (RSVP, cb) => {
     const [userGoing, setUserGoing] = useState(false);
 
-    const handleRSVP = e => {
+    useEffect(() => {
         setUserGoing(RSVP)
+    }, [RSVP])
+    
+    const handleRSVP = e => {
+        setUserGoing(!RSVP)
         cb(e)
     }
 

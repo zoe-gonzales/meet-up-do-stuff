@@ -23,7 +23,7 @@ const EventAsUser = props => {
     const eventID = props.match.params.eventID;
     const userID = props.match.params.userID;
     let list = [];
-    let userAttending = false;
+    let userAttending;
 
     const eventData = UseOneEvent(eventID);
     let {
@@ -37,12 +37,13 @@ const EventAsUser = props => {
     const profile = UseProfile(userID);
     
     // create array out of string of rsvp ids
-    if (RSVPs !== '---' && RSVPs) list = RSVPs.split(", ")
-    
-    // toggle the rsvp button based on whether user is attending or not
-    if (list.includes(userID)) userAttending = true
-    else userAttending = false
-    
+    if (RSVPs !== '---' && RSVPs) {
+        list = RSVPs.split(", ")
+        // toggle the rsvp button based on whether user is attending or not
+        if (list.includes(userID)) userAttending = true
+        else userAttending = false
+    }
+
     // ToggleUserGoing uses local state to manage the user's RSVP
     const {
         userGoing,
@@ -50,10 +51,9 @@ const EventAsUser = props => {
     } = ToggleUserGoing(userAttending, e => {
         const { event, user } = e.target.dataset
         // updating RSVPs list for user
-        let userRSVPs;
+        let userRSVPs = [];
         // checking if RSVPs is default value
-        if (profile.RSVPS === '---') userRSVPs = []
-        else userRSVPs = [...profile.RSVPS]
+        if (profile.RSVPS !== '---') userRSVPs = [...profile.RSVPS]
         
         if (validate.arrayIncludes(event, userRSVPs)) {
             // handle if user is already RSVP'd
@@ -105,7 +105,7 @@ const EventAsUser = props => {
                         color={userGoing ? "#dc3445" : "#FFC5AB" }
                         event={eventID}
                         user={userID}
-                    >{userGoing ? "Not Going" : "Going"}</Button>
+                    >{userGoing ? "un-RSVP" : "RSVP"}</Button>
                     <div className="attendees-content">
                         <div className="row">Others going:</div>
                         <div className="row">

@@ -8,7 +8,7 @@ const colors = ['#FFC5AB', '#ffd965', '#E8E151', '#ADA6FF'];
 const UsersRSVPS = props => {
     const userID = props.match.params.userID;
     const events = UseAttendeesEvents(userID);
-    console.log(events)
+    
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />

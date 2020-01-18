@@ -34,7 +34,7 @@ const ProfileAsPublic = props => {
                             <span className="profile-label">Location:</span> {Location}
                         </div>
                         <div className="row profile-info">
-                            <span className="profile-label">Interests:</span> {Interests}
+                            <span className="profile-label">Interests:</span> {Interests ? Interests.split(",").join(" • ") : null}
                         </div>
                     </div>
                     <div className="col-md-4">

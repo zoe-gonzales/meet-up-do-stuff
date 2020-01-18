@@ -7,13 +7,11 @@ import UseProfile from '../hooks/UseOneProfile';
 import UseProfileUpdateForm from '../hooks/UseProfileUpdateForm';
 import API from '../utils/API';
 import interests from '../interests.json';
-
 import moment from 'moment';
 
 const ProfileAsUser = props => {
     const userID = props.match.params.userID;
     const profile = UseProfile(userID);
-    
     const {
         inputs,
         handleInputChange,

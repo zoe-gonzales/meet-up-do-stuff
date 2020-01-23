@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Event from '../components/SmallEventCard';
 import Heading from '../components/Heading';
+import Button from '../components/Button';
 import UseAllEvents from '../hooks/UseAllEvents';
 
 const colors = ['#FFC5AB', '#ffd965', '#E8E151', '#ADA6FF'];
@@ -12,6 +14,10 @@ const HomePageAsUser = props => {
         <div>
             <Heading id={userID} navType="loggedIn" />
             <div className="container flex-container">
+            <Link to={`/user/${userID}/events`} className="d-flex justify-content-center no-underline">
+                <Button>Go to my rsvp'd events</Button>
+            </Link>
+            <h4 className="title text-center">upcoming events</h4>
             { events ? 
                 events.map(event => {
                     const details = {

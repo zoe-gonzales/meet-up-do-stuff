@@ -12,6 +12,7 @@ const UsersRSVPS = props => {
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
+            <h4 className="title text-center">upcoming rsvps</h4>
             <div className="container flex-container">
             { events ? 
                 events.map(event => {

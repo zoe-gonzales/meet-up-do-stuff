@@ -47,6 +47,7 @@ const ProfileAsUser = props => {
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
+            <h4 className="title text-center">my profile</h4>
             <ContentContainer color="white">
                 <form onSubmit={e => handleSubmit(e)}>
                     <div className="row">

@@ -23,6 +23,7 @@ const AddEvent = props => {
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
+        clearFormFields,
     } = UseForm(() => {
         const { title, desc, location, date, time, relatedInterests } = inputs;
         // modify interests and date & time to meet requirements of back end model
@@ -52,6 +53,7 @@ const AddEvent = props => {
               .then(res => {
                 if (res.status === 201) {
                     alert("Congrats! Your event has been created.")
+                    //clearFormFields()
                 }
               })
               .catch(err => {
@@ -61,13 +63,14 @@ const AddEvent = props => {
                         Please log in or sign up and try again.`)
                 }
               });
+              
         } else invalidateInputs()
     }, 'add event')
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
             <ContentContainer color="white">
-                {validInputs ? null : <Alert>Uh oh! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}
+                {validInputs ? null : <Alert>Oh no! Some of the required information hasn't been submitted. Please double check all required fields.</Alert>}
                 <h4 className="title text-center">add an event</h4>
                 <form onSubmit={e => handleSubmit(e)}>
                     {/* title */}
@@ -77,7 +80,7 @@ const AddEvent = props => {
                     </div>
                     {/* description */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.desc} name="desc" type="text" placeholder="event description" aria-label="desc" />
+                        <textarea className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.desc} name="desc" type="text" placeholder="event description" aria-label="desc" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* date */}

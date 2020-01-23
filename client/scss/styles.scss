@@ -17,6 +17,10 @@ body {
     background-color: $pale-blue-theme;
 }
 
+.no-underline:hover {
+    text-decoration: none;
+}
+
 .next-btn {
     color: black;
 }

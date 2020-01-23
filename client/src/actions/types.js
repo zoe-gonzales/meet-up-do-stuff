@@ -71,6 +71,11 @@ const types = {
             data: profile,
         }
     },
+    clearFields() {
+        return {
+            type: 'CLEAR_FIELDS',
+        }
+    },
 }
 
 export default types;

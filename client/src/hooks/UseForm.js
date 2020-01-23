@@ -67,12 +67,17 @@ const UseForm = (cb, formType) => {
         cb();
     }
 
+    const clearFormFields = () => {
+        dispatch(actions.clearFormInputs());
+    }
+
     return {
         inputs,
         handleInputChange,
         handleCheckboxSelection,
         handleSubmit,
         handleInterestSelected,
+        clearFormFields,
     }
 };
 

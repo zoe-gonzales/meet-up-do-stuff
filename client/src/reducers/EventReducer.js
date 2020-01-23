@@ -49,6 +49,17 @@ const Event = (state = initialState, action) => {
             return Object.assign({}, state, {
                 events: eventsList.filter(event => event.EventID !== action.data)
             });
+        case 'CLEAR_FIELDS':
+            return Object.assign({}, state, {
+                inputs: {
+                    title: '',
+                    desc: '',
+                    date: '',
+                    time: '',
+                    location: '',
+                    relatedInterests: [],
+                }
+            });
         default:
             return state;
     }

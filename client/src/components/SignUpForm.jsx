@@ -51,7 +51,7 @@ const SignUpForm = () => {
                 <h4 className="title text-center">sign up</h4>
                 <form onSubmit={e => handleSubmit(e)}>
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.username} name="username" type="text" placeholder="email address" aria-label="username" />
+                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.username} name="username" type="text" placeholder="email" aria-label="email" />
                     </div>
                     <div className="form-group">
                         <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.password} name="password" type="password" placeholder="password" aria-label="password" />

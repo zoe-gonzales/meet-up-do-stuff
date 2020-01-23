@@ -15,7 +15,12 @@ const eventActions = {
         return (dispatch) => {
             dispatch(types.removeEvent(data));
         }
-    }
+    },
+    clearFormInputs() {
+        return (dispatch) => {
+            dispatch(types.clearFields());
+        }
+    },
 }
 
 export default eventActions;

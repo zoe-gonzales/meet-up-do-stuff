@@ -83,7 +83,7 @@ const UpdateEvent = props => {
                 <form onSubmit={e => handleSubmit(e)}>
                     {/* title */}
                     <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.title} name="title" type="text" aria-label="title" />
+                        <input alt="input" className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} defaultValue={inputs.title} name="title" type="text" aria-label="title" />
                         <span className="required-sm">*required</span>
                     </div>
                     {/* description */}

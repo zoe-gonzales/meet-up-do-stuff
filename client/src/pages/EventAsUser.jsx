@@ -38,7 +38,7 @@ const EventAsUser = props => {
     
     // create array out of string of rsvp ids
     if (RSVPs !== '---' && RSVPs) {
-        list = RSVPs.split(", ")
+        list = RSVPs.split(",")
         // toggle the rsvp button based on whether user is attending or not
         if (list.includes(userID)) userAttending = true
         else userAttending = false
@@ -53,21 +53,22 @@ const EventAsUser = props => {
         // updating RSVPs list for user
         let userRSVPs = [];
         // checking if RSVPs is default value
-        if (profile.RSVPS !== '---') userRSVPs = [...profile.RSVPS]
-        
-        if (validate.arrayIncludes(event, userRSVPs)) {
+        if (profile.RSVPS !== '---') userRSVPs = profile.RSVPS.split(",")
+
+        if (validate.arrayIncludes(event.toString(), userRSVPs)) {
             // handle if user is already RSVP'd
             userRSVPs = userRSVPs.filter(u => u !== event)
         } else {
             userRSVPs.push(`${event}`)
         }
         profile.RSVPS = userRSVPs.join(",")
+
         if (profile.RSVPS === "") profile.RSVPS = '---'
         
         // updating RSVPs list for event
         let eventRSVPs;
         if (eventData.RSVPs === '---') eventRSVPs = []
-        else eventRSVPs = [...eventData.RSVPs]
+        else eventRSVPs = eventData.RSVPs.split(",")
         
         if (validate.arrayIncludes(user, eventRSVPs)) {
             // handle if user is already RSVP'd

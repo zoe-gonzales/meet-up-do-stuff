@@ -67,11 +67,11 @@ func GetUsersEvents(id int) []Event {
 	defer db.Close()
 	var profile Profile
 	db.Raw(`select * from profiles where user_id = ?`, id).Scan(&profile)
-	rsvps := strings.Split(profile.RSVPS, "")
+	rsvps := strings.Split(profile.RSVPS, ",")
 	var events []Event
 	for i := 0; i < len(rsvps); i++ {
 		var event Event
-		db.Raw(`select * from events where event_id = ?`, rsvps[i]).Scan(&event)
+		db.Raw(`select * from events where event_id = ? and deleted_at is null`, rsvps[i]).Scan(&event)
 		if event.ID != 0 {
 			events = append(events, event)
 		}

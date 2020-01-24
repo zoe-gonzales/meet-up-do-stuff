@@ -53,7 +53,7 @@ const AddEvent = props => {
               .then(res => {
                 if (res.status === 201) {
                     alert("Congrats! Your event has been created.")
-                    //clearFormFields()
+                    clearFormFields()
                 }
               })
               .catch(err => {

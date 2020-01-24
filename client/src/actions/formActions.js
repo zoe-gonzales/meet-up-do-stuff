@@ -41,6 +41,11 @@ const formActions = {
             dispatch(types.duplicateEmail());
         }
     },
+    clearFormInputs() {
+        return (dispatch) => {
+            dispatch(types.clearFields());
+        }
+    },
 }
 
 export default formActions;

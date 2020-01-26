@@ -63,7 +63,7 @@ func main() {
 	}
 
 	// static files
-	r.PathPrefix("/client/").Handler(http.StripPrefix("/client/", http.FileServer(http.Dir("./client/build/"))))
+	r.PathPrefix("/client/build/").Handler(http.StripPrefix("/client/build/", http.FileServer(http.Dir("./client/build/"))))
 	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(":"+port, r))

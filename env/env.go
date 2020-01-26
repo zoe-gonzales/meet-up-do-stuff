@@ -2,6 +2,7 @@
 package env
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -11,6 +12,7 @@ import (
 // RetrieveEnvVar retrieves environment variable from os or .env file
 func RetrieveEnvVar(s string, pathToDotEnv string) string {
 	v := os.Getenv(s)
+	fmt.Println(v)
 	if v == "" {
 		err := godotenv.Load(pathToDotEnv)
 		if err != nil {

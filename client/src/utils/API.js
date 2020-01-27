@@ -32,8 +32,8 @@ export default {
     getUserByID(id) {
         return axios.get(`/user/${id}`, { withCredentials: true });
     },
-    updateUser(id, email) {
-        return axios.put(`/user/${id}/${email}`, { withCredentials: true });
+    updateUser(id, data) {
+        return axios.put(`/user/${id}/account`, data, { withCredentials: true });
     },
     deleteUser(id, email) {
         return axios.delete(`/user/${id}/${email}`, { withCredentials: true });

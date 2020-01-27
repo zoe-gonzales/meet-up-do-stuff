@@ -15,9 +15,9 @@ const UseUpdateAccountForm = cb => {
         setInputs(changedInputs);
     }
 
-    const handleSubmit = (e, type) => {
+    const handleSubmit = e => {
         e.preventDefault();
-        cb(type);
+        cb();
     }
 
     const clearFormFields = () => {

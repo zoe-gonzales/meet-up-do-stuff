@@ -51,7 +51,7 @@ func main() {
 	s.HandleFunc("/events", api.GetUsersEvents).Methods("GET")
 	s.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
 	s.HandleFunc("/", api.GetUserByID).Methods("GET")
-	s.HandleFunc("/{email}", api.UpdateUserDetails).Methods("PUT")
+	s.HandleFunc("/account", api.UpdateUserDetails).Methods("PUT")
 	s.HandleFunc("/{email}", api.DeleteUser).Methods("DELETE")
 	s.HandleFunc("/event", api.AddEvent).Methods("POST")
 	s.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")

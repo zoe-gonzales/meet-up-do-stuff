@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -153,25 +154,49 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	w.Write(userJSON)
 }
 
+type userData struct {
+	NewEmail    string `json:"newEmail"`
+	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
+}
+
 // UpdateUserDetails edits and saves user email or password
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
-	email := mux.Vars(r)["email"]
-	// query user by email
-	existing := user.Get(email)
+	id := mux.Vars(r)["userID"]
+	// query user by id
+	existing := user.GetByID(id)
 	// read body data
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Printf("%v", err)
 	}
 	// unmarshall body data into user struct
-	var updatedUser user.User
+	var updatedUser userData
 	unmarshalErr := json.Unmarshal(body, &updatedUser)
 	if unmarshalErr != nil {
 		log.Printf("%v", unmarshalErr)
 	}
-	// update user
+	// update email if different from existing
+	if existing.Email != updatedUser.NewEmail && updatedUser.NewEmail != "" {
+		existing.Email = updatedUser.NewEmail
+	}
+	if updatedUser.OldPassword != "" && updatedUser.NewPassword != "" {
+		// compare hashed versions of password
+		fromDB := []byte(existing.Password)
+		fromUser := []byte(updatedUser.OldPassword)
+		hashed := bcrypt.CompareHashAndPassword(fromDB, fromUser)
+		if hashed != nil {
+			log.Printf("%v", hashed)
+			w.WriteHeader(http.StatusNotModified)
+			return
+		}
+		// if no error results from bcrypt, set password to new value
+		existing.Password = updatedUser.NewPassword
+		fmt.Printf("new password saved: %+v \n", updatedUser)
+	}
+	// update record in db
 	u := &existing
-	record, updated := u.Update(updatedUser)
+	record, updated := u.Update(existing)
 	if updated != nil {
 		log.Printf("%v", updated)
 	}

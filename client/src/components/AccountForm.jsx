@@ -6,6 +6,7 @@ import Alert from '../components/ValidationAlert';
 import Heading from './Heading';
 import UseForm from '../hooks/UseUpdateAccountForm';
 import UseValidator from '../hooks/UseValidator';
+import API from '../utils/API';
 
 const AccountForm = ({ userID }) => {
     const {
@@ -22,19 +23,27 @@ const AccountForm = ({ userID }) => {
         handleInputChange,
         handleSubmit,
         clearFormFields,
-    } = UseForm(type => {
-        switch(type) {
-            case 'email':
-                console.log(inputs);
-                console.log('email updated');
-                break
-            case 'password':
-                console.log(inputs);
-                console.log('password updated');
-                break
-            default:
-                return null;
+    } = UseForm(() => {
+        const { newEmail, oldPassword, newPassword } = inputs;
+        const updated = {
+            newEmail,
+            oldPassword,
+            newPassword,
         }
+        
+        API
+          .updateUser(userID, updated)
+          .then(res => {
+              if (res.status === 200) {
+                alert("Your details have been updated.")
+                clearFormFields()
+              }
+          })
+          .catch(err => {
+              if (err.response.status === 304) {
+                  alert("Unable to make the requested changes. Please try again.")
+              }
+          })
     })
     return (
         <div>
@@ -44,7 +53,7 @@ const AccountForm = ({ userID }) => {
                 
                 {/* update email form */}
                 <h4 className="title text-center">change email</h4>
-                <form onSubmit={e => handleSubmit(e, 'email')}>
+                <form onSubmit={e => handleSubmit(e)}>
                     <div className="form-group">
                         <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.newEmail} name="newEmail" type="text" placeholder="new email" aria-label="new email" />
                     </div>
@@ -53,7 +62,7 @@ const AccountForm = ({ userID }) => {
                 
                 {/* update password form */}
                 <h4 className="title text-center">change password</h4>
-                <form onSubmit={e => handleSubmit(e, 'password')}>
+                <form onSubmit={e => handleSubmit(e)}>
                     {/* old password */}
                     <div className="form-group">
                         <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.oldPassword} name="oldPassword" type="password" placeholder="current password" aria-label="old password" />

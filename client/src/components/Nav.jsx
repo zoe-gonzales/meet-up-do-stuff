@@ -38,6 +38,8 @@ const Nav = ({ navType, id }) => {
                                         return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
                                     case "My RSVPs":
                                         return <Link className="text-muted" key={option.key} to={`/user/${id}${option.url}`}>{option.label}</Link>;
+                                    case "Account":
+                                        return <Link className="text-muted" key={option.key} to={`${option.url}${id}`}>{option.label}</Link>;
                                     case "Log Out":
                                         return <button className="text-muted" key={option.key} onClick={logOut}>{option.label}</button>;
                                     default:

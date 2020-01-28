@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -195,7 +194,6 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 		}
 		// if no error results from bcrypt, set password to new value
 		existing.Password = updatedUser.NewPassword
-		fmt.Printf("new password saved: %+v \n", updatedUser)
 	}
 	// update record in db
 	u := &existing

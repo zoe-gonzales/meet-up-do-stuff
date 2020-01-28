@@ -30,13 +30,16 @@ func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// retrieve user & convert passwords to []byte
 	us := user.Get(u.Email)
+
 	new := []byte(u.Password)  // pwd from request body
 	old := []byte(us.Password) // pwd from db
 
 	// use CompareHashAndPassword from bcyrpt package
 	hashed := bcrypt.CompareHashAndPassword(old, new)
 	if hashed != nil {
-		log.Printf("%v", hashed)
+		log.Printf("Error matching stored and entered passwords: %v \n", hashed)
+		w.WriteHeader(http.StatusForbidden)
+		return
 	}
 
 	cookie := auth.SetCookieHandler(w, r)

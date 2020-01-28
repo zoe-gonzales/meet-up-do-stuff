@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import ContentContainer from "./ContentContainer";
 import Button from './Button';
 import Alert from './ValidationAlert';
 import Heading from './Heading';
 import UseForm from '../hooks/UseForm';
 import UseValidator from '../hooks/UseValidator';
+import UseRedirect from '../hooks/UseRedirectLocally';
 import API from '../utils/API';
 import validate from '../utils/validate';
 
@@ -16,6 +17,8 @@ const SignUpForm = () => {
         duplicateEmail,
         duplicateEmailFound,
    } = UseValidator();
+   
+   const { redirect, redirectPage } = UseRedirect();
 
    const { inputs, handleInputChange, handleSubmit } = UseForm(() => {
      const { username, password, confirmPassword } = inputs;
@@ -31,7 +34,12 @@ const SignUpForm = () => {
      ) {
         API
         .signUpUser(body)
-        .then(res => console.log(res))
+        .then(res => {
+            if (res.status === 201) {
+                alert("Your account has been created. Please log in.")
+                redirectPage()
+            }
+        })
         .catch(err => {
             console.log(err)
             duplicateEmailFound()
@@ -44,9 +52,10 @@ const SignUpForm = () => {
             <Heading id={0} navType="loggedOut" />
             <ContentContainer color="white">
                 {/* Valid inputs alert */}
-                {validInputs ? null : <Alert>Some of your information doesn't meet the requirements. Please check that you have submitted a valid email and password and that your passwords match.</Alert>}
+                { validInputs ? null : <Alert>Some of your information doesn't meet the requirements. Please check that you have submitted a valid email and password and that your passwords match.</Alert> }
                 {/* Dup email alert */}
-                {duplicateEmail ? <Alert>The email address you're using already exists. Please try logging in instead.</Alert> : null}
+                { duplicateEmail ? <Alert>The email address you're using already exists. Please try logging in instead.</Alert> : null }
+                { redirect ? <Redirect to="/login" /> : null }
                 {/* Start of form */}
                 <h4 className="title text-center">sign up</h4>
                 <form onSubmit={e => handleSubmit(e)}>

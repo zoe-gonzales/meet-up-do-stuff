@@ -58,7 +58,6 @@ func GetEventsByOwner(owners string) []Event {
 }
 
 // GetUsersEvents retrieves all of the RSVP'd events from a single user
-// IN PROGESS
 func GetUsersEvents(id int) []Event {
 	db, err := db.Init()
 	if err != nil {

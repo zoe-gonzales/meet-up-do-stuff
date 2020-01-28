@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import ContentContainer from './ContentContainer';
 import Button from './Button';
 import LargerButton from './RSVPButton';
@@ -6,22 +7,33 @@ import Alert from '../components/ValidationAlert';
 import Heading from './Heading';
 import UseForm from '../hooks/UseUpdateAccountForm';
 import UseValidator from '../hooks/UseValidator';
+import UseRedirect from '../hooks/UseRedirectLocally';
 import API from '../utils/API';
 import validate from '../utils/validate';
 
 const AccountForm = ({ userID }) => {
-    const {
-        validInputs,
-        invalidateInputs,
-    } = UseValidator();
+    const { validInputs, invalidateInputs } = UseValidator();
+    const { redirect, redirectPage } = UseRedirect();
 
     const deleteUser = () => {
         const deleteAccount = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
         if (deleteAccount) {
             API
               .deleteUser(userID)
-              .then(res => console.log(res))
-              .catch(err => console.log(err))
+              .then(res => {
+                //  on successful deletion, log out user and redirect to sign up page
+                  if (res.status === 200) {
+                      alert("Your account has been deleted.")
+                      API
+                        .logOutUser()
+                        .then(res => res)
+                        .catch(err => err)
+                      redirectPage()
+                  }
+              })
+              .catch(err => {
+                  alert(`Error ${err.response.status}: Unable to delete account. Please try again later.`)
+              })
         }
     }
 
@@ -65,7 +77,7 @@ const AccountForm = ({ userID }) => {
                         If changing your password, please ensure that it meets the requirements listed and does not match your previous password.
                     </Alert>
                 )}
-                
+                { redirect ? <Redirect to="/signup" /> : null }
                 {/* update email form */}
                 <h4 className="title text-center">change email</h4>
                 <form onSubmit={e => handleSubmit(e)}>

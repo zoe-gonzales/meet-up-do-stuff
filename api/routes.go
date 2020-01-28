@@ -212,10 +212,11 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["userID"]
 	existing := user.GetByID(id)
-	u := &existing
-	record1 := u.Delete()
-	record2 := u.DeleteProfile()
-	if record1.RowsAffected == int64(1) && record2.RowsAffected == int64(1) {
+	// delete associated profile, then actual user
+	deletedProfile := (&existing).DeleteProfile()
+	deletedUser := (&existing).Delete()
+
+	if deletedUser.RowsAffected == int64(1) && deletedProfile.RowsAffected == int64(1) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusNotModified)

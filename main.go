@@ -52,7 +52,7 @@ func main() {
 	s.HandleFunc("/profile/{id}", api.UpdateProfile).Methods("PUT")
 	s.HandleFunc("/", api.GetUserByID).Methods("GET")
 	s.HandleFunc("/account", api.UpdateUserDetails).Methods("PUT")
-	s.HandleFunc("/{email}", api.DeleteUser).Methods("DELETE")
+	s.HandleFunc("/account", api.DeleteUser).Methods("DELETE")
 	s.HandleFunc("/event", api.AddEvent).Methods("POST")
 	s.HandleFunc("/event/{id}", api.UpdateEvent).Methods("PUT")
 	s.HandleFunc("/event/{id}", api.DeleteEvent).Methods("DELETE")

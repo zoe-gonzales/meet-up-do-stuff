@@ -35,8 +35,8 @@ export default {
     updateUser(id, data) {
         return axios.put(`/user/${id}/account`, data, { withCredentials: true });
     },
-    deleteUser(id, email) {
-        return axios.delete(`/user/${id}/${email}`, { withCredentials: true });
+    deleteUser(id) {
+        return axios.delete(`/user/${id}/account`, { withCredentials: true });
     },
     updateProfile(id, data) {
         return axios.put(`/user/${id}/profile/${id}`, data, { withCredentials: true });

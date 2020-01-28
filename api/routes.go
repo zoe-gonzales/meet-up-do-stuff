@@ -210,8 +210,8 @@ func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
 
 // DeleteUser deletes a user by id
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	email := mux.Vars(r)["email"]
-	existing := user.Get(email)
+	id := mux.Vars(r)["userID"]
+	existing := user.GetByID(id)
 	u := &existing
 	record1 := u.Delete()
 	record2 := u.DeleteProfile()

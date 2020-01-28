@@ -16,7 +16,13 @@ const AccountForm = ({ userID }) => {
     } = UseValidator();
 
     const deleteUser = () => {
-        console.log(`account #${userID} deleted`)
+        const deleteAccount = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        if (deleteAccount) {
+            API
+              .deleteUser(userID)
+              .then(res => console.log(res))
+              .catch(err => console.log(err))
+        }
     }
 
     const {

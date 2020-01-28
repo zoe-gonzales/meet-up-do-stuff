@@ -101,6 +101,5 @@ func (u *User) DeleteProfile() *gorm.DB {
 		log.Printf("Error initalizing database on deleting profile: %v", err)
 	}
 	defer db.Close()
-	var profile Profile
-	return db.Raw(`delete from profiles where user_id = ? and deleted_at is null`, u.ID).Scan(&profile)
+	return db.Raw(`delete from profiles where user_id = ? and deleted_at is null`, u.ID)
 }

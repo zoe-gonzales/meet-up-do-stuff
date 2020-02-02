@@ -9,7 +9,7 @@ const AlterEvents = props => {
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
-            <div className="container flex-container">
+            <div className="container">
                 <UsersEventsList removeEvent={removeEvent} events={events} userID={userID} />
             </div>
         </div>

@@ -1,13 +1,12 @@
 import React from "react";
-import ContentContainer from './ContentContainer';
 
 const SmallEventCard = ({ event, background }) => {
     return (
-        <ContentContainer color={background} className="card-body">
+        <div style={{ backgroundColor: background }} className="card-body border-only flex-item">
             <div className="event-title card-title">{event.title}</div>
             <div className="card-text">{event.description}</div>
             <a href={event.path} className="link btn btn-danger">More</a>
-        </ContentContainer>
+        </div>
     )
 }
 

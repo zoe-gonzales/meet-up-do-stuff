@@ -53,20 +53,22 @@ const SignInForm = () => {
     return (
         <div>
             <Heading id={0} navType="loggedOut" />
-            <ContentContainer color="white">
-                { validInputs ? null : <Alert>Oh no! Something's not right with your credentials. Please try logging in again, or signing up.</Alert> }
-                { redirect ? <Redirect to={`/home/${id}`} /> : null }
-                <h4 className="title text-center">sign in</h4>
-                <form onSubmit={e => handleSubmit(e)}>
-                    <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.username} name="username" type="text" placeholder="email" aria-label="email" />
-                    </div>
-                    <div className="form-group">
-                        <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.password} name="password" type="password" placeholder="password" aria-label="password" />
-                    </div>
-                    <Button type="submit">Go</Button>
-                </form>  
-            </ContentContainer>
+            <div className="flex-container">
+                <ContentContainer color="white">
+                    { validInputs ? null : <Alert>Oh no! Something's not right with your credentials. Please try logging in again, or signing up.</Alert> }
+                    { redirect ? <Redirect to={`/home/${id}`} /> : null }
+                    <h4 className="title text-center">sign in</h4>
+                    <form onSubmit={e => handleSubmit(e)}>
+                        <div className="form-group">
+                            <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.username} name="username" type="text" placeholder="email" aria-label="email" />
+                        </div>
+                        <div className="form-group">
+                            <input className="auth-field form-control border-secondary rounded-0" onChange={e => handleInputChange(e)} value={inputs.password} name="password" type="password" placeholder="password" aria-label="password" />
+                        </div>
+                        <Button type="submit">Go</Button>
+                    </form>  
+                </ContentContainer>
+            </div>
         </div>   
     )
 }

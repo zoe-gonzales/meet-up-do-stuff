@@ -13,11 +13,11 @@ const HomePageAsUser = props => {
     return (
         <div>
             <Heading id={userID} navType="loggedIn" />
-            <div className="container flex-container">
+            <h4 className="title text-center">upcoming events</h4>
             <Link to={`/user/${userID}/events`} className="d-flex justify-content-center no-underline">
                 <Button>Go to my rsvp'd events</Button>
             </Link>
-            <h4 className="title text-center">upcoming events</h4>
+            <div className="container flex-container">
             { events ? 
                 events.map(event => {
                     const details = {

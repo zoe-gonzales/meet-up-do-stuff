@@ -56,8 +56,6 @@ body {
     padding: 20px;
     margin: 20px auto;
     width: 33%;
-    align-self: auto;
-    flex: 1 0 33%;
 }
 
 .field {
@@ -166,8 +164,17 @@ body {
 
 .flex-container {
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row wrap;
     justify-content: center;
+}
+
+.flex-item {
+    border: $grey-border;
+    padding: 20px;
+    margin: 20px;
+    width: 33%;
+    align-self: auto;
+    flex: 1 0 auto;
 }
 
 .profile-container {

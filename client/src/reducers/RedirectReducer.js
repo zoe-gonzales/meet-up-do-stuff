@@ -6,7 +6,12 @@ const initialState = {
 const Redirect = (state = initialState, action) => {
     switch(action.type) {
         case 'REDIRECT_PAGE':
-            return Object.assign({}, state, action.data);
+            const { redirect, redirectId } = action.data;
+            return {
+                ...state,
+                redirect,
+                redirectId
+            };
         default:
             return state;
     }

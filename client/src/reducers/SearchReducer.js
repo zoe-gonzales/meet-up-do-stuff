@@ -8,11 +8,12 @@ const Search = (state = initialState, action) => {
     switch(action.type) {
         case 'UPDATE_SEARCH_INPUTS':
             const { zipCode } = action.data;
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 inputs: {
                     zipCode: zipCode,
                 }
-            })
+            };
         default:
             return state;
     }

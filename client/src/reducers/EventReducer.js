@@ -14,43 +14,34 @@ const initialState = {
 const Event = (state = initialState, action) => {
     switch(action.type) {
         case 'POPULATE_EVENTS':
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 events: action.data
-            });
+            };
         case 'GET_ONE_EVENT':
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 currentEvent: action.data
-            });
+            };
         case 'UPDATE_EVENT_INPUTS':
-            const {
-                title,
-                desc,
-                date,
-                time,
-                location,
-                relatedInterests,
-            } = action.data;
-            return Object.assign({}, state, {
-                inputs: {
-                    title,
-                    desc,
-                    date,
-                    time,
-                    location,
-                    relatedInterests,
-                }
-            });
+            return {
+                ...state,
+                inputs: action.data
+            };
         case 'UPDATE_RELATED_INTERESTS':
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 relatedInterests: action.data
-            });
+            };
         case 'REMOVE_EVENT':
             const eventsList = [...state.events];
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 events: eventsList.filter(event => event.EventID !== action.data)
-            });
+            };
         case 'CLEAR_FIELDS':
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 inputs: {
                     title: '',
                     desc: '',
@@ -59,7 +50,7 @@ const Event = (state = initialState, action) => {
                     location: '',
                     relatedInterests: [],
                 }
-            });
+            };
         default:
             return state;
     }
